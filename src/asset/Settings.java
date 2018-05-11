@@ -1,8 +1,6 @@
 /**
- * Quản lý Rạp chiếu phim RPP
- * Author: Nguyễn Tuấn - nguyentuanit96@gmail.com
+ * Asset Management
  */
-
 package asset;
 
 import java.util.*;
@@ -93,19 +91,6 @@ public class Settings {
 		settings.put("cinemaAddr", "Linh Trung, Thủ Đức, TP. HCM");
 		settings.put("cinemaTel", "0123456789");
 		settings.put("cinemaEmail", "support@rpp.com");
-		
-		//cài đặt theme
-		settings.put("theme_ribbonTabBackground", 0x227447);
-		settings.put("theme_ribbonTabActive", 0xf1f1f1);
-		settings.put("theme_ribbonTabHeaderActive", 0x227447);
-		settings.put("theme_ribbonTabHeaderInactive", 0xffffff);
-		settings.put("theme_ribbonButtonText", 0xffffff);
-		settings.put("theme_ribbonButtonHoverBackground", 0x2e955d);
-		settings.put("theme_ribbonButtonClickBackground", 0x0d582f);
-		settings.put("theme_ribbonToolbarBackground", 0xf1f1f1);
-		settings.put("theme_ribbonToolbarTextColor", 0x444444);
-		settings.put("theme_ribbonToolbarButtonHoverBackground", 0xc5c5c5);
-		settings.put("theme_ribbonToolbarButtonClickBackground", 0xaeaeae);
 		
 	}
 
