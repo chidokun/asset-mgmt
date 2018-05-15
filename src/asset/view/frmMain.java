@@ -16,6 +16,13 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
+
+import asset.view.page.pageDepreciationAsset;
+import asset.view.page.pageExportAsset;
+import asset.view.page.pageImportAsset;
+import asset.view.page.pageLiquidateAsset;
+import asset.util.Window;
+
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackAdapter;
@@ -95,6 +102,7 @@ public class frmMain extends Shell {
 			@Override
 			public void mouseUp(MouseEvent e) {
 				mouseEnterColor(lblNhapTaiSan);
+				Window.openPageInTab(tabFolder, new pageImportAsset(tabFolder, SWT.NONE), "Phiếu nhập Tài sản");
 			}
 		});
 		GridData gd_lblNhapTaiSan = new GridData(SWT.LEFT, SWT.CENTER, false, true, 1, 1);
@@ -124,6 +132,7 @@ public class frmMain extends Shell {
 			@Override
 			public void mouseUp(MouseEvent e) {
 				mouseEnterColor(lblBanTaiSan);
+				Window.openPageInTab(tabFolder, new pageExportAsset(tabFolder, SWT.NONE), "Phiếu xuất Tài sản");
 			}
 		});
 		lblBanTaiSan.setImage(SWTResourceManager.getImage(frmMain.class, "/asset/view/sell_32.png"));
@@ -152,6 +161,7 @@ public class frmMain extends Shell {
 			@Override
 			public void mouseUp(MouseEvent e) {
 				mouseEnterColor(lblThanhLyTaiSan);
+				Window.openPageInTab(tabFolder, new pageLiquidateAsset(tabFolder, SWT.NONE), "Thanh lý Tài sản");
 			}
 		});
 		lblThanhLyTaiSan.setImage(SWTResourceManager.getImage(frmMain.class, "/asset/view/out_32.png"));
@@ -180,6 +190,7 @@ public class frmMain extends Shell {
 			@Override
 			public void mouseUp(MouseEvent e) {
 				mouseEnterColor(lblTinhKhauHao);
+				Window.openPageInTab(tabFolder, new pageDepreciationAsset(tabFolder, SWT.NONE), "Khấu hao Tài sản");
 			}
 		});
 		lblTinhKhauHao.setImage(SWTResourceManager.getImage(frmMain.class, "/asset/view/cal_32.png"));
