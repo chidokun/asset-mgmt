@@ -21,6 +21,7 @@ import asset.view.page.pageDepreciationAsset;
 import asset.view.page.pageExportAsset;
 import asset.view.page.pageImportAsset;
 import asset.view.page.pageLiquidateAsset;
+import asset.view.page.pageSearchAsset;
 import asset.util.Window;
 
 import org.eclipse.swt.events.MouseAdapter;
@@ -219,6 +220,7 @@ public class frmMain extends Shell {
 			@Override
 			public void mouseUp(MouseEvent e) {
 				mouseEnterColor(lblLapThe);
+				Window.openPageInTab(tabFolder, new pageSearchAsset(tabFolder, SWT.NONE), "Lập thẻ tài sản");
 			}
 		});
 		lblLapThe.setImage(SWTResourceManager.getImage(frmMain.class, "/asset/view/card_32.png"));
