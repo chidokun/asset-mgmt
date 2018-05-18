@@ -20,7 +20,9 @@ public class Application {
 		try {
 			Settings.load();
 			shellMain = new frmMain(display);
+			shellMain.setMaximized(true);
 			Window.open(shellMain);
+			
 		} catch (Exception e) {
 			
 		}
