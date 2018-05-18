@@ -1,28 +1,29 @@
 package asset.view.form;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
+
+import asset.controller.TheTaiSanController;
+import asset.entity.TaiSan;
+import asset.entity.TheTaiSan;
+import asset.util.*;
+
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Listener;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.events.ModifyEvent;
-import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Point;
-import org.eclipse.swt.graphics.Rectangle;
-import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.jface.viewers.TableViewerColumn;
+
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.Date;
+
+import org.eclipse.core.commands.ParameterValuesException;
 
 public class frmCreateAsset extends Shell {
 	private Text txtSoThe;
@@ -37,35 +38,14 @@ public class frmCreateAsset extends Shell {
 	private Table table;
 
 	/**
-	 * Launch the application.
-	 * 
-	 * @param args
-	 */
-	public static void main(String args[]) {
-		try {
-			Display display = Display.getDefault();
-			frmCreateAsset shell = new frmCreateAsset(display);
-			shell.open();
-			shell.layout();
-			while (!shell.isDisposed()) {
-				if (!display.readAndDispatch()) {
-					display.sleep();
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-
-	/**
 	 * Create the shell.
 	 * 
 	 * @param display
 	 */
-	public frmCreateAsset(Display display) {
-		super(display, SWT.CLOSE | SWT.MIN | SWT.MAX | SWT.TITLE);
+	public frmCreateAsset(Display display, boolean isCreate, String title, TaiSan taiSan) {
+		super(display, SWT.CLOSE | SWT.TITLE);
+		setText(title);
 		setSize(665, 576);
-		setModified(true);
 		setTouchEnabled(true);
 		setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 
@@ -165,12 +145,21 @@ public class frmCreateAsset extends Shell {
 		btnLuuIn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				if(save(isCreate)) {
+					close();
+				}			
 			}
 		});
 		btnLuuIn.setBounds(448, 10, 94, 33);
 		btnLuuIn.setText("Lưu và in");
 
 		Button btnHuy = new Button(composite, SWT.NONE);
+		btnHuy.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				close();
+			}
+		});
 		btnHuy.setImage(SWTResourceManager.getImage(frmCreateAsset.class, "/asset/view/page/cancel_16x16.png"));
 		btnHuy.setBounds(550, 10, 94, 33);
 		btnHuy.setText("Hủy bỏ");
@@ -184,19 +173,19 @@ public class frmCreateAsset extends Shell {
 		column.setWidth(0);
 
 		TableColumn columnSoHieuCT = new TableColumn(table, SWT.NONE);
-		columnSoHieuCT.setWidth(100);
+		columnSoHieuCT.setWidth(114);
 		columnSoHieuCT.setText("Số hiệu chứng từ");
 
 		TableColumn columnNgay = new TableColumn(table, SWT.NONE);
-		columnNgay.setWidth(100);
+		columnNgay.setWidth(99);
 		columnNgay.setText("Ngày");
 
 		TableColumn columnDienGiai = new TableColumn(table, SWT.NONE);
 		columnDienGiai.setText("Diễn giải");
-		columnDienGiai.setWidth(100);
+		columnDienGiai.setWidth(113);
 
 		TableColumn columnNam = new TableColumn(table, SWT.NONE);
-		columnNam.setWidth(100);
+		columnNam.setWidth(72);
 		columnNam.setText("Năm");
 
 		TableColumn columnGiaTriHaoMon = new TableColumn(table, SWT.NONE);
@@ -207,65 +196,7 @@ public class frmCreateAsset extends Shell {
 		columnCongDon.setWidth(100);
 		columnCongDon.setText("Cộng dồn");
 
-		for (int i = 0; i < 10; i++) {
-			TableItem item = new TableItem(table, SWT.NONE);
-		}
-
-		final TableEditor editor = new TableEditor(table);
-		editor.horizontalAlignment = SWT.LEFT;
-		editor.grabHorizontal = true;
-		table.addListener(SWT.MouseDown, new Listener() {
-			@Override
-			public void handleEvent(Event event) {
-				Rectangle clientArea = table.getClientArea();
-				Point pt = new Point(event.x, event.y);
-				int index = table.getTopIndex();
-				while (index < table.getItemCount()) {
-					boolean visible = false;
-					final TableItem item = table.getItem(index);
-					for (int i = 0; i < table.getColumnCount(); i++) {
-						Rectangle rect = item.getBounds(i);
-						if (rect.contains(pt)) {
-							final int column = i;
-							final Text text = new Text(table, SWT.NONE);
-							Listener textListener = new Listener() {
-								public void handleEvent(final Event e) {
-									switch (e.type) {
-									case SWT.FocusOut:
-										item.setText(column, text.getText());
-										text.dispose();
-										break;
-									case SWT.Traverse:
-										switch (e.detail) {
-										case SWT.TRAVERSE_RETURN:
-											item.setText(column, text.getText());
-											// FALL THROUGH
-										case SWT.TRAVERSE_ESCAPE:
-											text.dispose();
-											e.doit = false;
-										}
-										break;
-									}
-								}
-							};
-							text.addListener(SWT.FocusOut, textListener);
-							text.addListener(SWT.Traverse, textListener);
-							editor.setEditor(text, item, i);
-							text.setText(item.getText(i));
-							text.selectAll();
-							text.setFocus();
-							return;
-						}
-						if (!visible && rect.intersects(clientArea)) {
-							visible = true;
-						}
-					}
-					if (!visible)
-						return;
-					index++;
-				}
-			}
-		});
+		display(taiSan);
 	}
 
 	/**
@@ -274,11 +205,77 @@ public class frmCreateAsset extends Shell {
 	protected void createContents() {
 		setText("Lập thẻ tài sản");
 		setSize(677, 576);
-
 	}
 
 	@Override
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
 	}
+
+	/**
+	 * Display information of asset
+	 */
+	private void display(TaiSan taisan) {
+		if (taisan == null)
+			return;
+		txtMaTS.setText(taisan.getMaTS());
+		int namSD = DateF.getYear(taisan.getNgaySD());
+		txtNamSD.setText(String.valueOf(namSD));
+		txtNgayLap.setText(DateF.toString(new Date()));
+		txtTenTaiSan.setText(taisan.getTenTS());
+		// hard code
+		txtNguyenGia.setText("10000");
+		txtSoThe.setText("TTSCD0001");
+	}
+
+	/**
+	 * Validate input for save asset form
+	 */
+	public void validate() throws ParameterValuesException {
+		if (txtBoPhanSD.getText() == null || txtBoPhanSD.getText().isEmpty())
+			throw new ParameterValuesException("Bạn cần nhập bộ phận sử dụng", null);
+	}
+
+	/**
+	 * Get asset form information
+	 */
+	public TheTaiSan getAssetFormInfo() throws ParameterValuesException {
+		TheTaiSan the = new TheTaiSan();
+		the.setMaThe(txtSoThe.getText());
+		the.setBoPhanSD(txtBoPhanSD.getText());
+		the.setMaTS(txtMaTS.getText());
+		try {
+			the.setNgayLap(DateF.toDate(txtNgayLap.getText()));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return the;
+	}
+
+	/**
+	 * Save asset form
+	 * 
+	 * @return
+	 */
+	public boolean save(boolean isCreate) {
+		try {
+			validate();
+			if (isCreate) {
+				if (!TheTaiSanController.insert(getAssetFormInfo())) {
+					throw new SQLException();
+				}
+			}
+			Message.show("Lưu thông tin thẻ tài sản thành công", "Thành công", SWT.OK | SWT.ICON_INFORMATION,
+					getShell());
+			return true;
+		} catch (ParameterValuesException e0) {
+			Message.show(e0.getMessage(), "Cảnh báo", SWT.OK | SWT.ICON_WARNING, getShell());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			Message.show("Không thể lưu thẻ tài sản", "Lỗi", SWT.OK | SWT.ICON_ERROR, getShell());
+		}
+		return false;
+	}
+
 }
