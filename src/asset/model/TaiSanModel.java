@@ -1,11 +1,14 @@
 package asset.model;
 
+import java.sql.CallableStatement;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 
 import asset.entity.TaiSan;
+import asset.entity.TheTaiSan;
 import asset.util.Database;
 
 public class TaiSanModel {
@@ -75,4 +78,32 @@ public class TaiSanModel {
 		Database.connect().close();
 		return arr;
 	}
+	
+	/**
+	 * Add an asset
+	 * 
+	 * @param ts
+	 * @return
+	 */
+	public static boolean insert(TaiSan ts) throws SQLException {
+		if (Database.callStoredUpdate("sp_ThemTaiSan", ts.getMaTS(), ts.getTenTS(), ts.getSoNamKH(), 
+				ts.getNgaySD(), ts.getSoThangSD(), ts.getMaDVT(), ts.getTrangThai()) > 0) {
+			Database.connect().close();
+			return true;
+		} else
+			throw new SQLException("Không thể tạo mới tài sản " + ts.getMaTS());
+	}
+	
+	/**
+	 * Create a code for new asset
+	 * 
+	 * @return
+	 */
+	public static String createCode() throws SQLException {
+		CallableStatement st = Database.connect().prepareCall("{call sp_TaoMa_TaiSan (?)}");
+		st.registerOutParameter(1, Types.VARCHAR);
+		st.execute();
+		return st.getString(1);
+	}
+	
 }

@@ -3,6 +3,14 @@ package asset.entity;
 public class DVT {
 	private String maDVT;
 	private String tenDVT;
+	
+	
+	
+	public DVT(String maDVT, String tenDVT) {
+		super();
+		this.maDVT = maDVT;
+		this.tenDVT = tenDVT;
+	}
 
 	public String getMaDVT() {
 		return maDVT;
