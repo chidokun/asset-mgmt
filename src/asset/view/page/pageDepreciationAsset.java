@@ -1,36 +1,26 @@
 package asset.view.page;
 
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.DateTime;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TabFolder;
+import org.eclipse.swt.widgets.TabItem;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.wb.swt.SWTResourceManager;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.DateTime;
 
 public class pageDepreciationAsset extends Composite {
-	private Text txtTimKiem;
 	private Table table;
-	private Text txtSoThuTu;
-	private Text txtTaiKhoanKhach;
-	private Text txtTaiKhoan;
-	private Text txtSoHoaDon;
-	private Text txtTenKho;
-	private Text txtTenKhachHang;
-	private Text txtTySuatGTGT;
-	private Text txtTenTaiKhoan;
-	private Text txtMauSo;
-	private Text txtKyHieu;
-	private Text txtLyDo;
 	private Table table_1;
-	private Text text_11;
-	private Text text_12;
+	private Table table_2;
+	private Text textDienGiai;
+	private Text textSoChungTu;
 
 	/**
 	 * Create the composite.
@@ -39,506 +29,248 @@ public class pageDepreciationAsset extends Composite {
 	 */
 	public pageDepreciationAsset(Composite parent, int style) {
 		super(parent, style);
-		GridLayout gridLayout = new GridLayout(2, false);
-		gridLayout.verticalSpacing = 0;
-		gridLayout.marginWidth = 0;
-		gridLayout.marginHeight = 0;
-		gridLayout.horizontalSpacing = 0;
+		GridLayout gridLayout = new GridLayout(1, false);
+		gridLayout.verticalSpacing = 10;
+		gridLayout.marginRight = 10;
+		gridLayout.marginLeft = 10;
+		gridLayout.marginHeight = 10;
 		setLayout(gridLayout);
 		
 		Composite composite = new Composite(this, SWT.NONE);
-		GridLayout gl_composite = new GridLayout(1, false);
-		gl_composite.marginRight = 10;
-		gl_composite.marginLeft = 10;
-		gl_composite.marginHeight = 10;
-		composite.setLayout(gl_composite);
-		GridData gd_composite = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);
-		gd_composite.widthHint = 292;
+		composite.setLayout(new GridLayout(2, false));
+		GridData gd_composite = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
+		gd_composite.heightHint = 165;
 		composite.setLayoutData(gd_composite);
 		
-		Group grpDanhSchTi = new Group(composite, SWT.NONE);
-		grpDanhSchTi.setLayout(new GridLayout(2, false));
-		grpDanhSchTi.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		grpDanhSchTi.setText("Danh sách tài sản");
+		Group grpThong = new Group(composite, SWT.NONE);
+		GridLayout gl_grpThong = new GridLayout(6, false);
+		gl_grpThong.verticalSpacing = 15;
+		gl_grpThong.horizontalSpacing = 10;
+		grpThong.setLayout(gl_grpThong);
+		grpThong.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		grpThong.setText("Th\u00F4ng tin chung");
 		
-		txtTimKiem = new Text(grpDanhSchTi, SWT.BORDER);
-		txtTimKiem.setToolTipText("Tìm theo tên");
-		GridData gd_txtTimKiem = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtTimKiem.heightHint = 20;
-		txtTimKiem.setLayoutData(gd_txtTimKiem);
+		Label lbThang = new Label(grpThong, SWT.NONE);
+		lbThang.setText("Th\u00E1ng");
 		
-		Button btnTimKiem = new Button(grpDanhSchTi, SWT.NONE);
-		btnTimKiem.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/zoom_16x16.png"));
-		GridData gd_btnTimKiem = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		Combo comboThang = new Combo(grpThong, SWT.NONE);
+		comboThang.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		
+		Label lbNam = new Label(grpThong, SWT.NONE);
+		lbNam.setAlignment(SWT.RIGHT);
+		GridData gd_lbNam = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		gd_lbNam.widthHint = 84;
+		gd_lbNam.minimumWidth = 100;
+		lbNam.setLayoutData(gd_lbNam);
+		lbNam.setText("N\u0103m");
+		
+		Combo comboNam = new Combo(grpThong, SWT.NONE);
+		comboNam.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		
+		Button btnTimKiem = new Button(grpThong, SWT.NONE);
+		GridData gd_btnTimKiem = new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1);
 		gd_btnTimKiem.widthHint = 100;
-		gd_btnTimKiem.heightHint = 30;
 		btnTimKiem.setLayoutData(gd_btnTimKiem);
-		btnTimKiem.setText("Tìm kiếm");
+		btnTimKiem.setText("T\u00ECm ki\u1EBFm");
 		
-		table = new Table(grpDanhSchTi, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		Button btnIn = new Button(grpThong, SWT.NONE);
+		GridData gd_btnIn = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		gd_btnIn.widthHint = 100;
+		btnIn.setLayoutData(gd_btnIn);
+		btnIn.setText("In");
+		
+		Label lbDienGiai = new Label(grpThong, SWT.NONE);
+		lbDienGiai.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		lbDienGiai.setText("Di\u1EC5n gi\u1EA3i");
+		
+		textDienGiai = new Text(grpThong, SWT.BORDER);
+		textDienGiai.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 5, 1));
+		
+		Button btnThemMoi = new Button(grpThong, SWT.NONE);
+		GridData gd_btnThemMoi = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 5, 1);
+		gd_btnThemMoi.widthHint = 100;
+		btnThemMoi.setLayoutData(gd_btnThemMoi);
+		btnThemMoi.setText("Th\u00EAm m\u1EDBi");
+		
+		Button btnTinh = new Button(grpThong, SWT.NONE);
+		GridData gd_btnTinh = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
+		gd_btnTinh.widthHint = 100;
+		btnTinh.setLayoutData(gd_btnTinh);
+		btnTinh.setText("T\u00EDnh");
+		new Label(grpThong, SWT.NONE);
+		new Label(grpThong, SWT.NONE);
+		new Label(grpThong, SWT.NONE);
+		new Label(grpThong, SWT.NONE);
+		new Label(grpThong, SWT.NONE);
+		new Label(grpThong, SWT.NONE);
+		
+		Group grpThong_1 = new Group(composite, SWT.NONE);
+		GridLayout gl_grpThong_1 = new GridLayout(2, false);
+		gl_grpThong_1.verticalSpacing = 10;
+		gl_grpThong_1.horizontalSpacing = 10;
+		grpThong_1.setLayout(gl_grpThong_1);
+		GridData gd_grpThong_1 = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);
+		gd_grpThong_1.heightHint = 156;
+		gd_grpThong_1.widthHint = 400;
+		grpThong_1.setLayoutData(gd_grpThong_1);
+		grpThong_1.setText("Th\u00F4ng tin ch\u1EE9ng t\u1EEB");
+		
+		Label lblNewLabel_3 = new Label(grpThong_1, SWT.NONE);
+		lblNewLabel_3.setText("Ng\u00E0y ch\u1EE9ng t\u1EEB");
+		
+		DateTime dateTime = new DateTime(grpThong_1, SWT.BORDER);
+		dateTime.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
+		
+		Label lbSoChungTu = new Label(grpThong_1, SWT.NONE);
+		lbSoChungTu.setText("S\u1ED1 ch\u1EE9ng t\u1EEB");
+		
+		textSoChungTu = new Text(grpThong_1, SWT.BORDER);
+		textSoChungTu.setEnabled(false);
+		textSoChungTu.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
+		Composite composite_1 = new Composite(this, SWT.NONE);
+		composite_1.setLayout(new GridLayout(1, false));
+		composite_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		
+		Group grpThong_2 = new Group(composite_1, SWT.NONE);
+		grpThong_2.setLayout(new GridLayout(1, false));
+		grpThong_2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		grpThong_2.setText("Th\u00F4ng tin chung");
+		
+		table = new Table(grpThong_2, SWT.BORDER | SWT.FULL_SELECTION);
+		GridData gd_table = new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1);
+		gd_table.widthHint = 1122;
+		table.setLayoutData(gd_table);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 		
-		TableColumn tblclmnMaTaiSan = new TableColumn(table, SWT.NONE);
-		tblclmnMaTaiSan.setWidth(98);
-		tblclmnMaTaiSan.setText("Mã tài sản");
+		TableColumn tblclmnNewColumn = new TableColumn(table, SWT.NONE);
+		tblclmnNewColumn.setWidth(217);
+		tblclmnNewColumn.setText("M\u00E3 ch\u1EE9ng t\u1EEB");
 		
-		TableColumn tblclmnTenTaiSan = new TableColumn(table, SWT.NONE);
-		tblclmnTenTaiSan.setWidth(144);
-		tblclmnTenTaiSan.setText("Tên tài sản");
+		TableColumn tblclmnNewColumn_1 = new TableColumn(table, SWT.NONE);
+		tblclmnNewColumn_1.setWidth(136);
+		tblclmnNewColumn_1.setText("Ng\u00E0y ch\u1EE9ng t\u1EEB");
 		
-		Composite composite_2 = new Composite(grpDanhSchTi, SWT.NONE);
-		GridLayout gl_composite_2 = new GridLayout(2, false);
-		gl_composite_2.marginWidth = 0;
-		composite_2.setLayout(gl_composite_2);
-		composite_2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
+		TableColumn tblclmnNewColumn_2 = new TableColumn(table, SWT.NONE);
+		tblclmnNewColumn_2.setWidth(142);
+		tblclmnNewColumn_2.setText("Th\u00E1ng");
 		
-		Button btnTaoMoi = new Button(composite_2, SWT.NONE);
-		btnTaoMoi.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/add_16x16.png"));
-		GridData gd_btnTaoMoi = new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1);
-		gd_btnTaoMoi.widthHint = 80;
-		gd_btnTaoMoi.heightHint = 30;
-		btnTaoMoi.setLayoutData(gd_btnTaoMoi);
-		btnTaoMoi.setText("Tạo mới");
+		TableColumn tblclmnNewColumn_7 = new TableColumn(table, SWT.NONE);
+		tblclmnNewColumn_7.setWidth(118);
+		tblclmnNewColumn_7.setText("N\u0103m");
 		
-		Button btnChon = new Button(composite_2, SWT.NONE);
-		btnChon.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/yes_16x16.png"));
-		GridData gd_btnChon = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnChon.heightHint = 30;
-		btnChon.setLayoutData(gd_btnChon);
-		btnChon.setText("Chọn vào danh sách");
+		TableColumn tblclmnDinGii = new TableColumn(table, SWT.NONE);
+		tblclmnDinGii.setWidth(1168);
+		tblclmnDinGii.setText("Di\u1EC5n gi\u1EA3i");
 		
-		Composite composite_1 = new Composite(this, SWT.NONE);
-		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		GridLayout gl_composite_1 = new GridLayout(1, false);
-		gl_composite_1.marginLeft = 10;
-		gl_composite_1.marginRight = 10;
-		gl_composite_1.marginHeight = 10;
-		composite_1.setLayout(gl_composite_1);
-		composite_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		Composite composite_2 = new Composite(this, SWT.NONE);
+		composite_2.setLayout(new GridLayout(1, false));
+		composite_2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
-		Group grpPhiuNhp = new Group(composite_1, SWT.NONE);
-		grpPhiuNhp.setLayout(new GridLayout(2, false));
-		grpPhiuNhp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		grpPhiuNhp.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		grpPhiuNhp.setText("Phiếu nhập");
+		Group grpThong_3 = new Group(composite_2, SWT.NONE);
+		grpThong_3.setLayout(new GridLayout(1, false));
+		grpThong_3.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		grpThong_3.setText("Th\u00F4ng tin chi ti\u1EBFt");
 		
-		Composite composite_3 = new Composite(grpPhiuNhp, SWT.NONE);
-		composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		GridLayout gl_composite_3 = new GridLayout(2, false);
-		gl_composite_3.verticalSpacing = 10;
-		gl_composite_3.horizontalSpacing = 10;
-		gl_composite_3.marginRight = 10;
-		gl_composite_3.marginLeft = 10;
-		gl_composite_3.marginHeight = 10;
-		composite_3.setLayout(gl_composite_3);
-		GridData gd_composite_3 = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-		gd_composite_3.heightHint = 286;
-		composite_3.setLayoutData(gd_composite_3);
+		TabFolder tabFolder = new TabFolder(grpThong_3, SWT.NONE);
+		tabFolder.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		
-		Label lblNewLabel = new Label(composite_3, SWT.NONE);
-		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblNewLabel.setText("Mã kho:");
+		TabItem tbtmThngTinKhu = new TabItem(tabFolder, SWT.NONE);
+		tbtmThngTinKhu.setText("Th\u00F4ng tin kh\u1EA5u hao");
 		
-		Combo cboMaKho = new Combo(composite_3, SWT.NONE);
-		GridData gd_cboMaKho = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_cboMaKho.heightHint = 22;
-		cboMaKho.setLayoutData(gd_cboMaKho);
+		Composite composite_3 = new Composite(tabFolder, SWT.NONE);
+		tbtmThngTinKhu.setControl(composite_3);
+		composite_3.setLayout(new GridLayout(1, false));
 		
-		Label lblSThT = new Label(composite_3, SWT.NONE);
-		lblSThT.setText("Số thứ tự:");
-		lblSThT.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		txtSoThuTu = new Text(composite_3, SWT.BORDER);
-		GridData gd_txtSoThuTu = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtSoThuTu.heightHint = 20;
-		txtSoThuTu.setLayoutData(gd_txtSoThuTu);
-		
-		Label lblQuyn = new Label(composite_3, SWT.NONE);
-		lblQuyn.setText("Quyển:");
-		lblQuyn.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		Combo cboQuyen = new Combo(composite_3, SWT.NONE);
-		cboQuyen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-		
-		Label lblMKhchHng = new Label(composite_3, SWT.NONE);
-		lblMKhchHng.setText("Mã khách hàng:");
-		lblMKhchHng.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		Composite composite_7 = new Composite(composite_3, SWT.NONE);
-		composite_7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		GridLayout gl_composite_7 = new GridLayout(2, false);
-		gl_composite_7.marginWidth = 0;
-		gl_composite_7.marginHeight = 0;
-		composite_7.setLayout(gl_composite_7);
-		composite_7.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
-		
-		Combo cboMaKH = new Combo(composite_7, SWT.NONE);
-		GridData gd_cboMaKH = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_cboMaKH.heightHint = 22;
-		cboMaKH.setLayoutData(gd_cboMaKH);
-		
-		Button btnNewKH = new Button(composite_7, SWT.NONE);
-		btnNewKH.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/add_16x16.png"));
-		GridData gd_btnNewKH = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnNewKH.heightHint = 26;
-		btnNewKH.setLayoutData(gd_btnNewKH);
-		
-		Label lblTiKhonKhch = new Label(composite_3, SWT.NONE);
-		lblTiKhonKhch.setText("Tài khoản khách:");
-		lblTiKhonKhch.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		txtTaiKhoanKhach = new Text(composite_3, SWT.BORDER);
-		GridData gd_txtTaiKhoanKhach = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtTaiKhoanKhach.heightHint = 20;
-		txtTaiKhoanKhach.setLayoutData(gd_txtTaiKhoanKhach);
-		
-		Label lblSHan = new Label(composite_3, SWT.NONE);
-		lblSHan.setText("Tài khoản:");
-		lblSHan.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		txtTaiKhoan = new Text(composite_3, SWT.BORDER);
-		GridData gd_txtTaiKhoan = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtTaiKhoan.heightHint = 20;
-		txtTaiKhoan.setLayoutData(gd_txtTaiKhoan);
-		
-		Label lblHnhThcThanh = new Label(composite_3, SWT.NONE);
-		lblHnhThcThanh.setText("Số hóa đơn:");
-		lblHnhThcThanh.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		txtSoHoaDon = new Text(composite_3, SWT.BORDER);
-		GridData gd_txtSoHoaDon = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtSoHoaDon.heightHint = 20;
-		txtSoHoaDon.setLayoutData(gd_txtSoHoaDon);
-		
-		Label lblHnhThcThanh_1 = new Label(composite_3, SWT.NONE);
-		lblHnhThcThanh_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
-		lblHnhThcThanh_1.setText("Hình thức thanh toán:");
-		lblHnhThcThanh_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		Combo cboHinhThucThanhToan = new Combo(composite_3, SWT.NONE);
-		GridData gd_cboHinhThucThanhToan = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_cboHinhThucThanhToan.heightHint = 20;
-		cboHinhThucThanhToan.setLayoutData(gd_cboHinhThucThanhToan);
-		
-		Composite composite_4 = new Composite(grpPhiuNhp, SWT.NONE);
-		composite_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		GridLayout gl_composite_4 = new GridLayout(2, false);
-		gl_composite_4.verticalSpacing = 10;
-		gl_composite_4.marginRight = 10;
-		gl_composite_4.marginLeft = 10;
-		gl_composite_4.marginHeight = 10;
-		gl_composite_4.horizontalSpacing = 10;
-		composite_4.setLayout(gl_composite_4);
-		GridData gd_composite_4 = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-		gd_composite_4.heightHint = 292;
-		composite_4.setLayoutData(gd_composite_4);
-		
-		Label lblTnKho = new Label(composite_4, SWT.NONE);
-		lblTnKho.setText("Tên kho:");
-		lblTnKho.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		txtTenKho = new Text(composite_4, SWT.BORDER);
-		GridData gd_txtTenKho = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtTenKho.heightHint = 20;
-		txtTenKho.setLayoutData(gd_txtTenKho);
-		
-		Label lblNgyLp = new Label(composite_4, SWT.NONE);
-		lblNgyLp.setText("Ngày lập:");
-		lblNgyLp.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		DateTime dateNgayLap = new DateTime(composite_4, SWT.BORDER);
-		GridData gd_dateNgayLap = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_dateNgayLap.heightHint = 25;
-		dateNgayLap.setLayoutData(gd_dateNgayLap);
-		
-		Label lblMuS = new Label(composite_4, SWT.NONE);
-		lblMuS.setText("Mẫu số:");
-		lblMuS.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		Composite composite_8 = new Composite(composite_4, SWT.NONE);
-		composite_8.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
-		composite_8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		GridLayout gl_composite_8 = new GridLayout(3, false);
-		gl_composite_8.marginWidth = 0;
-		gl_composite_8.marginHeight = 0;
-		composite_8.setLayout(gl_composite_8);
-		
-		txtMauSo = new Text(composite_8, SWT.BORDER);
-		GridData gd_txtMauSo = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtMauSo.heightHint = 20;
-		txtMauSo.setLayoutData(gd_txtMauSo);
-		
-		Label lblKHiu = new Label(composite_8, SWT.NONE);
-		lblKHiu.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
-		lblKHiu.setText("Ký hiệu:");
-		lblKHiu.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		txtKyHieu = new Text(composite_8, SWT.BORDER);
-		GridData gd_txtKyHieu = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtKyHieu.heightHint = 20;
-		txtKyHieu.setLayoutData(gd_txtKyHieu);
-		
-		Label lblTnKhchHng = new Label(composite_4, SWT.NONE);
-		lblTnKhchHng.setText("Tên khách hàng:");
-		lblTnKhchHng.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		txtTenKhachHang = new Text(composite_4, SWT.BORDER);
-		GridData gd_txtTenKhachHang = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtTenKhachHang.heightHint = 20;
-		txtTenKhachHang.setLayoutData(gd_txtTenKhachHang);
-		
-		Label lblTSutGtgt = new Label(composite_4, SWT.NONE);
-		lblTSutGtgt.setText("Tỷ suất GTGT (%):");
-		lblTSutGtgt.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		txtTySuatGTGT = new Text(composite_4, SWT.BORDER);
-		GridData gd_txtTySuatGTGT = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtTySuatGTGT.heightHint = 20;
-		txtTySuatGTGT.setLayoutData(gd_txtTySuatGTGT);
-		
-		Label lblTnTiKhon = new Label(composite_4, SWT.NONE);
-		lblTnTiKhon.setText("Tên tài khoản:");
-		lblTnTiKhon.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		txtTenTaiKhoan = new Text(composite_4, SWT.BORDER);
-		GridData gd_txtTenTaiKhoan = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtTenTaiKhoan.heightHint = 20;
-		txtTenTaiKhoan.setLayoutData(gd_txtTenTaiKhoan);
-		
-		Label lblNgyPhtHnh = new Label(composite_4, SWT.NONE);
-		lblNgyPhtHnh.setText("Ngày phát hành:");
-		lblNgyPhtHnh.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		DateTime dateNgayPhatHanh = new DateTime(composite_4, SWT.BORDER);
-		GridData gd_dateNgayPhatHanh = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_dateNgayPhatHanh.heightHint = 25;
-		dateNgayPhatHanh.setLayoutData(gd_dateNgayPhatHanh);
-		
-		Label lblNgyThanhTon = new Label(composite_4, SWT.NONE);
-		lblNgyThanhTon.setText("Ngày thanh toán:");
-		lblNgyThanhTon.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		DateTime dateNgayThanhToan = new DateTime(composite_4, SWT.BORDER);
-		GridData gd_dateNgayThanhToan = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_dateNgayThanhToan.heightHint = 25;
-		dateNgayThanhToan.setLayoutData(gd_dateNgayThanhToan);
-		
-		Composite composite_5 = new Composite(grpPhiuNhp, SWT.NONE);
-		composite_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		GridLayout gl_composite_5 = new GridLayout(2, false);
-		gl_composite_5.verticalSpacing = 10;
-		gl_composite_5.marginRight = 10;
-		gl_composite_5.marginLeft = 10;
-		gl_composite_5.marginHeight = 0;
-		gl_composite_5.horizontalSpacing = 10;
-		composite_5.setLayout(gl_composite_5);
-		composite_5.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		
-		Label lblLDo = new Label(composite_5, SWT.NONE);
-		GridData gd_lblLDo = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
-		gd_lblLDo.widthHint = 117;
-		lblLDo.setLayoutData(gd_lblLDo);
-		lblLDo.setText("Lý do:");
-		lblLDo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		txtLyDo = new Text(composite_5, SWT.BORDER);
-		GridData gd_txtLyDo = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtLyDo.heightHint = 20;
-		txtLyDo.setLayoutData(gd_txtLyDo);
-		
-		table_1 = new Table(composite_5, SWT.BORDER | SWT.FULL_SELECTION);
-		table_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		table_1 = new Table(composite_3, SWT.BORDER | SWT.FULL_SELECTION);
+		table_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		table_1.setHeaderVisible(true);
 		table_1.setLinesVisible(true);
 		
-		TableColumn tblclmnNewColumn = new TableColumn(table_1, SWT.NONE);
-		tblclmnNewColumn.setWidth(100);
-		tblclmnNewColumn.setText("TKDU");
-		
-		TableColumn tblclmnNewColumn_1 = new TableColumn(table_1, SWT.NONE);
-		tblclmnNewColumn_1.setWidth(100);
-		tblclmnNewColumn_1.setText("Mã tài sản");
-		
-		TableColumn tblclmnNewColumn_2 = new TableColumn(table_1, SWT.NONE);
-		tblclmnNewColumn_2.setWidth(100);
-		tblclmnNewColumn_2.setText("Nguyên giá");
-		
 		TableColumn tblclmnNewColumn_3 = new TableColumn(table_1, SWT.NONE);
-		tblclmnNewColumn_3.setWidth(100);
-		tblclmnNewColumn_3.setText("ĐVT");
-		
-		TableColumn tblclmnSLng = new TableColumn(table_1, SWT.NONE);
-		tblclmnSLng.setWidth(100);
-		tblclmnSLng.setText("Số lượng");
-		
-		TableColumn tblclmnNgySDng = new TableColumn(table_1, SWT.NONE);
-		tblclmnNgySDng.setWidth(100);
-		tblclmnNgySDng.setText("Ngày sử dụng");
-		
-		TableColumn tblclmnSNmKh = new TableColumn(table_1, SWT.NONE);
-		tblclmnSNmKh.setWidth(100);
-		tblclmnSNmKh.setText("Số năm KH");
+		tblclmnNewColumn_3.setWidth(114);
+		tblclmnNewColumn_3.setText("M\u00E3 t\u00E0i s\u1EA3n");
 		
 		TableColumn tblclmnNewColumn_4 = new TableColumn(table_1, SWT.NONE);
-		tblclmnNewColumn_4.setWidth(100);
-		tblclmnNewColumn_4.setText("Mã nhân viên");
+		tblclmnNewColumn_4.setWidth(299);
+		tblclmnNewColumn_4.setText("T\u00EAn t\u00E0i s\u1EA3n");
 		
+		TableColumn tblclmnBPhnS = new TableColumn(table_1, SWT.NONE);
+		tblclmnBPhnS.setWidth(184);
+		tblclmnBPhnS.setText("B\u1ED9 ph\u1EADn s\u1EED d\u1EE5ng");
 		
-		Composite composite_6 = new Composite(grpPhiuNhp, SWT.NONE);
-		GridLayout gl_composite_6 = new GridLayout(2, false);
-		gl_composite_6.verticalSpacing = 0;
-		gl_composite_6.marginWidth = 0;
-		gl_composite_6.marginHeight = 0;
-		gl_composite_6.horizontalSpacing = 0;
-		composite_6.setLayout(gl_composite_6);
-		GridData gd_composite_6 = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
-		gd_composite_6.heightHint = 150;
-		composite_6.setLayoutData(gd_composite_6);
-		composite_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		TableColumn tblclmnNewColumn_8 = new TableColumn(table_1, SWT.NONE);
+		tblclmnNewColumn_8.setWidth(134);
+		tblclmnNewColumn_8.setText("Nguy\u00EAn gi\u00E1");
 		
-		Composite composite_9 = new Composite(composite_6, SWT.NONE);
-		composite_9.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		GridLayout gl_composite_9 = new GridLayout(2, false);
-		gl_composite_9.verticalSpacing = 10;
-		gl_composite_9.marginRight = 10;
-		gl_composite_9.marginLeft = 10;
-		gl_composite_9.marginHeight = 10;
-		gl_composite_9.horizontalSpacing = 10;
-		composite_9.setLayout(gl_composite_9);
-		composite_9.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		TableColumn tblclmnNgySDng = new TableColumn(table_1, SWT.NONE);
+		tblclmnNgySDng.setWidth(131);
+		tblclmnNgySDng.setText("Ng\u00E0y s\u1EED d\u1EE5ng");
 		
-		Label lblTiKhon = new Label(composite_9, SWT.NONE);
-		lblTiKhon.setText("Tài khoản:");
-		lblTiKhon.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		TableColumn tblclmnSThngS = new TableColumn(table_1, SWT.NONE);
+		tblclmnSThngS.setWidth(134);
+		tblclmnSThngS.setText("S\u1ED1 th\u00E1ng s\u1EED d\u1EE5ng");
 		
-		text_11 = new Text(composite_9, SWT.BORDER);
-		GridData gd_text_11 = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_text_11.heightHint = 20;
-		text_11.setLayoutData(gd_text_11);
+		TableColumn tblclmnSThng = new TableColumn(table_1, SWT.NONE);
+		tblclmnSThng.setWidth(159);
+		tblclmnSThng.setText("S\u1ED1 th\u00E1ng \u0111\u00E3 s\u1EED d\u1EE5ng");
 		
-		Label lblTiSn = new Label(composite_9, SWT.NONE);
-		lblTiSn.setText("Tài sản:");
-		lblTiSn.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		TableColumn tblclmnKhuHaoHng = new TableColumn(table_1, SWT.NONE);
+		tblclmnKhuHaoHng.setWidth(160);
+		tblclmnKhuHaoHng.setText("Kh\u1EA5u hao h\u00E1ng th\u00E1ng");
 		
-		text_12 = new Text(composite_9, SWT.BORDER);
-		GridData gd_text_12 = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_text_12.heightHint = 20;
-		text_12.setLayoutData(gd_text_12);
+		TableColumn tblclmnKhuHaoTrong = new TableColumn(table_1, SWT.NONE);
+		tblclmnKhuHaoTrong.setWidth(158);
+		tblclmnKhuHaoTrong.setText("Kh\u1EA5u hao trong th\u00E1ng");
 		
-		Label lblSTinBng = new Label(composite_9, SWT.NONE);
-		lblSTinBng.setText("Số tiền bằng chữ:");
-		lblSTinBng.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		TableColumn tblclmnKhuHaoLy = new TableColumn(table_1, SWT.NONE);
+		tblclmnKhuHaoLy.setWidth(128);
+		tblclmnKhuHaoLy.setText("Kh\u1EA5u hao l\u0169y k\u1EBF");
 		
-		Label label_3 = new Label(composite_9, SWT.NONE);
-		label_3.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
-		label_3.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
-		label_3.setText("Mã kho:");
-		label_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		TableColumn tblclmnGiTrCn = new TableColumn(table_1, SWT.NONE);
+		tblclmnGiTrCn.setWidth(164);
+		tblclmnGiTrCn.setText("Gi\u00E1 tr\u1ECB c\u00F2n l\u1EA1i");
 		
-		Composite composite_11 = new Composite(composite_9, SWT.NONE);
-		composite_11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		GridLayout gl_composite_11 = new GridLayout(3, false);
-		gl_composite_11.verticalSpacing = 0;
-		gl_composite_11.marginWidth = 0;
-		gl_composite_11.marginHeight = 0;
-		gl_composite_11.horizontalSpacing = 10;
-		composite_11.setLayout(gl_composite_11);
-		composite_11.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		TabItem tbtmTiSn = new TabItem(tabFolder, SWT.NONE);
+		tbtmTiSn.setText("T\u00E0i s\u1EA3n \u0111\u00E3 kh\u1EA5u hao h\u1EBFt");
 		
-		Button btnNewButton_1 = new Button(composite_11, SWT.NONE);
-		btnNewButton_1.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/save_16x16.png"));
-		GridData gd_btnNewButton_1 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnNewButton_1.widthHint = 80;
-		gd_btnNewButton_1.heightHint = 30;
-		btnNewButton_1.setLayoutData(gd_btnNewButton_1);
-		btnNewButton_1.setText("Lưu");
+		Composite composite_4 = new Composite(tabFolder, SWT.NONE);
+		tbtmTiSn.setControl(composite_4);
+		composite_4.setLayout(new GridLayout(1, false));
 		
-		Button btnNewButton_2 = new Button(composite_11, SWT.NONE);
-		btnNewButton_2.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/cancel_16x16.png"));
-		GridData gd_btnNewButton_2 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnNewButton_2.widthHint = 80;
-		gd_btnNewButton_2.heightHint = 30;
-		btnNewButton_2.setLayoutData(gd_btnNewButton_2);
-		btnNewButton_2.setText("Xóa");
+		table_2 = new Table(composite_4, SWT.BORDER | SWT.FULL_SELECTION);
+		table_2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
+		table_2.setHeaderVisible(true);
+		table_2.setLinesVisible(true);
 		
-		Button btnNewButton_3 = new Button(composite_11, SWT.NONE);
-		btnNewButton_3.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/refresh_16x16.png"));
-		GridData gd_btnNewButton_3 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnNewButton_3.widthHint = 80;
-		gd_btnNewButton_3.heightHint = 30;
-		btnNewButton_3.setLayoutData(gd_btnNewButton_3);
-		btnNewButton_3.setText("Hoàn lại");
-	
+		TableColumn tblclmnNewColumn_5 = new TableColumn(table_2, SWT.NONE);
+		tblclmnNewColumn_5.setWidth(198);
+		tblclmnNewColumn_5.setText("M\u00E3 t\u00E0i s\u1EA3n");
 		
-		Composite composite_10 = new Composite(composite_6, SWT.NONE);
-		composite_10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		GridLayout gl_composite_10 = new GridLayout(2, false);
-		gl_composite_10.verticalSpacing = 10;
-		gl_composite_10.marginRight = 10;
-		gl_composite_10.marginLeft = 10;
-		gl_composite_10.marginHeight = 10;
-		gl_composite_10.horizontalSpacing = 10;
-		composite_10.setLayout(gl_composite_10);
-		GridData gd_composite_10 = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);
-		gd_composite_10.widthHint = 250;
-		composite_10.setLayoutData(gd_composite_10);
+		TableColumn tblclmnNewColumn_6 = new TableColumn(table_2, SWT.NONE);
+		tblclmnNewColumn_6.setWidth(460);
+		tblclmnNewColumn_6.setText("T\u00EAn t\u00E0i s\u1EA3n");
 		
-		Label lblTinHng = new Label(composite_10, SWT.NONE);
-		lblTinHng.setText("Tiền hàng:");
-		lblTinHng.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		TableColumn tblclmnBPhnS_1 = new TableColumn(table_2, SWT.NONE);
+		tblclmnBPhnS_1.setWidth(193);
+		tblclmnBPhnS_1.setText("B\u1ED9 ph\u1EADn s\u1EED d\u1EE5ng");
 		
-		Label label_6 = new Label(composite_10, SWT.NONE);
-		label_6.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
-		label_6.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
-		label_6.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
-		label_6.setText("Tài khoản:");
-		label_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		TableColumn tblclmnNguynGi = new TableColumn(table_2, SWT.NONE);
+		tblclmnNguynGi.setWidth(171);
+		tblclmnNguynGi.setText("Nguy\u00EAn gi\u00E1");
 		
-		Label lblPh = new Label(composite_10, SWT.NONE);
-		lblPh.setText("Phí:");
-		lblPh.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		TableColumn tblclmnNewColumn_9 = new TableColumn(table_2, SWT.NONE);
+		tblclmnNewColumn_9.setWidth(216);
+		tblclmnNewColumn_9.setText("Ng\u00E0y s\u1EED d\u1EE5ng");
 		
-		Label label_7 = new Label(composite_10, SWT.NONE);
-		label_7.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
-		label_7.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
-		label_7.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
-		label_7.setText("Tài khoản:");
-		label_7.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		TableColumn tblclmnSThngS_1 = new TableColumn(table_2, SWT.NONE);
+		tblclmnSThngS_1.setWidth(240);
+		tblclmnSThngS_1.setText("S\u1ED1 th\u00E1ng s\u1EED d\u1EE5ng");
 		
-		Label lblCng = new Label(composite_10, SWT.NONE);
-		lblCng.setText("Cộng:");
-		lblCng.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		Label label_8 = new Label(composite_10, SWT.NONE);
-		label_8.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
-		label_8.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
-		label_8.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
-		label_8.setText("Tài khoản:");
-		label_8.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		Label lblThuGtgt = new Label(composite_10, SWT.NONE);
-		lblThuGtgt.setText("Thuế GTGT:");
-		lblThuGtgt.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		Label label_9 = new Label(composite_10, SWT.NONE);
-		label_9.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
-		label_9.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
-		label_9.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
-		label_9.setText("Tài khoản:");
-		label_9.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		Label lblTrGi = new Label(composite_10, SWT.NONE);
-		lblTrGi.setText("Trị giá:");
-		lblTrGi.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		Label label_10 = new Label(composite_10, SWT.NONE);
-		label_10.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
-		label_10.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
-		label_10.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
-		label_10.setText("Tài khoản:");
-		label_10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		TableColumn tblclmnSThng_1 = new TableColumn(table_2, SWT.NONE);
+		tblclmnSThng_1.setWidth(283);
+		tblclmnSThng_1.setText("S\u1ED1 th\u00E1ng \u0111\u00E3 s\u1EED d\u1EE5ng");
 
 	}
 
@@ -546,5 +278,4 @@ public class pageDepreciationAsset extends Composite {
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components
 	}
-
 }

@@ -17,10 +17,10 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
 
-import asset.view.page.pageDepreciationAsset;
+import asset.view.page.pageLiquidateAsset;
 import asset.view.page.pageExportAsset;
 import asset.view.page.pageImportAsset;
-import asset.view.page.pageLiquidateAsset;
+import asset.view.page.pageDepreciationAsset;
 import asset.view.page.pageSearchAsset;
 import asset.util.Window;
 
@@ -53,7 +53,7 @@ public class frmMain extends Shell {
 		isLogout = false;
 		setSize(1038, 604);
 		setText("Quản lý Tài sản");
-		setMinimumSize(new Point(136, 50));
+		setMinimumSize(new Point(1300, 700));
 		setBackground(SWTResourceManager.getColor(230, 230, 230));
 		GridLayout gridLayout = new GridLayout(1, false);
 		gridLayout.marginWidth = 0;
@@ -162,7 +162,7 @@ public class frmMain extends Shell {
 			@Override
 			public void mouseUp(MouseEvent e) {
 				mouseEnterColor(lblThanhLyTaiSan);
-				Window.openPageInTab(tabFolder, new pageLiquidateAsset(tabFolder, SWT.NONE), "Thanh lý Tài sản");
+				Window.openPageInTab(tabFolder, new pageDepreciationAsset(tabFolder, SWT.NONE), "Thanh lý Tài sản");
 			}
 		});
 		lblThanhLyTaiSan.setImage(SWTResourceManager.getImage(frmMain.class, "/asset/view/out_32.png"));
@@ -191,7 +191,7 @@ public class frmMain extends Shell {
 			@Override
 			public void mouseUp(MouseEvent e) {
 				mouseEnterColor(lblTinhKhauHao);
-				Window.openPageInTab(tabFolder, new pageDepreciationAsset(tabFolder, SWT.NONE), "Khấu hao Tài sản");
+				Window.openPageInTab(tabFolder, new pageLiquidateAsset(tabFolder, SWT.NONE), "Khấu hao Tài sản");
 			}
 		});
 		lblTinhKhauHao.setImage(SWTResourceManager.getImage(frmMain.class, "/asset/view/cal_32.png"));
