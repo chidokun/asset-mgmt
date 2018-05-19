@@ -162,7 +162,7 @@ public class frmMain extends Shell {
 			@Override
 			public void mouseUp(MouseEvent e) {
 				mouseEnterColor(lblThanhLyTaiSan);
-				Window.openPageInTab(tabFolder, new pageDepreciationAsset(tabFolder, SWT.NONE), "Thanh lý Tài sản");
+				Window.openPageInTab(tabFolder, new pageLiquidateAsset(tabFolder, SWT.NONE), "Thanh lý Tài sản");
 			}
 		});
 		lblThanhLyTaiSan.setImage(SWTResourceManager.getImage(frmMain.class, "/asset/view/out_32.png"));
@@ -191,7 +191,7 @@ public class frmMain extends Shell {
 			@Override
 			public void mouseUp(MouseEvent e) {
 				mouseEnterColor(lblTinhKhauHao);
-				Window.openPageInTab(tabFolder, new pageLiquidateAsset(tabFolder, SWT.NONE), "Khấu hao Tài sản");
+				Window.openPageInTab(tabFolder, new pageDepreciationAsset(tabFolder, SWT.NONE), "Khấu hao Tài sản");
 			}
 		});
 		lblTinhKhauHao.setImage(SWTResourceManager.getImage(frmMain.class, "/asset/view/cal_32.png"));
