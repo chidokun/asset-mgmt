@@ -33,6 +33,7 @@ public class pageImportAsset extends Composite {
 	private Combo cboMaKho;
 	private Combo cboQuyen;
 	private Combo cboMaKH;
+	private Combo cboHinhThucThanhToan;
 	private Text txtSoPhieuNhap;
 	private Text txtTaiKhoanKhach;
 	private Text txtTaiKhoan;
@@ -151,7 +152,7 @@ public class pageImportAsset extends Composite {
 		gl_composite_3.marginHeight = 10;
 		composite_3.setLayout(gl_composite_3);
 		GridData gd_composite_3 = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-		gd_composite_3.heightHint = 286;
+		gd_composite_3.heightHint = 320;
 		composite_3.setLayoutData(gd_composite_3);
 		
 		Label lblNewLabel = new Label(composite_3, SWT.NONE);
@@ -245,6 +246,7 @@ public class pageImportAsset extends Composite {
 		lblHnhThcThanh.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		txtSoHoaDon = new Text(composite_3, SWT.BORDER);
+		txtSoHoaDon.setEnabled(false);
 		GridData gd_txtSoHoaDon = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_txtSoHoaDon.heightHint = 20;
 		txtSoHoaDon.setLayoutData(gd_txtSoHoaDon);
@@ -270,10 +272,19 @@ public class pageImportAsset extends Composite {
 		lblHnhThcThanh_1.setText("Hình thức thanh toán:");
 		lblHnhThcThanh_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
-		Combo cboHinhThucThanhToan = new Combo(composite_3, SWT.NONE);
+		cboHinhThucThanhToan = new Combo(composite_3, SWT.NONE);
 		GridData gd_cboHinhThucThanhToan = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_cboHinhThucThanhToan.heightHint = 20;
 		cboHinhThucThanhToan.setLayoutData(gd_cboHinhThucThanhToan);
+		
+		Label lblLDo = new Label(composite_3, SWT.NONE);
+		lblLDo.setText("Lý do:");
+		lblLDo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		
+		txtLyDo = new Text(composite_3, SWT.BORDER);
+		GridData gd_txtLyDo = new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1);
+		gd_txtLyDo.heightHint = 20;
+		txtLyDo.setLayoutData(gd_txtLyDo);
 		
 		Composite composite_4 = new Composite(grpPhiuNhp, SWT.NONE);
 		composite_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -384,29 +395,23 @@ public class pageImportAsset extends Composite {
 		gd_dateNgayThanhToan.heightHint = 25;
 		dateNgayThanhToan.setLayoutData(gd_dateNgayThanhToan);
 		
+		Label lblMNhnVin = new Label(composite_4, SWT.NONE);
+		lblMNhnVin.setText("Mã nhân viên:");
+		lblMNhnVin.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		
+		Combo cboMaNV = new Combo(composite_4, SWT.NONE);
+		cboMaNV.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		cboMaNV.select(0);
+		
 		Composite composite_5 = new Composite(grpPhiuNhp, SWT.NONE);
 		composite_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		GridLayout gl_composite_5 = new GridLayout(2, false);
-		gl_composite_5.marginBottom = 5;
 		gl_composite_5.verticalSpacing = 10;
 		gl_composite_5.marginRight = 10;
 		gl_composite_5.marginLeft = 10;
-		gl_composite_5.marginHeight = 0;
 		gl_composite_5.horizontalSpacing = 10;
 		composite_5.setLayout(gl_composite_5);
 		composite_5.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		
-		Label lblLDo = new Label(composite_5, SWT.NONE);
-		GridData gd_lblLDo = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
-		gd_lblLDo.widthHint = 117;
-		lblLDo.setLayoutData(gd_lblLDo);
-		lblLDo.setText("Lý do:");
-		lblLDo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		txtLyDo = new Text(composite_5, SWT.BORDER);
-		GridData gd_txtLyDo = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtLyDo.heightHint = 20;
-		txtLyDo.setLayoutData(gd_txtLyDo);
 		
 		table_1 = new Table(composite_5, SWT.BORDER | SWT.FULL_SELECTION);
 		table_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
@@ -441,10 +446,6 @@ public class pageImportAsset extends Composite {
 		tblclmnSNmKh.setWidth(100);
 		tblclmnSNmKh.setText("Số năm KH");
 		
-		TableColumn tblclmnNewColumn_4 = new TableColumn(table_1, SWT.NONE);
-		tblclmnNewColumn_4.setWidth(100);
-		tblclmnNewColumn_4.setText("Mã nhân viên");
-		
 		
 		Composite composite_6 = new Composite(grpPhiuNhp, SWT.NONE);
 		GridLayout gl_composite_6 = new GridLayout(2, false);
@@ -474,6 +475,7 @@ public class pageImportAsset extends Composite {
 		lblTiKhon.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		text_11 = new Text(composite_9, SWT.BORDER);
+		text_11.setEnabled(false);
 		GridData gd_text_11 = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_text_11.heightHint = 20;
 		text_11.setLayoutData(gd_text_11);
@@ -483,6 +485,7 @@ public class pageImportAsset extends Composite {
 		lblTiSn.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		text_12 = new Text(composite_9, SWT.BORDER);
+		text_12.setEnabled(false);
 		GridData gd_text_12 = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_text_12.heightHint = 20;
 		text_12.setLayoutData(gd_text_12);
@@ -654,6 +657,11 @@ public class pageImportAsset extends Composite {
 		
 		//load TKKT
 		mapTKKT = TKKTController.selectAll();
+		
+		//load hinh thuc
+		cboHinhThucThanhToan.add("Tiền mặt");
+		cboHinhThucThanhToan.add("Chuyển khoảng");
+		cboHinhThucThanhToan.select(0);
 		
 	}
 
