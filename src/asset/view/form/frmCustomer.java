@@ -25,25 +25,6 @@ public class frmCustomer extends Shell {
 	private Label label_3;
 	private Label label_4;
 
-	/**
-	 * Launch the application.
-	 * @param args
-	 */
-/*	public static void main(String args[]) {
-		try {
-			Display display = Display.getDefault();
-			frmCustomer shell = new frmCustomer(display);
-			shell.open();
-			shell.layout();
-			while (!shell.isDisposed()) {
-				if (!display.readAndDispatch()) {
-					display.sleep();
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}*/
 
 	/**
 	 * Create the shell.

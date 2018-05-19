@@ -21,25 +21,6 @@ public class frmAddAsset extends Shell {
 	private Text txt_TenTaiSan;
 	private Label lblTnTiSn;
 
-	/**
-	 * Launch the application.
-	 * @param args
-	 */
-	public static void main(String args[]) {
-		try {
-			Display display = Display.getDefault();
-			frmAddAsset shell = new frmAddAsset(display);
-			shell.open();
-			shell.layout();
-			while (!shell.isDisposed()) {
-				if (!display.readAndDispatch()) {
-					display.sleep();
-				}
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
 
 	/**
 	 * Create the shell.
