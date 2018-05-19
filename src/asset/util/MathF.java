@@ -1,6 +1,6 @@
 /**
- * Quáº£n lÃ½ Ráº¡p chiáº¿u phim RPP
- * Author: Nguyá»…n Tuáº¥n - nguyentuanit96@gmail.com
+ * Quản lý rạp chiếu phim RPP
+ * Author: Nguyễn Tuấn - nguyentuanit96@gmail.com
  */
 
 package asset.util;
@@ -38,7 +38,7 @@ public class MathF {
             BON, NAM, SAU, BAY, TAM, CHIN};
 	
 	/**
-	 * Chá»‰ giá»¯ láº¡i sá»‘ trong chuá»—i float
+	 * Chỉ giữ lại số trong chuỗi float
 	 * 
 	 * @param floatString
 	 * @return
@@ -56,7 +56,7 @@ public class MathF {
 	}
 
 	/**
-	 * Ä�á»‹nh dáº¡ng float vá»›i 3 chá»¯ sá»‘ tháº­p phÃ¢n
+	 * Định dạng float với 3 chữ số thập phân
 	 * 
 	 * @param number
 	 * @return
@@ -66,7 +66,7 @@ public class MathF {
 	}
 
 	/**
-	 * Chuyá»ƒn kÃ½ tá»± tháº­p phÃ¢n vá»� nguyÃªn báº£n
+	 * Chuyển ký tự thập phân về nguyên bản
 	 * 
 	 * @param vnFloat
 	 * @return
@@ -138,7 +138,7 @@ public class MathF {
     }
     
     //Đọc 3 số
-    public static ArrayList<String> read_3num(String a)
+    private static ArrayList<String> read_3num(String a)
     {
         ArrayList<String> kq = new ArrayList<String>();
         int num = -1;
@@ -206,7 +206,7 @@ public class MathF {
         return kq;
     }
     
-    public static ArrayList<String> Split(String str, int chunkSize)    {
+    private static ArrayList<String> Split(String str, int chunkSize)    {
         int du = str.length() % chunkSize;
         //Nếu độ dài chuổi không phải bội số của chunkSize thì thêm # vào trước cho đủ.
         if (du != 0)
@@ -216,7 +216,7 @@ public class MathF {
  
  
     //Hàm cắt chuổi ra thành chuổi nhỏ
-    public static ArrayList<String> splitStringEvery(String s, int interval) {
+    private static ArrayList<String> splitStringEvery(String s, int interval) {
         ArrayList<String> arrList = new ArrayList<String>();
         int arrayLength = (int) Math.ceil(((s.length() / (double) interval)));
         String[] result = new String[arrayLength];
@@ -227,11 +227,6 @@ public class MathF {
             j += interval;
         }
         result[lastIndex] = s.substring(j);
- 
-        /*
-          Có thể dùng hàm sau để cắt nhưng hiệu suất sẽ thấp hơn cách trên
-         result = s.split("(?<=\\G.{" + interval + "})");
-         */
  
         arrList.addAll(Arrays.asList(result));
         return arrList;
