@@ -6,6 +6,12 @@ public class KhachHang {
 	private String diaChi;
 	private String soTK;
 	
+	
+	
+	public KhachHang() {
+		super();
+	}
+
 	public KhachHang(String maKH, String tenKH, String diaChi, String soTK) {
 		setMaKH(maKH);
 		setTenKH(tenKH);

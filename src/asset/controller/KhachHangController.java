@@ -3,10 +3,13 @@
  */
 package asset.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import asset.entity.KhachHang;
+import asset.entity.TaiSan;
 import asset.model.KhachHangModel;
+import asset.model.TaiSanModel;
 
 /**
  * @author Tuan
@@ -20,5 +23,13 @@ public class KhachHangController {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public static boolean insert(KhachHang kh) throws SQLException {
+		return KhachHangModel.insert(kh);
+	}
+
+	public static String generateId() throws SQLException {
+		return KhachHangModel.generateId();
 	}
 }

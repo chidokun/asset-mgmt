@@ -141,7 +141,7 @@ public class frmAddAsset extends Shell {
 	 */
 	private void display() {
 		try {
-			txt_MaTS.setText(TaiSanController.createCode());
+			txt_MaTS.setText(TaiSanController.generateId());
 			ArrayList<DVT> arr = DVTController.selectAll();
 			for (DVT i : arr) {
 				cbbDVT.add(i.getTenDVT());

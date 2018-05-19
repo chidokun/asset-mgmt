@@ -33,7 +33,7 @@ public class TaiSanController {
 		return TaiSanModel.insert(ts);
 	}
 
-	public static String createCode() throws SQLException {
-		return TaiSanModel.createCode();
+	public static String generateId() throws SQLException {
+		return TaiSanModel.generateId();
 	}
 }

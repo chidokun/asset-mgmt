@@ -1,5 +1,8 @@
 package asset.view.form;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -7,6 +10,15 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.wb.swt.SWTResourceManager;
+
+import asset.controller.DVTController;
+import asset.controller.KhachHangController;
+import asset.controller.TaiSanController;
+import asset.entity.DVT;
+import asset.entity.KhachHang;
+import asset.entity.TaiSan;
+import asset.util.Message;
+
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -63,6 +75,9 @@ public class frmCustomer extends Shell {
 		btnLuu.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				if(luu()) {
+					close();
+				}
 			}
 		});
 		btnLuu.setBounds(244, 10, 75, 25);
@@ -72,6 +87,7 @@ public class frmCustomer extends Shell {
 		btnHuy.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				close();
 			}
 		});
 		btnHuy.setImage(SWTResourceManager.getImage(frmCustomer.class, "/asset/view/form/cancel_16x16.png"));
@@ -109,10 +125,45 @@ public class frmCustomer extends Shell {
 		label_4.setText("S\u1ED1 t\u00E0i kho\u1EA3n");
 		label_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		label_4.setBounds(252, 112, 94, 15);
-		setTabList(new Control[]{txt_DiaChi, txt_TenKH, txt_SoTK, composite});
+		setTabList(new Control[]{txt_TenKH, txt_DiaChi, txt_SoTK, composite});
 		createContents();
+		display();
+		
 	}
+	
+	public boolean luu() {
+		KhachHang kh = new KhachHang();
+		kh.setMaKH(txt_MaKH.getText());
+		kh.setTenKH(txt_TenKH.getText());
+		kh.setDiaChi(txt_DiaChi.getText());
+		kh.setSoTK(txt_SoTK.getText());
+		try {
+				if (!KhachHangController.insert(kh))
+					throw new SQLException();
+			
+			Message.show("Lưu thông tin khách hàng thành công", "Thành công", SWT.OK | SWT.ICON_INFORMATION,
+					getShell());
+			return true;
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			Message.show("Không thể lưu thông tin khách hàng", "Lỗi", SWT.OK | SWT.ICON_ERROR, getShell());
+		}
+		return false;
+	}
+	
+	/**
+	 * Display information of customer
+	 */
+	private void display() {
+		try {
+			txt_MaKH.setText(KhachHangController.generateId());
 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Create contents of the shell.
 	 */

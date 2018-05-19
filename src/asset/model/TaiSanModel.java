@@ -98,7 +98,7 @@ public class TaiSanModel {
 	 * 
 	 * @return
 	 */
-	public static String createCode() throws SQLException {
+	public static String generateId() throws SQLException {
 		CallableStatement st = Database.connect().prepareCall("{call sp_TaoMa_TaiSan (?)}");
 		st.registerOutParameter(1, Types.VARCHAR);
 		st.execute();
