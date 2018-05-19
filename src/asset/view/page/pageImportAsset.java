@@ -4,6 +4,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Button;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
@@ -23,13 +24,16 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.ModifyEvent;
 
 public class pageImportAsset extends Composite {
 	private Text txtTimKiem;
 	private Table tableTaiSan;
 	private Combo cboMaKho;
 	private Combo cboQuyen;
-	private Text txtSoThuTu;
+	private Combo cboMaKH;
+	private Text txtSoPhieuNhap;
 	private Text txtTaiKhoanKhach;
 	private Text txtTaiKhoan;
 	private Text txtSoHoaDon;
@@ -43,6 +47,7 @@ public class pageImportAsset extends Composite {
 	private Table table_1;
 	private Text text_11;
 	private Text text_12;
+	private HashMap<Integer, String> mapTKKT;
 
 	/**
 	 * Create the composite.
@@ -168,11 +173,11 @@ public class pageImportAsset extends Composite {
 		lblSThT.setText("Số phiếu nhập:");
 		lblSThT.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
-		txtSoThuTu = new Text(composite_3, SWT.BORDER);
-		txtSoThuTu.setEnabled(false);
-		GridData gd_txtSoThuTu = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtSoThuTu.heightHint = 20;
-		txtSoThuTu.setLayoutData(gd_txtSoThuTu);
+		txtSoPhieuNhap = new Text(composite_3, SWT.BORDER);
+		txtSoPhieuNhap.setEnabled(false);
+		GridData gd_txtSoPhieuNhap = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		gd_txtSoPhieuNhap.heightHint = 20;
+		txtSoPhieuNhap.setLayoutData(gd_txtSoPhieuNhap);
 		
 		Label lblMKhchHng = new Label(composite_3, SWT.NONE);
 		lblMKhchHng.setText("Mã khách hàng:");
@@ -186,7 +191,15 @@ public class pageImportAsset extends Composite {
 		composite_7.setLayout(gl_composite_7);
 		composite_7.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 		
-		Combo cboMaKH = new Combo(composite_7, SWT.NONE);
+		cboMaKH = new Combo(composite_7, SWT.NONE);
+		cboMaKH.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				KhachHang kh = (KhachHang) cboMaKH.getData(cboMaKH.getText());
+				txtTenKhachHang.setText(kh.getTenKH());
+				txtTaiKhoanKhach.setText(kh.getSoTK());
+			}
+		});
 		GridData gd_cboMaKH = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_cboMaKH.heightHint = 22;
 		cboMaKH.setLayoutData(gd_cboMaKH);
@@ -212,6 +225,17 @@ public class pageImportAsset extends Composite {
 		lblSHan.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		txtTaiKhoan = new Text(composite_3, SWT.BORDER);
+		txtTaiKhoan.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent arg0) {
+				try {
+					String number = txtTaiKhoan.getText().substring(1);
+					txtTenTaiKhoan.setText(mapTKKT.get(Integer.parseInt(number)));
+				} catch (Exception e) {
+					e.printStackTrace();
+					txtTenTaiKhoan.setText("");
+				}
+			}
+		});
 		GridData gd_txtTaiKhoan = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_txtTaiKhoan.heightHint = 20;
 		txtTaiKhoan.setLayoutData(gd_txtTaiKhoan);
@@ -580,6 +604,9 @@ public class pageImportAsset extends Composite {
 	}
 
 	private void initialize() {
+		//generate id
+		txtSoPhieuNhap.setText(PhieuNhapController.generateID());
+		
 		//load tai san
 		ArrayList<TaiSan> arrTS = TaiSanController.selectTop(50);
 		tableTaiSan.removeAll();
@@ -612,6 +639,22 @@ public class pageImportAsset extends Composite {
 		String[] quyen = ((String) cboQuyen.getData(cboQuyen.getText())).split(";");
 		txtMauSo.setText(quyen[0]);
 		txtKyHieu.setText(quyen[1]);
+		
+		//load khachHang
+		ArrayList<KhachHang> arrKhachHang = KhachHangController.selectAll();
+		cboMaKH.removeAll();
+		for (KhachHang i : arrKhachHang) {
+			cboMaKH.add(i.getMaKH());
+			cboMaKH.setData(i.getMaKH(), i);
+		}
+		cboMaKH.select(0);
+		KhachHang kh = (KhachHang) cboMaKH.getData(cboMaKH.getText());
+		txtTenKhachHang.setText(kh.getTenKH());
+		txtTaiKhoanKhach.setText(kh.getSoTK());
+		
+		//load TKKT
+		mapTKKT = TKKTController.selectAll();
+		
 	}
 
 	@Override

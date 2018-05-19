@@ -5,6 +5,13 @@ public class KhachHang {
 	private String tenKH;
 	private String diaChi;
 	private String soTK;
+	
+	public KhachHang(String maKH, String tenKH, String diaChi, String soTK) {
+		setMaKH(maKH);
+		setTenKH(tenKH);
+		setDiaChi(diaChi);
+		setSoTK(soTK);
+	}
 
 	public String getMaKH() {
 		return maKH;
