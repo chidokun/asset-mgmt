@@ -51,7 +51,7 @@ public class Database {
 		if (connection != null)
 			return connection;
 		else
-			return DriverManager.getConnection(connectionString, userName, password);
+			return DriverManager.getConnection(connectionString, userName, null);
 	}
 
 	/**
@@ -68,7 +68,7 @@ public class Database {
 			throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 
-		Connection connect = connect(String.format("jdbc:mysql://%1$s/sys?useSSL=false", hostName), userName, password);
+		Connection connect = connect(String.format("jdbc:mysql://%1$s/mysql?useSSL=false", hostName), userName, password);
 
 		ResultSet rs = connect.getMetaData().getCatalogs();
 		ArrayList<String> arr = new ArrayList<>();
