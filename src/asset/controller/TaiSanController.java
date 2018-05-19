@@ -9,8 +9,8 @@ import asset.model.TaiSanModel;
 import asset.model.TheTaiSanModel;
 
 public class TaiSanController {
-	public static TaiSan select(String maTS, String maPN) throws SQLException {
-		return TaiSanModel.select(maTS, maPN);
+	public static TaiSan select(String maTS) throws SQLException {
+		return TaiSanModel.select(maTS);
 	}
 	
 	public static ArrayList<TaiSan> selectTop(int top) {

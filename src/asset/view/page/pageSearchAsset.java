@@ -7,7 +7,6 @@
 package asset.view.page;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.eclipse.core.commands.ParameterValuesException;
 import org.eclipse.swt.SWT;
@@ -100,9 +99,8 @@ public class pageSearchAsset extends Composite {
 				try {
 					checkAssetSelected();
 					String maTS = gridTaiSan.getSelection()[0].getText(1);
-					String maPN = gridTaiSan.getSelection()[0].getText(3);
 					Window.open(
-							new frmCreateAsset(getDisplay(), true, "Lập thẻ tài sản", TaiSanController.select(maTS, maPN)));
+							new frmCreateAsset(getDisplay(), true, "Lập thẻ tài sản", TaiSanController.select(maTS)));
 				} catch (ParameterValuesException e1) {
 					Message.show(e1.getMessage(), "Cảnh báo", SWT.ICON_WARNING | SWT.OK, getShell());
 				} catch (Exception e1) {
@@ -145,13 +143,6 @@ public class pageSearchAsset extends Composite {
 		TableColumn tblclmnNewColumn_2 = new TableColumn(gridTaiSan, SWT.CENTER);
 		tblclmnNewColumn_2.setWidth(180);
 		tblclmnNewColumn_2.setText("Tên tài sản");
-		
-		TableColumn tblclmnNewColumn_7 = new TableColumn(gridTaiSan, SWT.NONE);
-		tblclmnNewColumn_7.setWidth(0);
-		
-		TableColumn tblclmnNewColumn_6 = new TableColumn(gridTaiSan, SWT.NONE);
-		tblclmnNewColumn_6.setWidth(160);
-		tblclmnNewColumn_6.setText("Ngày nhập");
 
 		TableColumn tblclmnNewColumn_3 = new TableColumn(gridTaiSan, SWT.CENTER);
 		tblclmnNewColumn_3.setWidth(160);
@@ -186,7 +177,7 @@ public class pageSearchAsset extends Composite {
 			int stt = 1;
 			for (TaiSan ts : arr) {
 				TableItem item = new TableItem(gridTaiSan, SWT.NONE);
-				item.setText(new String[] { String.valueOf(stt), ts.getMaTS(), ts.getTenTS(), ts.getMaPN(), DateF.toString(ts.getNgayNhap()),
+				item.setText(new String[] { String.valueOf(stt), ts.getMaTS(), ts.getTenTS(),
 						String.valueOf(ts.getNguyenGia()), String.valueOf(ts.getSoNamKH()), DateF.toString((ts.getNgaySD())) });
 				stt++;
 			}
@@ -230,7 +221,7 @@ public class pageSearchAsset extends Composite {
 			int stt = 1;
 			for (TaiSan ts : arr) {
 				TableItem item = new TableItem(gridTaiSan, SWT.NONE);
-				item.setText(new String[] { String.valueOf(stt), ts.getMaTS(), ts.getTenTS(), ts.getMaPN(), DateF.toString(ts.getNgayNhap()),
+				item.setText(new String[] { String.valueOf(stt), ts.getMaTS(), ts.getTenTS(),
 						String.valueOf(ts.getNguyenGia()), String.valueOf(ts.getSoNamKH()), DateF.toString((ts.getNgaySD())) });
 				stt++;
 			}

@@ -20,12 +20,12 @@ public class TaiSanModel {
 	 * @return
 	 * @throws SQLException
 	 */
-	public static TaiSan select(String maTS, String maPN) throws SQLException {
-		ResultSet rs = Database.callStored("sp_LayThongTin_TaiSan", maTS, maPN);
+	public static TaiSan select(String maTS) throws SQLException {
+		ResultSet rs = Database.callStored("sp_LayThongTin_TaiSan", maTS);
 
 		rs.next();
 		TaiSan ts = new TaiSan(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getDate(4), rs.getInt(5),
-				rs.getString(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getDate(10));
+				rs.getString(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getInt(10));
 		Database.connect().close();
 		return ts;
 	}
@@ -53,8 +53,7 @@ public class TaiSanModel {
 
 		ArrayList<TaiSan> arr = new ArrayList<>();
 		while (rs.next()) {
-			arr.add(new TaiSan(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getDate(4), rs.getInt(5),
-					rs.getString(6), rs.getDate(7)));
+			arr.add(new TaiSan(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getDate(4), rs.getInt(5)));
 		}
 
 		Database.connect().close();
@@ -72,7 +71,7 @@ public class TaiSanModel {
 
 		ArrayList<TaiSan> arr = new ArrayList<>();
 		while (rs.next()) {
-			arr.add(new TaiSan(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getDate(4), rs.getInt(5), rs.getString(6), rs.getDate(7)));
+			arr.add(new TaiSan(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getDate(4), rs.getInt(5)));
 		}
 
 		Database.connect().close();

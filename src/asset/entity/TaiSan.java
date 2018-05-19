@@ -12,22 +12,20 @@ public class TaiSan {
 	private int trangThai;
 	private int nguyenGia;
 	private String maPN;
-	private Date ngayNhap;
+	private int sl;
 
 	public TaiSan() { }
 
-	public TaiSan(String maTS, String tenTS, int soNamKH, Date ngaySD, int nguyenGia, String maPN, Date ngayNhap) {
+	public TaiSan(String maTS, String tenTS, int soNamKH, Date ngaySD, int nguyenGia) {
 		this.maTS = maTS;
 		this.tenTS = tenTS;
 		this.soNamKH = soNamKH;
 		this.ngaySD = ngaySD;
 		this.nguyenGia = nguyenGia;
-		this.maPN = maPN;
-		this.ngayNhap = ngayNhap;
 	}
 
 	public TaiSan(String maTS, String tenTS, int soNamKH, Date ngaySD, int soThangSD, String maDVT, int trangThai,
-			int nguyenGia, String maPN, Date ngayNhap) {
+			int nguyenGia, String maPN, int sl) {
 		this.maTS = maTS;
 		this.tenTS = tenTS;
 		this.soNamKH = soNamKH;
@@ -37,7 +35,7 @@ public class TaiSan {
 		this.trangThai = trangThai;
 		this.nguyenGia = nguyenGia;
 		this.maPN = maPN;
-		this.ngayNhap = ngayNhap;
+		this.sl = sl;
 	}
 
 	public TaiSan(String maTS, String tenTS) {
@@ -109,14 +107,6 @@ public class TaiSan {
 		this.nguyenGia = nguyenGia;
 	}
 
-	public Date getNgayNhap() {
-		return ngayNhap;
-	}
-
-	public void setNgayNhap(Date ngayNhap) {
-		this.ngayNhap = ngayNhap;
-	}
-
 	public String getMaPN() {
 		return maPN;
 	}
@@ -124,6 +114,13 @@ public class TaiSan {
 	public void setMaPN(String maPN) {
 		this.maPN = maPN;
 	}
-	
+
+	public int getSl() {
+		return sl;
+	}
+
+	public void setSl(int sl) {
+		this.sl = sl;
+	}
 	
 }
