@@ -2,21 +2,33 @@ package asset.view.page;
 
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Button;
+
+import java.util.ArrayList;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.wb.swt.SWTResourceManager;
+
+import asset.controller.*;
+import asset.entity.*;
+
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.DateTime;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 
 public class pageImportAsset extends Composite {
 	private Text txtTimKiem;
-	private Table table;
+	private Table tableTaiSan;
+	private Combo cboMaKho;
+	private Combo cboQuyen;
 	private Text txtSoThuTu;
 	private Text txtTaiKhoanKhach;
 	private Text txtTaiKhoan;
@@ -75,16 +87,16 @@ public class pageImportAsset extends Composite {
 		btnTimKiem.setLayoutData(gd_btnTimKiem);
 		btnTimKiem.setText("Tìm kiếm");
 		
-		table = new Table(grpDanhSchTi, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
+		tableTaiSan = new Table(grpDanhSchTi, SWT.BORDER | SWT.FULL_SELECTION);
+		tableTaiSan.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		tableTaiSan.setHeaderVisible(true);
+		tableTaiSan.setLinesVisible(true);
 		
-		TableColumn tblclmnMaTaiSan = new TableColumn(table, SWT.NONE);
+		TableColumn tblclmnMaTaiSan = new TableColumn(tableTaiSan, SWT.NONE);
 		tblclmnMaTaiSan.setWidth(98);
 		tblclmnMaTaiSan.setText("Mã tài sản");
 		
-		TableColumn tblclmnTenTaiSan = new TableColumn(table, SWT.NONE);
+		TableColumn tblclmnTenTaiSan = new TableColumn(tableTaiSan, SWT.NONE);
 		tblclmnTenTaiSan.setWidth(144);
 		tblclmnTenTaiSan.setText("Tên tài sản");
 		
@@ -141,26 +153,26 @@ public class pageImportAsset extends Composite {
 		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel.setText("Mã kho:");
 		
-		Combo cboMaKho = new Combo(composite_3, SWT.NONE);
+		cboMaKho = new Combo(composite_3, SWT.NONE);
+		cboMaKho.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				txtTenKho.setText((String) cboMaKho.getData(cboMaKho.getText()));
+			}
+		});
 		GridData gd_cboMaKho = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_cboMaKho.heightHint = 22;
 		cboMaKho.setLayoutData(gd_cboMaKho);
 		
 		Label lblSThT = new Label(composite_3, SWT.NONE);
-		lblSThT.setText("Số thứ tự:");
+		lblSThT.setText("Số phiếu nhập:");
 		lblSThT.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		txtSoThuTu = new Text(composite_3, SWT.BORDER);
+		txtSoThuTu.setEnabled(false);
 		GridData gd_txtSoThuTu = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_txtSoThuTu.heightHint = 20;
 		txtSoThuTu.setLayoutData(gd_txtSoThuTu);
-		
-		Label lblQuyn = new Label(composite_3, SWT.NONE);
-		lblQuyn.setText("Quyển:");
-		lblQuyn.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		Combo cboQuyen = new Combo(composite_3, SWT.NONE);
-		cboQuyen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		Label lblMKhchHng = new Label(composite_3, SWT.NONE);
 		lblMKhchHng.setText("Mã khách hàng:");
@@ -190,6 +202,7 @@ public class pageImportAsset extends Composite {
 		lblTiKhonKhch.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		txtTaiKhoanKhach = new Text(composite_3, SWT.BORDER);
+		txtTaiKhoanKhach.setEnabled(false);
 		GridData gd_txtTaiKhoanKhach = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_txtTaiKhoanKhach.heightHint = 20;
 		txtTaiKhoanKhach.setLayoutData(gd_txtTaiKhoanKhach);
@@ -211,6 +224,22 @@ public class pageImportAsset extends Composite {
 		GridData gd_txtSoHoaDon = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_txtSoHoaDon.heightHint = 20;
 		txtSoHoaDon.setLayoutData(gd_txtSoHoaDon);
+		
+		Label lblQuyn = new Label(composite_3, SWT.NONE);
+		lblQuyn.setText("Quyển:");
+		lblQuyn.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		
+		cboQuyen = new Combo(composite_3, SWT.NONE);
+		cboQuyen.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String[] quyen = ((String) cboQuyen.getData(cboQuyen.getText())).split(";");
+				txtMauSo.setText(quyen[0]);
+				txtKyHieu.setText(quyen[1]);
+			}
+		});
+		cboQuyen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
 		
 		Label lblHnhThcThanh_1 = new Label(composite_3, SWT.NONE);
 		lblHnhThcThanh_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
@@ -240,6 +269,7 @@ public class pageImportAsset extends Composite {
 		lblTnKho.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		txtTenKho = new Text(composite_4, SWT.BORDER);
+		txtTenKho.setEnabled(false);
 		GridData gd_txtTenKho = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_txtTenKho.heightHint = 20;
 		txtTenKho.setLayoutData(gd_txtTenKho);
@@ -252,6 +282,45 @@ public class pageImportAsset extends Composite {
 		GridData gd_dateNgayLap = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_dateNgayLap.heightHint = 25;
 		dateNgayLap.setLayoutData(gd_dateNgayLap);
+		
+		Label lblTnKhchHng = new Label(composite_4, SWT.NONE);
+		lblTnKhchHng.setText("Tên khách hàng:");
+		lblTnKhchHng.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		
+		txtTenKhachHang = new Text(composite_4, SWT.BORDER);
+		txtTenKhachHang.setEnabled(false);
+		GridData gd_txtTenKhachHang = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		gd_txtTenKhachHang.heightHint = 20;
+		txtTenKhachHang.setLayoutData(gd_txtTenKhachHang);
+		
+		Label lblTSutGtgt = new Label(composite_4, SWT.NONE);
+		lblTSutGtgt.setText("Tỷ suất GTGT (%):");
+		lblTSutGtgt.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		
+		txtTySuatGTGT = new Text(composite_4, SWT.BORDER);
+		txtTySuatGTGT.setText("10");
+		GridData gd_txtTySuatGTGT = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		gd_txtTySuatGTGT.heightHint = 20;
+		txtTySuatGTGT.setLayoutData(gd_txtTySuatGTGT);
+		
+		Label lblTnTiKhon = new Label(composite_4, SWT.NONE);
+		lblTnTiKhon.setText("Tên tài khoản:");
+		lblTnTiKhon.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		
+		txtTenTaiKhoan = new Text(composite_4, SWT.BORDER);
+		txtTenTaiKhoan.setEnabled(false);
+		GridData gd_txtTenTaiKhoan = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		gd_txtTenTaiKhoan.heightHint = 20;
+		txtTenTaiKhoan.setLayoutData(gd_txtTenTaiKhoan);
+		
+		Label lblNgyPhtHnh = new Label(composite_4, SWT.NONE);
+		lblNgyPhtHnh.setText("Ngày phát hành:");
+		lblNgyPhtHnh.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		
+		DateTime dateNgayPhatHanh = new DateTime(composite_4, SWT.BORDER);
+		GridData gd_dateNgayPhatHanh = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		gd_dateNgayPhatHanh.heightHint = 25;
+		dateNgayPhatHanh.setLayoutData(gd_dateNgayPhatHanh);
 		
 		Label lblMuS = new Label(composite_4, SWT.NONE);
 		lblMuS.setText("Mẫu số:");
@@ -266,6 +335,7 @@ public class pageImportAsset extends Composite {
 		composite_8.setLayout(gl_composite_8);
 		
 		txtMauSo = new Text(composite_8, SWT.BORDER);
+		txtMauSo.setEnabled(false);
 		GridData gd_txtMauSo = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_txtMauSo.heightHint = 20;
 		txtMauSo.setLayoutData(gd_txtMauSo);
@@ -276,45 +346,10 @@ public class pageImportAsset extends Composite {
 		lblKHiu.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		txtKyHieu = new Text(composite_8, SWT.BORDER);
+		txtKyHieu.setEnabled(false);
 		GridData gd_txtKyHieu = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_txtKyHieu.heightHint = 20;
 		txtKyHieu.setLayoutData(gd_txtKyHieu);
-		
-		Label lblTnKhchHng = new Label(composite_4, SWT.NONE);
-		lblTnKhchHng.setText("Tên khách hàng:");
-		lblTnKhchHng.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		txtTenKhachHang = new Text(composite_4, SWT.BORDER);
-		GridData gd_txtTenKhachHang = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtTenKhachHang.heightHint = 20;
-		txtTenKhachHang.setLayoutData(gd_txtTenKhachHang);
-		
-		Label lblTSutGtgt = new Label(composite_4, SWT.NONE);
-		lblTSutGtgt.setText("Tỷ suất GTGT (%):");
-		lblTSutGtgt.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		txtTySuatGTGT = new Text(composite_4, SWT.BORDER);
-		GridData gd_txtTySuatGTGT = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtTySuatGTGT.heightHint = 20;
-		txtTySuatGTGT.setLayoutData(gd_txtTySuatGTGT);
-		
-		Label lblTnTiKhon = new Label(composite_4, SWT.NONE);
-		lblTnTiKhon.setText("Tên tài khoản:");
-		lblTnTiKhon.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		txtTenTaiKhoan = new Text(composite_4, SWT.BORDER);
-		GridData gd_txtTenTaiKhoan = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtTenTaiKhoan.heightHint = 20;
-		txtTenTaiKhoan.setLayoutData(gd_txtTenTaiKhoan);
-		
-		Label lblNgyPhtHnh = new Label(composite_4, SWT.NONE);
-		lblNgyPhtHnh.setText("Ngày phát hành:");
-		lblNgyPhtHnh.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		DateTime dateNgayPhatHanh = new DateTime(composite_4, SWT.BORDER);
-		GridData gd_dateNgayPhatHanh = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_dateNgayPhatHanh.heightHint = 25;
-		dateNgayPhatHanh.setLayoutData(gd_dateNgayPhatHanh);
 		
 		Label lblNgyThanhTon = new Label(composite_4, SWT.NONE);
 		lblNgyThanhTon.setText("Ngày thanh toán:");
@@ -328,6 +363,7 @@ public class pageImportAsset extends Composite {
 		Composite composite_5 = new Composite(grpPhiuNhp, SWT.NONE);
 		composite_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		GridLayout gl_composite_5 = new GridLayout(2, false);
+		gl_composite_5.marginBottom = 5;
 		gl_composite_5.verticalSpacing = 10;
 		gl_composite_5.marginRight = 10;
 		gl_composite_5.marginLeft = 10;
@@ -394,7 +430,7 @@ public class pageImportAsset extends Composite {
 		gl_composite_6.horizontalSpacing = 0;
 		composite_6.setLayout(gl_composite_6);
 		GridData gd_composite_6 = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
-		gd_composite_6.heightHint = 150;
+		gd_composite_6.heightHint = 128;
 		composite_6.setLayoutData(gd_composite_6);
 		composite_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
@@ -404,7 +440,7 @@ public class pageImportAsset extends Composite {
 		gl_composite_9.verticalSpacing = 10;
 		gl_composite_9.marginRight = 10;
 		gl_composite_9.marginLeft = 10;
-		gl_composite_9.marginHeight = 10;
+		gl_composite_9.marginHeight = 0;
 		gl_composite_9.horizontalSpacing = 10;
 		composite_9.setLayout(gl_composite_9);
 		composite_9.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -478,7 +514,7 @@ public class pageImportAsset extends Composite {
 		gl_composite_10.verticalSpacing = 10;
 		gl_composite_10.marginRight = 10;
 		gl_composite_10.marginLeft = 10;
-		gl_composite_10.marginHeight = 10;
+		gl_composite_10.marginHeight = 0;
 		gl_composite_10.horizontalSpacing = 10;
 		composite_10.setLayout(gl_composite_10);
 		GridData gd_composite_10 = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);
@@ -539,6 +575,43 @@ public class pageImportAsset extends Composite {
 		label_10.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
 		label_10.setText("Tài khoản:");
 		label_10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		
+		initialize();
+	}
+
+	private void initialize() {
+		//load tai san
+		ArrayList<TaiSan> arrTS = TaiSanController.selectTop(50);
+		tableTaiSan.removeAll();
+		if(arrTS != null) {
+			for (TaiSan ts : arrTS) {
+				TableItem item = new TableItem(tableTaiSan, SWT.NONE);
+				item.setText(new String[] { ts.getMaTS(), ts.getTenTS() });
+			}
+			tableTaiSan.select(0);
+		}
+		
+		//load kho
+		ArrayList<Kho> arrKho = KhoController.selectAll();
+		cboMaKho.removeAll();
+		for (Kho i : arrKho) {
+			cboMaKho.add(i.getMaKho());
+			cboMaKho.setData(i.getMaKho(), i.getTenKho());
+		}
+		cboMaKho.select(0);
+		txtTenKho.setText((String) cboMaKho.getData(cboMaKho.getText()));
+		
+		//load quyen
+		ArrayList<Quyen> arrQuyen = QuyenController.selectAll();
+		cboQuyen.removeAll();
+		for (Quyen i : arrQuyen) {
+			cboQuyen.add(i.getQuyen());
+			cboQuyen.setData(i.getQuyen(), i.getMauSo() + ";" + i.getKyHieu());
+		}
+		cboQuyen.select(0);
+		String[] quyen = ((String) cboQuyen.getData(cboQuyen.getText())).split(";");
+		txtMauSo.setText(quyen[0]);
+		txtKyHieu.setText(quyen[1]);
 	}
 
 	@Override

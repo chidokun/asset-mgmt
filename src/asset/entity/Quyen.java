@@ -4,6 +4,12 @@ public class Quyen {
 	private String quyen;
 	private String mauSo;
 	private String kyHieu;
+	
+	public Quyen(String quyen, String mauSo, String kyHieu) {
+		setQuyen(quyen);
+		setMauSo(mauSo);
+		setKyHieu(kyHieu);
+	}
 
 	public String getQuyen() {
 		return quyen;

@@ -20,7 +20,6 @@ public class pageExportAsset extends Composite {
 	private Text txtSoThuTu;
 	private Text txtTaiKhoanKhach;
 	private Text txtTaiKhoan;
-	private Text txtSoHoaDon;
 	private Text txtTenKho;
 	private Text txtTenKhachHang;
 	private Text txtTySuatGTGT;
@@ -122,7 +121,7 @@ public class pageExportAsset extends Composite {
 		grpPhiuNhp.setLayout(new GridLayout(2, false));
 		grpPhiuNhp.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		grpPhiuNhp.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		grpPhiuNhp.setText("Phiếu nhập");
+		grpPhiuNhp.setText("Hóa đơn bán tài sản");
 		
 		Composite composite_3 = new Composite(grpPhiuNhp, SWT.NONE);
 		composite_3.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -134,7 +133,7 @@ public class pageExportAsset extends Composite {
 		gl_composite_3.marginHeight = 10;
 		composite_3.setLayout(gl_composite_3);
 		GridData gd_composite_3 = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-		gd_composite_3.heightHint = 286;
+		gd_composite_3.heightHint = 258;
 		composite_3.setLayoutData(gd_composite_3);
 		
 		Label lblNewLabel = new Label(composite_3, SWT.NONE);
@@ -147,7 +146,7 @@ public class pageExportAsset extends Composite {
 		cboMaKho.setLayoutData(gd_cboMaKho);
 		
 		Label lblSThT = new Label(composite_3, SWT.NONE);
-		lblSThT.setText("Số thứ tự:");
+		lblSThT.setText("Số hóa đơn:");
 		lblSThT.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		txtSoThuTu = new Text(composite_3, SWT.BORDER);
@@ -203,15 +202,6 @@ public class pageExportAsset extends Composite {
 		gd_txtTaiKhoan.heightHint = 20;
 		txtTaiKhoan.setLayoutData(gd_txtTaiKhoan);
 		
-		Label lblHnhThcThanh = new Label(composite_3, SWT.NONE);
-		lblHnhThcThanh.setText("Số hóa đơn:");
-		lblHnhThcThanh.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		txtSoHoaDon = new Text(composite_3, SWT.BORDER);
-		GridData gd_txtSoHoaDon = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtSoHoaDon.heightHint = 20;
-		txtSoHoaDon.setLayoutData(gd_txtSoHoaDon);
-		
 		Label lblHnhThcThanh_1 = new Label(composite_3, SWT.NONE);
 		lblHnhThcThanh_1.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
 		lblHnhThcThanh_1.setText("Hình thức thanh toán:");
@@ -232,7 +222,7 @@ public class pageExportAsset extends Composite {
 		gl_composite_4.horizontalSpacing = 10;
 		composite_4.setLayout(gl_composite_4);
 		GridData gd_composite_4 = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-		gd_composite_4.heightHint = 292;
+		gd_composite_4.heightHint = 258;
 		composite_4.setLayoutData(gd_composite_4);
 		
 		Label lblTnKho = new Label(composite_4, SWT.NONE);
@@ -245,7 +235,7 @@ public class pageExportAsset extends Composite {
 		txtTenKho.setLayoutData(gd_txtTenKho);
 		
 		Label lblNgyLp = new Label(composite_4, SWT.NONE);
-		lblNgyLp.setText("Ngày lập:");
+		lblNgyLp.setText("Ngày phát hành:");
 		lblNgyLp.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		DateTime dateNgayLap = new DateTime(composite_4, SWT.BORDER);
@@ -307,15 +297,6 @@ public class pageExportAsset extends Composite {
 		gd_txtTenTaiKhoan.heightHint = 20;
 		txtTenTaiKhoan.setLayoutData(gd_txtTenTaiKhoan);
 		
-		Label lblNgyPhtHnh = new Label(composite_4, SWT.NONE);
-		lblNgyPhtHnh.setText("Ngày phát hành:");
-		lblNgyPhtHnh.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		DateTime dateNgayPhatHanh = new DateTime(composite_4, SWT.BORDER);
-		GridData gd_dateNgayPhatHanh = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_dateNgayPhatHanh.heightHint = 25;
-		dateNgayPhatHanh.setLayoutData(gd_dateNgayPhatHanh);
-		
 		Label lblNgyThanhTon = new Label(composite_4, SWT.NONE);
 		lblNgyThanhTon.setText("Ngày thanh toán:");
 		lblNgyThanhTon.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -328,6 +309,7 @@ public class pageExportAsset extends Composite {
 		Composite composite_5 = new Composite(grpPhiuNhp, SWT.NONE);
 		composite_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		GridLayout gl_composite_5 = new GridLayout(2, false);
+		gl_composite_5.marginBottom = 5;
 		gl_composite_5.verticalSpacing = 10;
 		gl_composite_5.marginRight = 10;
 		gl_composite_5.marginLeft = 10;
@@ -394,7 +376,7 @@ public class pageExportAsset extends Composite {
 		gl_composite_6.horizontalSpacing = 0;
 		composite_6.setLayout(gl_composite_6);
 		GridData gd_composite_6 = new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1);
-		gd_composite_6.heightHint = 150;
+		gd_composite_6.heightHint = 128;
 		composite_6.setLayoutData(gd_composite_6);
 		composite_6.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
@@ -404,7 +386,7 @@ public class pageExportAsset extends Composite {
 		gl_composite_9.verticalSpacing = 10;
 		gl_composite_9.marginRight = 10;
 		gl_composite_9.marginLeft = 10;
-		gl_composite_9.marginHeight = 10;
+		gl_composite_9.marginHeight = 0;
 		gl_composite_9.horizontalSpacing = 10;
 		composite_9.setLayout(gl_composite_9);
 		composite_9.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
@@ -478,7 +460,7 @@ public class pageExportAsset extends Composite {
 		gl_composite_10.verticalSpacing = 10;
 		gl_composite_10.marginRight = 10;
 		gl_composite_10.marginLeft = 10;
-		gl_composite_10.marginHeight = 10;
+		gl_composite_10.marginHeight = 0;
 		gl_composite_10.horizontalSpacing = 10;
 		composite_10.setLayout(gl_composite_10);
 		GridData gd_composite_10 = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);

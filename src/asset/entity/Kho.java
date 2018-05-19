@@ -3,6 +3,11 @@ package asset.entity;
 public class Kho {
 	private String maKho;
 	private String tenKho;
+	
+	public Kho(String maKho, String tenKho) {
+		setMaKho(maKho);
+		setTenKho(tenKho);
+	}
 
 	public String getMaKho() {
 		return maKho;

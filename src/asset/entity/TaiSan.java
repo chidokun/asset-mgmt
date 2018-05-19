@@ -10,7 +10,14 @@ public class TaiSan {
 	private int soThangSD;
 	private String maDVT;
 	private int trangThai;
+	
+	public TaiSan() { }
 
+	public TaiSan(String maTS, String tenTS) {
+		setMaTS(maTS);
+		setTenTS(tenTS);
+	}
+	
 	public String getMaTS() {
 		return maTS;
 	}

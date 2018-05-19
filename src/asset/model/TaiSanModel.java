@@ -2,7 +2,13 @@ package asset.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import asset.entity.TaiSan;
+import asset.util.Database;
 
 public class TaiSanModel {
 
@@ -35,7 +41,19 @@ public class TaiSanModel {
 		ts1.setTenTS("CPU core I7");
 		arr.add(ts);
 		arr.add(ts1);
-		;
+		
+		return arr;
+	}
+	
+	public static ArrayList<TaiSan> selectTop(int top) throws SQLException {
+		PreparedStatement st = Database.connect().prepareStatement("SELECT MaTS, TenTS FROM taisan LIMIT 0, ?;");
+		st.setInt(1, top);
+		ResultSet rs = st.executeQuery();
+		
+		ArrayList<TaiSan> arr = new ArrayList<>();
+		while(rs.next()) {
+			arr.add(new TaiSan(rs.getString(1), rs.getString(2)));
+		}	
 		return arr;
 	}
 }
