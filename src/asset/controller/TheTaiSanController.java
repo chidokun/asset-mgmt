@@ -9,4 +9,8 @@ public class TheTaiSanController {
 	public static boolean insert(TheTaiSan the) throws SQLException {
 		return TheTaiSanModel.insert(the);
 	}
+
+	public static String createCode() throws SQLException {
+		return TheTaiSanModel.createCode();
+	}
 }

@@ -83,6 +83,7 @@ public class frmCreateAsset extends Shell {
 		label_2.setBounds(56, 212, 90, 15);
 
 		txtBoPhanSD = new Text(this, SWT.BORDER);
+		txtBoPhanSD.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		txtBoPhanSD.setBounds(152, 209, 151, 21);
 
 		Label label = new Label(this, SWT.NONE);
@@ -195,6 +196,12 @@ public class frmCreateAsset extends Shell {
 		TableColumn columnCongDon = new TableColumn(table, SWT.NONE);
 		columnCongDon.setWidth(100);
 		columnCongDon.setText("Cộng dồn");
+		
+		Label lblNewLabel_2 = new Label(this, SWT.NONE);
+		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		lblNewLabel_2.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
+		lblNewLabel_2.setBounds(145, 212, 5, 15);
+		lblNewLabel_2.setText("*");
 
 		display(taiSan);
 	}
@@ -223,9 +230,13 @@ public class frmCreateAsset extends Shell {
 		txtNamSD.setText(String.valueOf(namSD));
 		txtNgayLap.setText(DateF.toString(new Date()));
 		txtTenTaiSan.setText(taisan.getTenTS());
-		// hard code
-		txtNguyenGia.setText("10000");
-		txtSoThe.setText("TTSCD0001");
+		txtNguyenGia.setText(String.valueOf(taisan.getNguyenGia()));
+		try {
+			txtSoThe.setText(TheTaiSanController.createCode());
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -277,5 +288,4 @@ public class frmCreateAsset extends Shell {
 		}
 		return false;
 	}
-
 }
