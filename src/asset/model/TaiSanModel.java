@@ -8,7 +8,6 @@ import java.sql.Types;
 import java.util.ArrayList;
 
 import asset.entity.TaiSan;
-import asset.entity.TheTaiSan;
 import asset.util.Database;
 
 public class TaiSanModel {
@@ -104,5 +103,4 @@ public class TaiSanModel {
 		st.execute();
 		return st.getString(1);
 	}
-	
 }

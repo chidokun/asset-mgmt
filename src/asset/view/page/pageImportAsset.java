@@ -18,7 +18,6 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
-import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.DateTime;
@@ -28,12 +27,11 @@ import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.ModifyEvent;
 
 public class pageImportAsset extends Composite {
-	private Text txtTimKiem;
-	private Table tableTaiSan;
 	private Combo cboMaKho;
 	private Combo cboQuyen;
 	private Combo cboMaKH;
 	private Combo cboHinhThucThanhToan;
+	private Combo cboMaNV;
 	private Text txtSoPhieuNhap;
 	private Text txtTaiKhoanKhach;
 	private Text txtTaiKhoan;
@@ -57,75 +55,12 @@ public class pageImportAsset extends Composite {
 	 */
 	public pageImportAsset(Composite parent, int style) {
 		super(parent, style);
-		GridLayout gridLayout = new GridLayout(2, false);
+		GridLayout gridLayout = new GridLayout(1, false);
 		gridLayout.verticalSpacing = 0;
 		gridLayout.marginWidth = 0;
 		gridLayout.marginHeight = 0;
 		gridLayout.horizontalSpacing = 0;
 		setLayout(gridLayout);
-		
-		Composite composite = new Composite(this, SWT.NONE);
-		GridLayout gl_composite = new GridLayout(1, false);
-		gl_composite.marginRight = 10;
-		gl_composite.marginLeft = 10;
-		gl_composite.marginHeight = 10;
-		composite.setLayout(gl_composite);
-		GridData gd_composite = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);
-		gd_composite.widthHint = 292;
-		composite.setLayoutData(gd_composite);
-		
-		Group grpDanhSchTi = new Group(composite, SWT.NONE);
-		grpDanhSchTi.setLayout(new GridLayout(2, false));
-		grpDanhSchTi.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		grpDanhSchTi.setText("Danh sách tài sản");
-		
-		txtTimKiem = new Text(grpDanhSchTi, SWT.BORDER);
-		txtTimKiem.setToolTipText("Tìm theo tên");
-		GridData gd_txtTimKiem = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtTimKiem.heightHint = 20;
-		txtTimKiem.setLayoutData(gd_txtTimKiem);
-		
-		Button btnTimKiem = new Button(grpDanhSchTi, SWT.NONE);
-		btnTimKiem.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/zoom_16x16.png"));
-		GridData gd_btnTimKiem = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_btnTimKiem.widthHint = 100;
-		gd_btnTimKiem.heightHint = 30;
-		btnTimKiem.setLayoutData(gd_btnTimKiem);
-		btnTimKiem.setText("Tìm kiếm");
-		
-		tableTaiSan = new Table(grpDanhSchTi, SWT.BORDER | SWT.FULL_SELECTION);
-		tableTaiSan.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		tableTaiSan.setHeaderVisible(true);
-		tableTaiSan.setLinesVisible(true);
-		
-		TableColumn tblclmnMaTaiSan = new TableColumn(tableTaiSan, SWT.NONE);
-		tblclmnMaTaiSan.setWidth(98);
-		tblclmnMaTaiSan.setText("Mã tài sản");
-		
-		TableColumn tblclmnTenTaiSan = new TableColumn(tableTaiSan, SWT.NONE);
-		tblclmnTenTaiSan.setWidth(144);
-		tblclmnTenTaiSan.setText("Tên tài sản");
-		
-		Composite composite_2 = new Composite(grpDanhSchTi, SWT.NONE);
-		GridLayout gl_composite_2 = new GridLayout(2, false);
-		gl_composite_2.marginWidth = 0;
-		composite_2.setLayout(gl_composite_2);
-		composite_2.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-		
-		Button btnTaoMoi = new Button(composite_2, SWT.NONE);
-		btnTaoMoi.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/add_16x16.png"));
-		GridData gd_btnTaoMoi = new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1);
-		gd_btnTaoMoi.widthHint = 80;
-		gd_btnTaoMoi.heightHint = 30;
-		btnTaoMoi.setLayoutData(gd_btnTaoMoi);
-		btnTaoMoi.setText("Tạo mới");
-		
-		Button btnChon = new Button(composite_2, SWT.NONE);
-		btnChon.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/yes_16x16.png"));
-		GridData gd_btnChon = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnChon.heightHint = 30;
-		btnChon.setLayoutData(gd_btnChon);
-		btnChon.setText("Chọn vào danh sách");
 		
 		Composite composite_1 = new Composite(this, SWT.NONE);
 		composite_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -399,7 +334,7 @@ public class pageImportAsset extends Composite {
 		lblMNhnVin.setText("Mã nhân viên:");
 		lblMNhnVin.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
-		Combo cboMaNV = new Combo(composite_4, SWT.NONE);
+		cboMaNV = new Combo(composite_4, SWT.NONE);
 		cboMaNV.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		cboMaNV.select(0);
 		
@@ -412,6 +347,11 @@ public class pageImportAsset extends Composite {
 		gl_composite_5.horizontalSpacing = 10;
 		composite_5.setLayout(gl_composite_5);
 		composite_5.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		
+		Button btnTaoMoi = new Button(composite_5, SWT.NONE);
+		btnTaoMoi.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/add_16x16.png"));
+		btnTaoMoi.setText("Thêm tài sản");
+		new Label(composite_5, SWT.NONE);
 		
 		table_1 = new Table(composite_5, SWT.BORDER | SWT.FULL_SELECTION);
 		table_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
@@ -610,17 +550,6 @@ public class pageImportAsset extends Composite {
 		//generate id
 		txtSoPhieuNhap.setText(PhieuNhapController.generateID());
 		
-		//load tai san
-		ArrayList<TaiSan> arrTS = TaiSanController.selectTop(50);
-		tableTaiSan.removeAll();
-		if(arrTS != null) {
-			for (TaiSan ts : arrTS) {
-				TableItem item = new TableItem(tableTaiSan, SWT.NONE);
-				item.setText(new String[] { ts.getMaTS(), ts.getTenTS() });
-			}
-			tableTaiSan.select(0);
-		}
-		
 		//load kho
 		ArrayList<Kho> arrKho = KhoController.selectAll();
 		cboMaKho.removeAll();
@@ -663,6 +592,16 @@ public class pageImportAsset extends Composite {
 		cboHinhThucThanhToan.add("Chuyển khoảng");
 		cboHinhThucThanhToan.select(0);
 		
+		//generate hoa don
+		txtSoHoaDon.setText(HoaDonController.generateId());
+		
+		//load nhan vien
+		ArrayList<NhanVien> arrNV = NhanVienController.selectAll();
+		cboMaNV.removeAll();
+		for (NhanVien i : arrNV) {
+			cboMaNV.add(i.getMaNV());
+		}
+		cboMaNV.select(0);		
 	}
 
 	@Override

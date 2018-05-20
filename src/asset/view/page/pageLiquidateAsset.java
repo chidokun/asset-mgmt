@@ -1,5 +1,8 @@
 package asset.view.page;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -11,13 +14,36 @@ import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+import asset.controller.HoaDonController;
+import asset.controller.KhachHangController;
+import asset.controller.KhoController;
+import asset.controller.NhanVienController;
+import asset.controller.QuyenController;
+import asset.controller.TKKTController;
+import asset.controller.TaiSanController;
+import asset.entity.KhachHang;
+import asset.entity.Kho;
+import asset.entity.NhanVien;
+import asset.entity.Quyen;
+import asset.entity.TaiSan;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.ModifyListener;
+import org.eclipse.swt.events.ModifyEvent;
+
 public class pageLiquidateAsset extends Composite {
+	private Combo cboMaKho;
+	private Combo cboQuyen;
+	private Combo cboMaKH;
+	private Combo cboHinhThucThanhToan;
+	private Combo cboMaNV;
 	private Text txtTimKiem;
-	private Table table;
-	private Text txtSoThuTu;
+	private Table tableTaiSan;
+	private Text txtSoHoaDon;
 	private Text txtTaiKhoanKhach;
 	private Text txtTaiKhoan;
 	private Text txtTenKho;
@@ -30,6 +56,7 @@ public class pageLiquidateAsset extends Composite {
 	private Table table_1;
 	private Text text_11;
 	private Text text_12;
+	private HashMap<Integer, String> mapTKKT;
 
 	/**
 	 * Create the composite.
@@ -67,6 +94,24 @@ public class pageLiquidateAsset extends Composite {
 		txtTimKiem.setLayoutData(gd_txtTimKiem);
 		
 		Button btnTimKiem = new Button(grpDanhSchTi, SWT.NONE);
+		btnTimKiem.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				try {
+					ArrayList<TaiSan> arrTS = TaiSanController.search(txtTimKiem.getText());
+					tableTaiSan.removeAll();
+					if(arrTS != null) {
+						for (TaiSan ts : arrTS) {
+							TableItem item = new TableItem(tableTaiSan, SWT.NONE);
+							item.setText(new String[] { ts.getMaTS(), ts.getTenTS() });
+						}
+						tableTaiSan.select(0);
+					}
+				} catch (Exception ex) {
+					ex.printStackTrace();
+				}	
+			}
+		});
 		btnTimKiem.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/zoom_16x16.png"));
 		GridData gd_btnTimKiem = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_btnTimKiem.widthHint = 100;
@@ -74,16 +119,16 @@ public class pageLiquidateAsset extends Composite {
 		btnTimKiem.setLayoutData(gd_btnTimKiem);
 		btnTimKiem.setText("Tìm kiếm");
 		
-		table = new Table(grpDanhSchTi, SWT.BORDER | SWT.FULL_SELECTION);
-		table.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		table.setHeaderVisible(true);
-		table.setLinesVisible(true);
+		tableTaiSan = new Table(grpDanhSchTi, SWT.BORDER | SWT.FULL_SELECTION);
+		tableTaiSan.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		tableTaiSan.setHeaderVisible(true);
+		tableTaiSan.setLinesVisible(true);
 		
-		TableColumn tblclmnMaTaiSan = new TableColumn(table, SWT.NONE);
+		TableColumn tblclmnMaTaiSan = new TableColumn(tableTaiSan, SWT.NONE);
 		tblclmnMaTaiSan.setWidth(98);
 		tblclmnMaTaiSan.setText("Mã tài sản");
 		
-		TableColumn tblclmnTenTaiSan = new TableColumn(table, SWT.NONE);
+		TableColumn tblclmnTenTaiSan = new TableColumn(tableTaiSan, SWT.NONE);
 		tblclmnTenTaiSan.setWidth(144);
 		tblclmnTenTaiSan.setText("Tên tài sản");
 		
@@ -133,14 +178,20 @@ public class pageLiquidateAsset extends Composite {
 		gl_composite_3.marginHeight = 10;
 		composite_3.setLayout(gl_composite_3);
 		GridData gd_composite_3 = new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1);
-		gd_composite_3.heightHint = 258;
+		gd_composite_3.heightHint = 288;
 		composite_3.setLayoutData(gd_composite_3);
 		
 		Label lblNewLabel = new Label(composite_3, SWT.NONE);
 		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel.setText("Mã kho:");
 		
-		Combo cboMaKho = new Combo(composite_3, SWT.NONE);
+		cboMaKho = new Combo(composite_3, SWT.NONE);
+		cboMaKho.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				txtTenKho.setText((String) cboMaKho.getData(cboMaKho.getText()));
+			}
+		});
 		GridData gd_cboMaKho = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_cboMaKho.heightHint = 22;
 		cboMaKho.setLayoutData(gd_cboMaKho);
@@ -149,16 +200,25 @@ public class pageLiquidateAsset extends Composite {
 		lblSThT.setText("Số hóa đơn:");
 		lblSThT.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
-		txtSoThuTu = new Text(composite_3, SWT.BORDER);
-		GridData gd_txtSoThuTu = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtSoThuTu.heightHint = 20;
-		txtSoThuTu.setLayoutData(gd_txtSoThuTu);
+		txtSoHoaDon = new Text(composite_3, SWT.BORDER);
+		txtSoHoaDon.setEnabled(false);
+		GridData gd_txtSoHoaDon = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
+		gd_txtSoHoaDon.heightHint = 20;
+		txtSoHoaDon.setLayoutData(gd_txtSoHoaDon);
 		
 		Label lblQuyn = new Label(composite_3, SWT.NONE);
 		lblQuyn.setText("Quyển:");
 		lblQuyn.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
-		Combo cboQuyen = new Combo(composite_3, SWT.NONE);
+		cboQuyen = new Combo(composite_3, SWT.NONE);
+		cboQuyen.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String[] quyen = ((String) cboQuyen.getData(cboQuyen.getText())).split(";");
+				txtMauSo.setText(quyen[0]);
+				txtKyHieu.setText(quyen[1]);
+			}
+		});
 		cboQuyen.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 		
 		Label lblMKhchHng = new Label(composite_3, SWT.NONE);
@@ -173,7 +233,7 @@ public class pageLiquidateAsset extends Composite {
 		composite_7.setLayout(gl_composite_7);
 		composite_7.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 		
-		Combo cboMaKH = new Combo(composite_7, SWT.NONE);
+		cboMaKH = new Combo(composite_7, SWT.NONE);
 		GridData gd_cboMaKH = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_cboMaKH.heightHint = 22;
 		cboMaKH.setLayoutData(gd_cboMaKH);
@@ -189,6 +249,7 @@ public class pageLiquidateAsset extends Composite {
 		lblTiKhonKhch.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		txtTaiKhoanKhach = new Text(composite_3, SWT.BORDER);
+		txtTaiKhoanKhach.setEnabled(false);
 		GridData gd_txtTaiKhoanKhach = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_txtTaiKhoanKhach.heightHint = 20;
 		txtTaiKhoanKhach.setLayoutData(gd_txtTaiKhoanKhach);
@@ -198,6 +259,17 @@ public class pageLiquidateAsset extends Composite {
 		lblSHan.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		txtTaiKhoan = new Text(composite_3, SWT.BORDER);
+		txtTaiKhoan.addModifyListener(new ModifyListener() {
+			public void modifyText(ModifyEvent arg0) {
+				try {
+					String number = txtTaiKhoan.getText().substring(1);
+					txtTenTaiKhoan.setText(mapTKKT.get(Integer.parseInt(number)));
+				} catch (Exception e) {
+					e.printStackTrace();
+					txtTenTaiKhoan.setText("");
+				}
+			}
+		});
 		GridData gd_txtTaiKhoan = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_txtTaiKhoan.heightHint = 20;
 		txtTaiKhoan.setLayoutData(gd_txtTaiKhoan);
@@ -207,10 +279,19 @@ public class pageLiquidateAsset extends Composite {
 		lblHnhThcThanh_1.setText("Hình thức thanh toán:");
 		lblHnhThcThanh_1.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
-		Combo cboHinhThucThanhToan = new Combo(composite_3, SWT.NONE);
+		cboHinhThucThanhToan = new Combo(composite_3, SWT.NONE);
 		GridData gd_cboHinhThucThanhToan = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_cboHinhThucThanhToan.heightHint = 20;
 		cboHinhThucThanhToan.setLayoutData(gd_cboHinhThucThanhToan);
+		
+		Label lblLDo = new Label(composite_3, SWT.NONE);
+		lblLDo.setText("Lý do:");
+		lblLDo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		
+		txtLyDo = new Text(composite_3, SWT.BORDER);
+		GridData gd_txtLyDo = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		gd_txtLyDo.heightHint = 20;
+		txtLyDo.setLayoutData(gd_txtLyDo);
 		
 		Composite composite_4 = new Composite(grpPhiuNhp, SWT.NONE);
 		composite_4.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
@@ -230,6 +311,7 @@ public class pageLiquidateAsset extends Composite {
 		lblTnKho.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		txtTenKho = new Text(composite_4, SWT.BORDER);
+		txtTenKho.setEnabled(false);
 		GridData gd_txtTenKho = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_txtTenKho.heightHint = 20;
 		txtTenKho.setLayoutData(gd_txtTenKho);
@@ -256,6 +338,7 @@ public class pageLiquidateAsset extends Composite {
 		composite_8.setLayout(gl_composite_8);
 		
 		txtMauSo = new Text(composite_8, SWT.BORDER);
+		txtMauSo.setEnabled(false);
 		GridData gd_txtMauSo = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_txtMauSo.heightHint = 20;
 		txtMauSo.setLayoutData(gd_txtMauSo);
@@ -266,6 +349,7 @@ public class pageLiquidateAsset extends Composite {
 		lblKHiu.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		txtKyHieu = new Text(composite_8, SWT.BORDER);
+		txtKyHieu.setEnabled(false);
 		GridData gd_txtKyHieu = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_txtKyHieu.heightHint = 20;
 		txtKyHieu.setLayoutData(gd_txtKyHieu);
@@ -275,6 +359,7 @@ public class pageLiquidateAsset extends Composite {
 		lblTnKhchHng.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		txtTenKhachHang = new Text(composite_4, SWT.BORDER);
+		txtTenKhachHang.setEnabled(false);
 		GridData gd_txtTenKhachHang = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_txtTenKhachHang.heightHint = 20;
 		txtTenKhachHang.setLayoutData(gd_txtTenKhachHang);
@@ -284,6 +369,7 @@ public class pageLiquidateAsset extends Composite {
 		lblTSutGtgt.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		txtTySuatGTGT = new Text(composite_4, SWT.BORDER);
+		txtTySuatGTGT.setText("10");
 		GridData gd_txtTySuatGTGT = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_txtTySuatGTGT.heightHint = 20;
 		txtTySuatGTGT.setLayoutData(gd_txtTySuatGTGT);
@@ -293,6 +379,7 @@ public class pageLiquidateAsset extends Composite {
 		lblTnTiKhon.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		
 		txtTenTaiKhoan = new Text(composite_4, SWT.BORDER);
+		txtTenTaiKhoan.setEnabled(false);
 		GridData gd_txtTenTaiKhoan = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_txtTenTaiKhoan.heightHint = 20;
 		txtTenTaiKhoan.setLayoutData(gd_txtTenTaiKhoan);
@@ -306,6 +393,13 @@ public class pageLiquidateAsset extends Composite {
 		gd_dateNgayThanhToan.heightHint = 25;
 		dateNgayThanhToan.setLayoutData(gd_dateNgayThanhToan);
 		
+		Label lblMNhnVin = new Label(composite_4, SWT.NONE);
+		lblMNhnVin.setText("Mã nhân viên:");
+		lblMNhnVin.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
+		
+		cboMaNV = new Combo(composite_4, SWT.NONE);
+		cboMaNV.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
+		
 		Composite composite_5 = new Composite(grpPhiuNhp, SWT.NONE);
 		composite_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		GridLayout gl_composite_5 = new GridLayout(2, false);
@@ -317,18 +411,6 @@ public class pageLiquidateAsset extends Composite {
 		gl_composite_5.horizontalSpacing = 10;
 		composite_5.setLayout(gl_composite_5);
 		composite_5.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-		
-		Label lblLDo = new Label(composite_5, SWT.NONE);
-		GridData gd_lblLDo = new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1);
-		gd_lblLDo.widthHint = 117;
-		lblLDo.setLayoutData(gd_lblLDo);
-		lblLDo.setText("Lý do:");
-		lblLDo.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		
-		txtLyDo = new Text(composite_5, SWT.BORDER);
-		GridData gd_txtLyDo = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
-		gd_txtLyDo.heightHint = 20;
-		txtLyDo.setLayoutData(gd_txtLyDo);
 		
 		table_1 = new Table(composite_5, SWT.BORDER | SWT.FULL_SELECTION);
 		table_1.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
@@ -421,7 +503,7 @@ public class pageLiquidateAsset extends Composite {
 		
 		Composite composite_11 = new Composite(composite_9, SWT.NONE);
 		composite_11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		GridLayout gl_composite_11 = new GridLayout(3, false);
+		GridLayout gl_composite_11 = new GridLayout(2, false);
 		gl_composite_11.verticalSpacing = 0;
 		gl_composite_11.marginWidth = 0;
 		gl_composite_11.marginHeight = 0;
@@ -432,18 +514,10 @@ public class pageLiquidateAsset extends Composite {
 		Button btnNewButton_1 = new Button(composite_11, SWT.NONE);
 		btnNewButton_1.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/save_16x16.png"));
 		GridData gd_btnNewButton_1 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnNewButton_1.widthHint = 80;
+		gd_btnNewButton_1.widthHint = 100;
 		gd_btnNewButton_1.heightHint = 30;
 		btnNewButton_1.setLayoutData(gd_btnNewButton_1);
-		btnNewButton_1.setText("Lưu");
-		
-		Button btnNewButton_2 = new Button(composite_11, SWT.NONE);
-		btnNewButton_2.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/cancel_16x16.png"));
-		GridData gd_btnNewButton_2 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnNewButton_2.widthHint = 80;
-		gd_btnNewButton_2.heightHint = 30;
-		btnNewButton_2.setLayoutData(gd_btnNewButton_2);
-		btnNewButton_2.setText("Xóa");
+		btnNewButton_1.setText("Lưu và in");
 		
 		Button btnNewButton_3 = new Button(composite_11, SWT.NONE);
 		btnNewButton_3.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/refresh_16x16.png"));
@@ -521,8 +595,79 @@ public class pageLiquidateAsset extends Composite {
 		label_10.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, true, false, 1, 1));
 		label_10.setText("Tài khoản:");
 		label_10.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-
+		
+		initialize();
 	}
+	
+	private void initialize() {
+		//load tai san
+		ArrayList<TaiSan> arrTS = TaiSanController.selectTop(50);
+		tableTaiSan.removeAll();
+		if(arrTS != null) {
+			for (TaiSan ts : arrTS) {
+				TableItem item = new TableItem(tableTaiSan, SWT.NONE);
+				item.setText(new String[] { ts.getMaTS(), ts.getTenTS() });
+			}
+			tableTaiSan.select(0);
+		}
+		
+		//load kho
+		ArrayList<Kho> arrKho = KhoController.selectAll();
+		cboMaKho.removeAll();
+		for (Kho i : arrKho) {
+			cboMaKho.add(i.getMaKho());
+			cboMaKho.setData(i.getMaKho(), i.getTenKho());
+		}
+		cboMaKho.select(0);
+		txtTenKho.setText((String) cboMaKho.getData(cboMaKho.getText()));
+		
+		//generate hoa don
+		txtSoHoaDon.setText(HoaDonController.generateId());
+		
+		//load quyen
+		ArrayList<Quyen> arrQuyen = QuyenController.selectAll();
+		cboQuyen.removeAll();
+		for (Quyen i : arrQuyen) {
+			cboQuyen.add(i.getQuyen());
+			cboQuyen.setData(i.getQuyen(), i.getMauSo() + ";" + i.getKyHieu());
+		}
+		cboQuyen.select(0);
+		String[] quyen = ((String) cboQuyen.getData(cboQuyen.getText())).split(";");
+		txtMauSo.setText(quyen[0]);
+		txtKyHieu.setText(quyen[1]);
+		
+		//load khachHang
+		ArrayList<KhachHang> arrKhachHang = KhachHangController.selectAll();
+		cboMaKH.removeAll();
+		for (KhachHang i : arrKhachHang) {
+			cboMaKH.add(i.getMaKH());
+			cboMaKH.setData(i.getMaKH(), i);
+		}
+		cboMaKH.select(0);
+		KhachHang kh = (KhachHang) cboMaKH.getData(cboMaKH.getText());
+		txtTenKhachHang.setText(kh.getTenKH());
+		txtTaiKhoanKhach.setText(kh.getSoTK());
+		
+		//load TKKT
+		mapTKKT = TKKTController.selectAll();
+		
+		//load hinh thuc
+		cboHinhThucThanhToan.add("Tiền mặt");
+		cboHinhThucThanhToan.add("Chuyển khoảng");
+		cboHinhThucThanhToan.select(0);
+		
+		//generate hoa don
+		txtSoHoaDon.setText(HoaDonController.generateId());
+		
+		//load nhan vien
+		ArrayList<NhanVien> arrNV = NhanVienController.selectAll();
+		cboMaNV.removeAll();
+		for (NhanVien i : arrNV) {
+			cboMaNV.add(i.getMaNV());
+		}
+		cboMaNV.select(0);		
+	}
+
 
 	@Override
 	protected void checkSubclass() {

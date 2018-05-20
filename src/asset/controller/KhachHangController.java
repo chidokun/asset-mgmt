@@ -7,9 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import asset.entity.KhachHang;
-import asset.entity.TaiSan;
 import asset.model.KhachHangModel;
-import asset.model.TaiSanModel;
 
 /**
  * @author Tuan
