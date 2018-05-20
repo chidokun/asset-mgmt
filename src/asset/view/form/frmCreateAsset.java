@@ -24,6 +24,8 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.events.VerifyEvent;
+import org.eclipse.swt.events.VerifyListener;
 
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -43,13 +45,26 @@ public class frmCreateAsset extends Shell {
 	private Text txtTenTaiSan;
 	private Text txtNguyenGia;
 	private Table table;
+	private Button btnLuuIn;
+	private Button btnSua;
+	private Button btnHuy;
+	private Text txtNamDinhChi;
 
 	/**
-	 * Create the shell.
+	 * Create a new asset form
 	 * 
 	 * @param display
 	 */
-	public frmCreateAsset(Display display, boolean isCreate, String title, TaiSan taiSan) {
+	public static frmCreateAsset createNewAssetForm(Display display, String title, TaiSan taiSan) {
+		return new frmCreateAsset(display, true, title, null, taiSan);
+	}
+
+	/**
+	 * See detail an exists asset form
+	 * 
+	 * @param display
+	 */
+	public frmCreateAsset(Display display, boolean isCreate, String title, TheTaiSan the, TaiSan taiSan) {
 		super(display, SWT.CLOSE | SWT.TITLE);
 		setText(title);
 		setSize(665, 576);
@@ -145,7 +160,7 @@ public class frmCreateAsset extends Shell {
 		Composite composite = new Composite(this, SWT.NONE);
 		composite.setBounds(0, 491, 661, 56);
 
-		Button btnLuuIn = new Button(composite, SWT.NONE);
+		btnLuuIn = new Button(composite, SWT.NONE);
 		btnLuuIn.setImage(SWTResourceManager.getImage(frmCreateAsset.class, "/asset/view/page/save_16x16.png"));
 		btnLuuIn.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -158,7 +173,19 @@ public class frmCreateAsset extends Shell {
 		btnLuuIn.setBounds(448, 10, 94, 33);
 		btnLuuIn.setText("Lưu và in");
 
-		Button btnHuy = new Button(composite, SWT.NONE);
+		btnSua = new Button(composite, SWT.NONE);
+		btnSua.setImage(SWTResourceManager.getImage(frmCreateAsset.class, "/asset/view/page/refresh_16x16.png"));
+		btnSua.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+
+			}
+		});
+		btnSua.setBounds(448, 10, 94, 33);
+		btnSua.setText("Sửa");
+		btnSua.setVisible(false);
+
+		btnHuy = new Button(composite, SWT.NONE);
 		btnHuy.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -203,15 +230,27 @@ public class frmCreateAsset extends Shell {
 		lblNewLabel_2.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		lblNewLabel_2.setBounds(145, 212, 5, 15);
 		lblNewLabel_2.setText("*");
-		
-		Spinner spinner = new Spinner(this, SWT.BORDER);
-		spinner.setMaximum(3000);
-		spinner.setBounds(452, 212, 150, 22);
-		spinner.setDigits(0);
-		int year = DateF.getYear(new Date());
-		spinner.setSelection(year);
 
-		display(taiSan);
+		txtNamDinhChi = new Text(this, SWT.BORDER);
+		txtNamDinhChi.setBounds(451, 212, 151, 21);
+		txtNamDinhChi.addVerifyListener(new VerifyListener() {
+			@Override
+			public void verifyText(VerifyEvent e) {
+				for (int i = 0; i < e.text.length(); i++) {
+					if (!Character.isDigit(e.text.charAt(i))) {
+						e.doit = false;
+						return;
+					}
+				}
+			}
+		});
+
+		if (isCreate) {
+			displayAssetInfo(taiSan);
+		} else {
+			displayForm(the, taiSan);
+		}
+
 	}
 
 	/**
@@ -228,9 +267,29 @@ public class frmCreateAsset extends Shell {
 	}
 
 	/**
+	 * Display information of asset form
+	 */
+	private void displayForm(TheTaiSan the, TaiSan taisan) {
+		txtBoPhanSD.setEnabled(false);
+		txtLyDoDinhChi.setEnabled(false);
+		txtNamDinhChi.setEnabled(false);
+		// btnSua.setVisible(true);
+		btnLuuIn.setVisible(false);
+		btnHuy.setText("Đóng");
+
+		txtBoPhanSD.setText(the.getBoPhanSD());
+		txtLyDoDinhChi.setText(the.getLyDoDinhChi());
+		if (the.getNamDinhChi() != 0) {
+			txtNamDinhChi.setText(String.valueOf(the.getNamDinhChi()));
+		}
+		displayAssetInfo(taisan);
+
+	}
+
+	/**
 	 * Display information of asset
 	 */
-	private void display(TaiSan taisan) {
+	private void displayAssetInfo(TaiSan taisan) {
 		if (taisan == null)
 			return;
 		txtMaTS.setText(taisan.getMaTS());
@@ -284,6 +343,10 @@ public class frmCreateAsset extends Shell {
 		the.setMaThe(txtSoThe.getText());
 		the.setBoPhanSD(txtBoPhanSD.getText());
 		the.setMaTS(txtMaTS.getText());
+		the.setLyDoDinhChi(txtLyDoDinhChi.getText());
+		if (!txtNamDinhChi.getText().isEmpty()) {
+			the.setNamDinhChi(Integer.parseInt(txtNamDinhChi.getText()));
+		}
 		try {
 			the.setNgayLap(DateF.toDate(txtNgayLap.getText()));
 		} catch (ParseException e) {
