@@ -26,7 +26,7 @@ public class TaiSan {
 	}
 
 	public TaiSan(String maTS, String tenTS, int soNamKH, Date ngaySD, int soThangSD, String maDVT, int trangThai,
-			int nguyenGia, String maPN, int sl) {
+			int nguyenGia, String maPN, int sl, String taiKhoanDU) {
 		this.maTS = maTS;
 		this.tenTS = tenTS;
 		this.soNamKH = soNamKH;
@@ -37,6 +37,7 @@ public class TaiSan {
 		this.nguyenGia = nguyenGia;
 		this.maPN = maPN;
 		this.sl = sl;
+		this.taiKhoanDU = taiKhoanDU;
 	}
 
 	public TaiSan(String maTS, String tenTS) {

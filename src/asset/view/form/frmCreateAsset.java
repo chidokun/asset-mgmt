@@ -5,7 +5,12 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.wb.swt.SWTResourceManager;
 
+import asset.controller.ChungTuController;
+import asset.controller.KhauHaoController;
+import asset.controller.TaiSanController;
 import asset.controller.TheTaiSanController;
+import asset.entity.ChungTu;
+import asset.entity.KhauHao;
 import asset.entity.TaiSan;
 import asset.entity.TheTaiSan;
 import asset.util.*;
@@ -15,15 +20,18 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.TableColumn;
+import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 
 import org.eclipse.core.commands.ParameterValuesException;
+import org.eclipse.swt.widgets.Spinner;
 
 public class frmCreateAsset extends Shell {
 	private Text txtSoThe;
@@ -34,7 +42,6 @@ public class frmCreateAsset extends Shell {
 	private Text txtNgayLap;
 	private Text txtTenTaiSan;
 	private Text txtNguyenGia;
-	private Text txtNamDinhChi;
 	private Table table;
 
 	/**
@@ -135,9 +142,6 @@ public class frmCreateAsset extends Shell {
 		label_5.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		label_5.setBounds(355, 212, 90, 15);
 
-		txtNamDinhChi = new Text(this, SWT.BORDER);
-		txtNamDinhChi.setBounds(451, 209, 151, 21);
-
 		Composite composite = new Composite(this, SWT.NONE);
 		composite.setBounds(0, 491, 661, 56);
 
@@ -146,9 +150,9 @@ public class frmCreateAsset extends Shell {
 		btnLuuIn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				if(save(isCreate)) {
+				if (save(isCreate)) {
 					close();
-				}			
+				}
 			}
 		});
 		btnLuuIn.setBounds(448, 10, 94, 33);
@@ -170,15 +174,12 @@ public class frmCreateAsset extends Shell {
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
 
-		TableColumn column = new TableColumn(table, SWT.NONE);
-		column.setWidth(0);
-
 		TableColumn columnSoHieuCT = new TableColumn(table, SWT.NONE);
 		columnSoHieuCT.setWidth(114);
 		columnSoHieuCT.setText("Số hiệu chứng từ");
 
 		TableColumn columnNgay = new TableColumn(table, SWT.NONE);
-		columnNgay.setWidth(99);
+		columnNgay.setWidth(100);
 		columnNgay.setText("Ngày");
 
 		TableColumn columnDienGiai = new TableColumn(table, SWT.NONE);
@@ -186,8 +187,8 @@ public class frmCreateAsset extends Shell {
 		columnDienGiai.setWidth(113);
 
 		TableColumn columnNam = new TableColumn(table, SWT.NONE);
-		columnNam.setWidth(72);
 		columnNam.setText("Năm");
+		columnNam.setWidth(72);
 
 		TableColumn columnGiaTriHaoMon = new TableColumn(table, SWT.NONE);
 		columnGiaTriHaoMon.setWidth(100);
@@ -196,12 +197,19 @@ public class frmCreateAsset extends Shell {
 		TableColumn columnCongDon = new TableColumn(table, SWT.NONE);
 		columnCongDon.setWidth(100);
 		columnCongDon.setText("Cộng dồn");
-		
+
 		Label lblNewLabel_2 = new Label(this, SWT.NONE);
 		lblNewLabel_2.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		lblNewLabel_2.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		lblNewLabel_2.setBounds(145, 212, 5, 15);
 		lblNewLabel_2.setText("*");
+		
+		Spinner spinner = new Spinner(this, SWT.BORDER);
+		spinner.setMaximum(3000);
+		spinner.setBounds(452, 212, 150, 22);
+		spinner.setDigits(0);
+		int year = DateF.getYear(new Date());
+		spinner.setSelection(year);
 
 		display(taiSan);
 	}
@@ -235,6 +243,27 @@ public class frmCreateAsset extends Shell {
 			txtSoThe.setText(TheTaiSanController.createCode());
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			String maTS = taisan.getMaTS();
+			ArrayList<ChungTu> arr = ChungTuController.search(maTS);
+			if (arr == null)
+				return;
+			table.removeAll();
+			for (ChungTu ct : arr) {
+				KhauHao kh = KhauHaoController.select(maTS, ct.getMaCT());
+				if (kh == null)
+					return;
+				long giaTriHaoMon = kh.getKhauHaoTrongThang();
+				long congDon = kh.getKhauHaoLuyKe();
+				TableItem item = new TableItem(table, SWT.NONE);
+				item.setText(new String[] { ct.getMaCT(), DateF.toString(ct.getNgayCT()), ct.getDienGiai(),
+						String.valueOf(ct.getNam()), String.valueOf(giaTriHaoMon), String.valueOf(congDon) });
+			}
+			table.select(0);
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

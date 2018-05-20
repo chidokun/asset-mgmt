@@ -26,7 +26,9 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import asset.controller.TaiSanController;
 import asset.entity.TaiSan;
 import asset.util.Window;
+import asset.view.form.frmAddAsset;
 import asset.view.form.frmCreateAsset;
+import asset.view.form.frmCustomer;
 import asset.util.*;
 
 public class pageSearchAsset extends Composite {
@@ -96,7 +98,10 @@ public class pageSearchAsset extends Composite {
 		btnLapThe.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				/*Window.open(
+						new frmCustomer(getDisplay()));*/
 				try {
+
 					checkAssetSelected();
 					String maTS = gridTaiSan.getSelection()[0].getText(1);
 					Window.open(

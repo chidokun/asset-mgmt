@@ -24,7 +24,7 @@ public class TaiSanModel {
 
 		rs.next();
 		TaiSan ts = new TaiSan(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getDate(4), rs.getInt(5),
-				rs.getString(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getInt(10));
+				rs.getString(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getInt(10), rs.getString(11));
 		Database.connect().close();
 		return ts;
 	}

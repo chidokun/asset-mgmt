@@ -8,6 +8,17 @@ public class ChungTu {
 	private int thang;
 	private int nam;
 	private String dienGiai;
+	
+	public ChungTu() {
+		
+	}
+	public ChungTu(String maCT, Date ngayCT, int thang, int nam, String dienGiai) {
+		this.maCT = maCT;
+		this.ngayCT = ngayCT;
+		this.thang = thang;
+		this.nam = nam;
+		this.dienGiai = dienGiai;
+	}
 
 	public String getMaCT() {
 		return maCT;
