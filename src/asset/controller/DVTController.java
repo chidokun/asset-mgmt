@@ -10,4 +10,13 @@ public class DVTController {
 	public static ArrayList<DVT> selectAll() throws SQLException {
 		return DVTModel.selectAll();
 	}
+	
+	public static DVT select(String maDVT) {
+		try {
+			return DVTModel.select(maDVT);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+	}
 }

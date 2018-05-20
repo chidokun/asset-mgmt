@@ -1,7 +1,7 @@
 /**
  * 
  */
-package asset.entity;
+package asset.controller;
 
 import asset.model.PhieuNhapModel;
 

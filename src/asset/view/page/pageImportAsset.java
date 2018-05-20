@@ -362,9 +362,17 @@ public class pageImportAsset extends Composite {
 		tblclmnNewColumn.setWidth(100);
 		tblclmnNewColumn.setText("TKDU");
 		
+		TableColumn tblclmnTnTiKhon = new TableColumn(table_1, SWT.NONE);
+		tblclmnTnTiKhon.setWidth(100);
+		tblclmnTnTiKhon.setText("Tên tài khoản");
+		
 		TableColumn tblclmnNewColumn_1 = new TableColumn(table_1, SWT.NONE);
 		tblclmnNewColumn_1.setWidth(100);
 		tblclmnNewColumn_1.setText("Mã tài sản");
+		
+		TableColumn tblclmnNewColumn_4 = new TableColumn(table_1, SWT.NONE);
+		tblclmnNewColumn_4.setWidth(100);
+		tblclmnNewColumn_4.setText("Tên tài sản");
 		
 		TableColumn tblclmnNewColumn_2 = new TableColumn(table_1, SWT.NONE);
 		tblclmnNewColumn_2.setWidth(100);
@@ -385,6 +393,10 @@ public class pageImportAsset extends Composite {
 		TableColumn tblclmnSNmKh = new TableColumn(table_1, SWT.NONE);
 		tblclmnSNmKh.setWidth(100);
 		tblclmnSNmKh.setText("Số năm KH");
+		
+		TableColumn tblclmnThnhTin = new TableColumn(table_1, SWT.NONE);
+		tblclmnThnhTin.setWidth(100);
+		tblclmnThnhTin.setText("Thành tiền");
 		
 		
 		Composite composite_6 = new Composite(grpPhiuNhp, SWT.NONE);
@@ -442,7 +454,7 @@ public class pageImportAsset extends Composite {
 		
 		Composite composite_11 = new Composite(composite_9, SWT.NONE);
 		composite_11.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		GridLayout gl_composite_11 = new GridLayout(3, false);
+		GridLayout gl_composite_11 = new GridLayout(2, false);
 		gl_composite_11.verticalSpacing = 0;
 		gl_composite_11.marginWidth = 0;
 		gl_composite_11.marginHeight = 0;
@@ -457,14 +469,6 @@ public class pageImportAsset extends Composite {
 		gd_btnNewButton_1.heightHint = 30;
 		btnNewButton_1.setLayoutData(gd_btnNewButton_1);
 		btnNewButton_1.setText("Lưu");
-		
-		Button btnNewButton_2 = new Button(composite_11, SWT.NONE);
-		btnNewButton_2.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/cancel_16x16.png"));
-		GridData gd_btnNewButton_2 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnNewButton_2.widthHint = 80;
-		gd_btnNewButton_2.heightHint = 30;
-		btnNewButton_2.setLayoutData(gd_btnNewButton_2);
-		btnNewButton_2.setText("Xóa");
 		
 		Button btnNewButton_3 = new Button(composite_11, SWT.NONE);
 		btnNewButton_3.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/refresh_16x16.png"));
@@ -589,7 +593,7 @@ public class pageImportAsset extends Composite {
 		
 		//load hinh thuc
 		cboHinhThucThanhToan.add("Tiền mặt");
-		cboHinhThucThanhToan.add("Chuyển khoảng");
+		cboHinhThucThanhToan.add("Chuyển khoản");
 		cboHinhThucThanhToan.select(0);
 		
 		//generate hoa don

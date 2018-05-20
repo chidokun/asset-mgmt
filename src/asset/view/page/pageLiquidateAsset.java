@@ -653,7 +653,7 @@ public class pageLiquidateAsset extends Composite {
 		
 		//load hinh thuc
 		cboHinhThucThanhToan.add("Tiền mặt");
-		cboHinhThucThanhToan.add("Chuyển khoảng");
+		cboHinhThucThanhToan.add("Chuyển khoản");
 		cboHinhThucThanhToan.select(0);
 		
 		//generate hoa don
