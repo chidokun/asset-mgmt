@@ -625,6 +625,12 @@ public class pageExportAsset extends Composite {
 				SWTResourceManager.getImage(pageExportAsset.class, "/asset/view/page/fullstackedline_16x16.png"));
 
 		Button btnNewButton_1 = new Button(composite_11, SWT.NONE);
+		btnNewButton_1.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				save();
+			}
+		});
 		btnNewButton_1.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/save_16x16.png"));
 		GridData gd_btnNewButton_1 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_btnNewButton_1.widthHint = 100;
@@ -654,7 +660,7 @@ public class pageExportAsset extends Composite {
 		gl_composite_10.horizontalSpacing = 10;
 		composite_10.setLayout(gl_composite_10);
 		GridData gd_composite_10 = new GridData(SWT.FILL, SWT.FILL, false, true, 1, 1);
-		gd_composite_10.widthHint = 250;
+		gd_composite_10.widthHint = 300;
 		composite_10.setLayoutData(gd_composite_10);
 
 		Label lblTongTien = new Label(composite_10, SWT.NONE);
@@ -751,6 +757,11 @@ public class pageExportAsset extends Composite {
 			cboMaNV.add(i.getMaNV());
 		}
 		cboMaNV.select(0);
+	}
+	
+	private void save() {
+		
+		
 	}
 
 	@Override
