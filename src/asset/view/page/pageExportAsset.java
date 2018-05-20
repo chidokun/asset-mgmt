@@ -32,6 +32,8 @@ import asset.controller.NhanVienController;
 import asset.controller.QuyenController;
 import asset.controller.TKKTController;
 import asset.controller.TaiSanController;
+import asset.entity.Ban;
+import asset.entity.HoaDon;
 import asset.entity.KhachHang;
 import asset.entity.Kho;
 import asset.entity.NhanVien;
@@ -42,6 +44,8 @@ import asset.util.MathF;
 import asset.util.Message;
 
 public class pageExportAsset extends Composite {
+	private DateTime dateNgayThanhToan;
+	private DateTime dateNgayPhatHanh;
 	private Combo cboMaKho;
 	private Combo cboQuyen;
 	private Combo cboMaKH;
@@ -396,10 +400,10 @@ public class pageExportAsset extends Composite {
 		lblNgyLp.setText("Ngày phát hành:");
 		lblNgyLp.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 
-		DateTime dateNgayLap = new DateTime(composite_4, SWT.BORDER);
-		GridData gd_dateNgayLap = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
-		gd_dateNgayLap.heightHint = 25;
-		dateNgayLap.setLayoutData(gd_dateNgayLap);
+		dateNgayPhatHanh = new DateTime(composite_4, SWT.BORDER);
+		GridData gd_dateNgayPhatHanh = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
+		gd_dateNgayPhatHanh.heightHint = 25;
+		dateNgayPhatHanh.setLayoutData(gd_dateNgayPhatHanh);
 
 		Label lblMuS = new Label(composite_4, SWT.NONE);
 		lblMuS.setText("Mẫu số:");
@@ -464,7 +468,7 @@ public class pageExportAsset extends Composite {
 		lblNgyThanhTon.setText("Ngày thanh toán:");
 		lblNgyThanhTon.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 
-		DateTime dateNgayThanhToan = new DateTime(composite_4, SWT.BORDER);
+		dateNgayThanhToan = new DateTime(composite_4, SWT.BORDER);
 		GridData gd_dateNgayThanhToan = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_dateNgayThanhToan.heightHint = 25;
 		dateNgayThanhToan.setLayoutData(gd_dateNgayThanhToan);
@@ -560,8 +564,7 @@ public class pageExportAsset extends Composite {
 		lblTrGi.setText("Trị giá:");
 		lblTrGi.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 
-		txtTriGia = new Text(composite_9, SWT.BORDER);
-		txtTriGia.setEditable(false);
+		txtTriGia = new Text(composite_9, SWT.READ_ONLY | SWT.BORDER);
 		txtTriGia.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
 		txtTriGia.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
 		GridData gd_txtTriGia = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
@@ -612,7 +615,7 @@ public class pageExportAsset extends Composite {
 					txtTongTien.setText("");
 					txtTienThue.setText("");
 					txtSoTienBangChu.setText("");
-					Message.show("Có lỗi xảy ra", "Lỗi", SWT.ICON_ERROR | SWT.OK, getShell());			
+					Message.show("Có lỗi xảy ra", "Lỗi", SWT.ICON_ERROR | SWT.OK, getShell());
 				}
 			}
 		});
@@ -667,7 +670,7 @@ public class pageExportAsset extends Composite {
 		lblTongTien.setText("Tổng tiền hàng:");
 		lblTongTien.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 
-		txtTongTien = new Text(composite_10, SWT.BORDER);
+		txtTongTien = new Text(composite_10, SWT.READ_ONLY | SWT.BORDER);
 		txtTongTien.setEditable(false);
 		txtTongTien.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
 		txtTongTien.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
@@ -679,7 +682,7 @@ public class pageExportAsset extends Composite {
 		lblThueGTGT.setText("Thuế GTGT:");
 		lblThueGTGT.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 
-		txtTienThue = new Text(composite_10, SWT.BORDER);
+		txtTienThue = new Text(composite_10, SWT.READ_ONLY | SWT.BORDER);
 		txtTienThue.setEditable(false);
 		txtTienThue.setFont(SWTResourceManager.getFont("Segoe UI", 9, SWT.BOLD));
 		txtTienThue.setForeground(SWTResourceManager.getColor(SWT.COLOR_RED));
@@ -758,10 +761,45 @@ public class pageExportAsset extends Composite {
 		}
 		cboMaNV.select(0);
 	}
-	
+
 	private void save() {
-		
-		
+		try {
+			HoaDon hd = new HoaDon();
+			hd.setSoHD(txtSoHoaDon.getText());
+			hd.setNgayPhatHanh(
+					DateF.toDate(dateNgayPhatHanh.getYear(), dateNgayPhatHanh.getMonth(), dateNgayPhatHanh.getDay()));
+			hd.setNgayThanhToan(DateF.toDate(dateNgayThanhToan.getYear(), dateNgayThanhToan.getMonth(),
+					dateNgayThanhToan.getDay()));
+			hd.setHinhThucThanhToan(cboHinhThucThanhToan.getText());
+			hd.setPhi(0);
+			hd.setThueGTGT((int)Double.parseDouble(txtTienThue.getText()));
+			hd.setTongTien(Integer.parseInt(txtTongTien.getText()));
+			hd.setQuyen(cboQuyen.getText());
+			hd.setMaKho(cboMaKho.getText());
+			hd.setMaNV(cboMaNV.getText());
+			hd.setLyDo(txtLyDo.getText());
+			hd.setTaiKhoanChinh(txtTaiKhoan.getText().toUpperCase());
+
+			ArrayList<Ban> arr = new ArrayList<>();
+			TableItem[] items = tableDSTS.getItems();
+			for (TableItem i : items) {
+				
+				Ban b = new Ban(hd.getSoHD(), i.getText(2), Integer.parseInt(i.getText(6)),
+						Integer.parseInt(i.getText(4)), i.getText(0).toUpperCase());
+				arr.add(b);
+			}
+
+			if (HoaDonController.insertHoaDonBan(hd, arr)) {
+				Message.show("Lưu hóa đơn thành công", "Thành công", SWT.ICON_INFORMATION | SWT.OK, getShell());
+
+				// in
+			} else {
+				Message.show("Lưu hóa đơn không thành công", "Thất bại", SWT.ICON_ERROR | SWT.OK, getShell());
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			Message.show("Lưu hóa đơn không thành công", "Thất bại", SWT.ICON_ERROR | SWT.OK, getShell());
+		}
 	}
 
 	@Override

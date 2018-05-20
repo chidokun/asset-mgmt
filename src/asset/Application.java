@@ -33,7 +33,7 @@ public class Application {
 			else
 				ketNoiLai();
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 	}
 	
