@@ -13,6 +13,7 @@ public class TaiSan {
 	private int nguyenGia;
 	private String maPN;
 	private int sl;
+	private String taiKhoanDU;
 
 	public TaiSan() { }
 
@@ -122,5 +123,14 @@ public class TaiSan {
 	public void setSl(int sl) {
 		this.sl = sl;
 	}
+
+	public String getTaiKhoanDU() {
+		return taiKhoanDU;
+	}
+
+	public void setTaiKhoanDU(String taiKhoanDU) {
+		this.taiKhoanDU = taiKhoanDU;
+	}
+	
 	
 }

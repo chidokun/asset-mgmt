@@ -16,7 +16,6 @@ public class HoaDon {
 	private String maNV;
 	private String LyDo;
 	private String taiKhoanChinh;
-	private String taiKhoanDU;
 
 	public String getSoHD() {
 		return soHD;
@@ -122,12 +121,5 @@ public class HoaDon {
 		this.taiKhoanChinh = taiKhoanChinh;
 	}
 
-	public String getTaiKhoanDU() {
-		return taiKhoanDU;
-	}
-
-	public void setTaiKhoanDU(String taiKhoanDU) {
-		this.taiKhoanDU = taiKhoanDU;
-	}
 
 }
