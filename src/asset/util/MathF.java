@@ -128,7 +128,7 @@ public class MathF {
         StringBuilder builder=new StringBuilder();  	
         
         for (int i = 0; i < kq.size(); i++) {
-        	builder.append(kq.get(i) + " ");
+        	builder.append(kq.get(i));
         	builder.append(" ");
         }
         

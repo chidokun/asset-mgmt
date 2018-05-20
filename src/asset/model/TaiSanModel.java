@@ -85,7 +85,7 @@ public class TaiSanModel {
 	 */
 	public static boolean insert(TaiSan ts) throws SQLException {
 		if (Database.callStoredUpdate("sp_ThemTaiSan", ts.getMaTS(), ts.getTenTS(), ts.getSoNamKH(), 
-				ts.getNgaySD(), ts.getSoThangSD(), ts.getMaDVT(), ts.getTrangThai()) > 0) {
+				ts.getNgaySD(), ts.getSoThangSD(), ts.getMaDVT(), ts.getTrangThai(), ts.getNguyenGia(), ts.getSl()) > 0) {
 			Database.connect().close();
 			return true;
 		} else
