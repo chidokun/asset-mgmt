@@ -133,7 +133,17 @@ public class pageSearchAsset extends Composite {
 		btnLapThe.setLayoutData(gd_btnLapThe);
 		btnLapThe.setText("Lập thẻ tài sản");
 		btnLapThe.setImage(SWTResourceManager.getImage(pageSearchAsset.class, "/asset/view/page/print_16x16.png"));
-		new Label(composite_1, SWT.NONE);
+		
+		Button btnHienTatCa = new Button(composite_1, SWT.NONE);
+		btnHienTatCa.setImage(SWTResourceManager.getImage(pageSearchAsset.class, "/asset/view/page/show_16x16.png"));
+		btnHienTatCa.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				displayAllAsset();
+			}
+		});
+		btnHienTatCa.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		btnHienTatCa.setText("Hiện tất cả");
 
 		gridTaiSan = new Table(composite_1, SWT.BORDER | SWT.FULL_SELECTION);
 		gridTaiSan.addSelectionListener(new SelectionAdapter() {
@@ -246,6 +256,7 @@ public class pageSearchAsset extends Composite {
 				stt++;
 			}
 			gridTaiSan.select(0);
+			txtTenTaiSan.setText("");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
