@@ -104,12 +104,11 @@ public class TaiSanModel {
 		return st.getString(1);
 	}
 	
-	public static boolean updateForExport(String maTS, int sl, String tKDU) throws SQLException {
+	public static boolean updateForExport(String maTS, int sl) throws SQLException {
 		PreparedStatement st = Database.connect().prepareStatement(
-				"UPDATE taisan SET SL=SL-?, TaiKhoanDU=? WHERE MaTS=?");
+				"UPDATE taisan SET SL=SL-? WHERE MaTS=?");
 		st.setInt(1, sl);
-		st.setString(2,tKDU);
-		st.setString(3, maTS);
+		st.setString(2, maTS);
 		
 		return st.executeUpdate() > 0;
 	}

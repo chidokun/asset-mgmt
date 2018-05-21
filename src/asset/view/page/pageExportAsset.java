@@ -170,6 +170,7 @@ public class pageExportAsset extends Composite {
 							try {
 								String number = textTKDU.getText().substring(1);
 								item.setText(1, mapTKKT.get(Integer.parseInt(number)));
+								item.setText(0, textTKDU.getText());
 							} catch (Exception e) {
 								e.printStackTrace();
 								item.setText(1, "");
@@ -186,6 +187,7 @@ public class pageExportAsset extends Composite {
 					textDinhGia.addModifyListener(new ModifyListener() {
 						public void modifyText(ModifyEvent arg0) {
 							try {
+								item.setText(4, textDinhGia.getText());
 								long dinhGia = Long.parseLong(textDinhGia.getText());
 								int sl = Integer.parseInt(textSL.getText());
 								item.setText(9, String.valueOf(dinhGia * sl));
@@ -205,6 +207,7 @@ public class pageExportAsset extends Composite {
 					textSL.addModifyListener(new ModifyListener() {
 						public void modifyText(ModifyEvent arg0) {
 							try {
+								item.setText(6, textSL.getText());
 								long dinhGia = Long.parseLong(textDinhGia.getText());
 								int sl = Integer.parseInt(textSL.getText());
 								item.setText(9, String.valueOf(dinhGia * sl));
@@ -771,11 +774,11 @@ public class pageExportAsset extends Composite {
 			hd.setNgayThanhToan(DateF.toDate(dateNgayThanhToan.getYear(), dateNgayThanhToan.getMonth(),
 					dateNgayThanhToan.getDay()));
 			hd.setHinhThucThanhToan(cboHinhThucThanhToan.getText());
-			hd.setPhi(0);
 			hd.setThueGTGT((int)Double.parseDouble(txtTienThue.getText()));
 			hd.setTongTien(Integer.parseInt(txtTongTien.getText()));
 			hd.setQuyen(cboQuyen.getText());
 			hd.setMaKho(cboMaKho.getText());
+			hd.setMaKH(cboMaKH.getText());
 			hd.setMaNV(cboMaNV.getText());
 			hd.setLyDo(txtLyDo.getText());
 			hd.setTaiKhoanChinh(txtTaiKhoan.getText().toUpperCase());
@@ -783,7 +786,6 @@ public class pageExportAsset extends Composite {
 			ArrayList<Ban> arr = new ArrayList<>();
 			TableItem[] items = tableDSTS.getItems();
 			for (TableItem i : items) {
-				
 				Ban b = new Ban(hd.getSoHD(), i.getText(2), Integer.parseInt(i.getText(6)),
 						Integer.parseInt(i.getText(4)), i.getText(0).toUpperCase());
 				arr.add(b);
