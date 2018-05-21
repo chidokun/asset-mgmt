@@ -30,7 +30,7 @@ import asset.entity.TaiSan;
 import asset.entity.TheTaiSan;
 import asset.util.Window;
 import asset.view.form.frmAddAsset;
-import asset.view.form.frmCreateAsset;
+import asset.view.form.frmAssetForm;
 import asset.view.form.frmCustomer;
 import asset.util.*;
 
@@ -108,13 +108,13 @@ public class pageSearchAsset extends Composite {
 					checkAssetSelected();
 					String maTS = gridTaiSan.getSelection()[0].getText(1);
 					if (TheTaiSanController.select(maTS) == null) {
-						Window.open(frmCreateAsset.createNewAssetForm(getDisplay(), "Lập thẻ tài sản",
+						Window.open(frmAssetForm.createNewAssetForm(getDisplay(), "Lập thẻ tài sản",
 								TaiSanController.select(maTS)));
 					} else {
 						boolean result = MessageDialog.openConfirm(getShell(), "Thông báo",
 								"Tài sản này đã có thẻ tài sản. Bạn có muốn xem thẻ tài sản này?");
 						if (result) {
-							Window.open(new frmCreateAsset(getDisplay(), false, "Xem thẻ tài sản",
+							Window.open(new frmAssetForm(getDisplay(), false, "Xem thẻ tài sản",
 									TheTaiSanController.select(maTS), TaiSanController.select(maTS)));
 						}
 					}
