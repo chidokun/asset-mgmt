@@ -1,5 +1,6 @@
 package asset.view.page;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -39,6 +40,8 @@ import asset.entity.TaiSan;
 import asset.util.DateF;
 import asset.util.MathF;
 import asset.util.Message;
+import asset.util.Window;
+import asset.view.form.frmCustomer;
 
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -335,6 +338,28 @@ public class pageLiquidateAsset extends Composite {
 		cboMaKH.setLayoutData(gd_cboMaKH);
 		
 		Button btnNewKH = new Button(composite_7, SWT.NONE);
+		btnNewKH.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				Window.open(new frmCustomer(getDisplay()));
+
+				String maKH = frmCustomer.maKH;
+				if (!maKH.equals("")) {
+						try {
+							KhachHang kh = KhachHangController.select(maKH);
+							cboMaKH.add(kh.getMaKH());
+							cboMaKH.setData(kh.getMaKH(), kh);
+							int size = cboMaKH.getItemCount();
+							cboMaKH.select(size - 1);
+							txtTenKhachHang.setText(kh.getTenKH());
+							txtTaiKhoanKhach.setText(kh.getSoTK());
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+				}
+			}
+		});
 		btnNewKH.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/add_16x16.png"));
 		GridData gd_btnNewKH = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_btnNewKH.heightHint = 26;

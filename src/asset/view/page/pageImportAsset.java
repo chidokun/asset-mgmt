@@ -28,7 +28,6 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Spinner;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -395,8 +394,6 @@ public class pageImportAsset extends Composite {
 				Window.open(new frmAddAsset(getDisplay()));
 
 				Text textTKDU = new Text(tableDSTS, SWT.NONE);
-				Text textNguyenGia = new Text(tableDSTS, SWT.NONE);
-				Spinner textSL = new Spinner(tableDSTS, SWT.NONE);
 
 				String maTS = frmAddAsset.maTS;
 				if (!maTS.equals("")) {

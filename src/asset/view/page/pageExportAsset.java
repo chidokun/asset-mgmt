@@ -1,5 +1,6 @@
 package asset.view.page;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -340,9 +341,23 @@ public class pageExportAsset extends Composite {
 		btnNewKH.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				frmCustomer ctm = new frmCustomer(getDisplay());
-				Window.open(ctm);
-				
+				Window.open(new frmCustomer(getDisplay()));
+
+				String maKH = frmCustomer.maKH;
+				if (!maKH.equals("")) {
+						try {
+							KhachHang kh = KhachHangController.select(maKH);
+							cboMaKH.add(kh.getMaKH());
+							cboMaKH.setData(kh.getMaKH(), kh);
+							int size = cboMaKH.getItemCount();
+							cboMaKH.select(size - 1);
+							txtTenKhachHang.setText(kh.getTenKH());
+							txtTaiKhoanKhach.setText(kh.getSoTK());
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+				}			
 			}
 		});
 		btnNewKH.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/add_16x16.png"));
