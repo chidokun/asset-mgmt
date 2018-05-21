@@ -27,12 +27,10 @@ import org.eclipse.wb.swt.SWTResourceManager;
 import asset.controller.TaiSanController;
 import asset.controller.TheTaiSanController;
 import asset.entity.TaiSan;
-import asset.entity.TheTaiSan;
+import asset.util.DateF;
+import asset.util.Message;
 import asset.util.Window;
-import asset.view.form.frmAddAsset;
 import asset.view.form.frmCreateAsset;
-import asset.view.form.frmCustomer;
-import asset.util.*;
 
 public class pageSearchAsset extends Composite {
 	private Text txtTenTaiSan;

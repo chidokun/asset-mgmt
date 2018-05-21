@@ -14,6 +14,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DateTime;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
@@ -42,6 +43,8 @@ import asset.entity.TaiSan;
 import asset.util.DateF;
 import asset.util.MathF;
 import asset.util.Message;
+import asset.util.Window;
+import asset.view.form.frmCustomer;
 
 public class pageExportAsset extends Composite {
 	private DateTime dateNgayThanhToan;
@@ -69,6 +72,7 @@ public class pageExportAsset extends Composite {
 	private Text txtSoTienBangChu;
 	private Text txtTongTien;
 	private Text txtTienThue;
+	private ArrayList<Control> listTableEditor = new ArrayList<>();
 
 	/**
 	 * Create the composite.
@@ -179,6 +183,7 @@ public class pageExportAsset extends Composite {
 					});
 					editor.grabHorizontal = true;
 					editor.setEditor(textTKDU, item, 0);
+					listTableEditor.add(textTKDU);
 
 					item.setText(2, ts.getMaTS());
 					item.setText(3, ts.getTenTS());
@@ -199,6 +204,7 @@ public class pageExportAsset extends Composite {
 					});
 					editor.grabHorizontal = true;
 					editor.setEditor(textDinhGia, item, 4);
+					listTableEditor.add(textDinhGia);
 
 					item.setText(5, DVTController.select(ts.getMaDVT()).getTenDVT());
 
@@ -219,6 +225,7 @@ public class pageExportAsset extends Composite {
 					});
 					editor.grabHorizontal = true;
 					editor.setEditor(textSL, item, 6);
+					listTableEditor.add(textSL);
 
 					item.setText(7, DateF.toString(ts.getNgaySD()));
 					item.setText(8, String.valueOf(ts.getSoNamKH()));
@@ -317,11 +324,27 @@ public class pageExportAsset extends Composite {
 		composite_7.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false, 1, 1));
 
 		cboMaKH = new Combo(composite_7, SWT.NONE);
+		cboMaKH.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				KhachHang kh = (KhachHang) cboMaKH.getData(cboMaKH.getText());
+				txtTenKhachHang.setText(kh.getTenKH());
+				txtTaiKhoanKhach.setText(kh.getSoTK());
+			}
+		});
 		GridData gd_cboMaKH = new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1);
 		gd_cboMaKH.heightHint = 22;
 		cboMaKH.setLayoutData(gd_cboMaKH);
 
 		Button btnNewKH = new Button(composite_7, SWT.NONE);
+		btnNewKH.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				frmCustomer ctm = new frmCustomer(getDisplay());
+				Window.open(ctm);
+				
+			}
+		});
 		btnNewKH.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/add_16x16.png"));
 		GridData gd_btnNewKH = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_btnNewKH.heightHint = 26;
@@ -642,16 +665,32 @@ public class pageExportAsset extends Composite {
 		gd_btnNewButton_1.widthHint = 100;
 		gd_btnNewButton_1.heightHint = 30;
 		btnNewButton_1.setLayoutData(gd_btnNewButton_1);
-		btnNewButton_1.setText("Lưu và in");
+		btnNewButton_1.setText("Lưu phiếu");
 
-		Button btnNewButton_3 = new Button(composite_11, SWT.NONE);
-		btnNewButton_3
+		Button btnHoanLai = new Button(composite_11, SWT.NONE);
+		btnHoanLai.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				txtSoHoaDon.setText(HoaDonController.generateId());
+				txtTaiKhoan.setText("");
+				txtLyDo.setText("");
+				txtTriGia.setText("");
+				txtSoTienBangChu.setText("");
+				txtTongTien.setText("");
+				txtTienThue.setText("");
+				tableDSTS.removeAll();
+				for(Control i : listTableEditor) {
+					i.dispose();
+				}
+			}
+		});
+		btnHoanLai
 				.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/refresh_16x16.png"));
-		GridData gd_btnNewButton_3 = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
-		gd_btnNewButton_3.widthHint = 80;
-		gd_btnNewButton_3.heightHint = 30;
-		btnNewButton_3.setLayoutData(gd_btnNewButton_3);
-		btnNewButton_3.setText("Hoàn lại");
+		GridData gd_btnHoanLai = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+		gd_btnHoanLai.widthHint = 80;
+		gd_btnHoanLai.heightHint = 30;
+		btnHoanLai.setLayoutData(gd_btnHoanLai);
+		btnHoanLai.setText("Hoàn lại");
 		new Label(composite_11, SWT.NONE);
 		new Label(composite_11, SWT.NONE);
 		new Label(composite_11, SWT.NONE);
