@@ -6,7 +6,12 @@ package asset.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
+import asset.entity.HoaDon;
+import asset.entity.KhachHang;
+import asset.entity.PhieuNhap;
+import asset.entity.TaiSan;
 import asset.util.Database;
 
 /**
@@ -21,10 +26,19 @@ public class PhieuNhapModel {
 			ResultSet rs = st.executeQuery();	
 			rs.next();
 			int number = rs.getInt(1);
-			return String.format("PN%03d", number);
+			return String.format("PN%03d", number+1);
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return "PN000";
 		}	
+	}
+	
+	public static boolean insert(PhieuNhap pn) throws SQLException {
+		if (Database.callStoredUpdate("sp_ThemPhieuNhap", pn.getMaPN(), pn.getNgayLap(), pn.getLyDo(),
+				pn.getTaiKhoanChinh(), pn.getThueGTGT(), pn.getMaNV(), pn.getMaKH(), pn.getMaKho()) > 0) {
+			Database.connect().close();
+			return true;
+		} else
+			throw new SQLException("Không thể tạo mới phiếu nhập " + pn.getMaPN());
 	}
 }

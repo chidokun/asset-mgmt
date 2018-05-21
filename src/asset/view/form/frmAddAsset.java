@@ -61,6 +61,7 @@ public class frmAddAsset extends Shell {
 	private Label lblTrngThi;
 	private Combo cb_TrangThai;
 	private DateTime dt_NgaySD;
+	public static String maTS;
 
 	/**
 	 * Create the shell.
@@ -69,6 +70,7 @@ public class frmAddAsset extends Shell {
 	 */
 	public frmAddAsset(Display display) {
 		super(display, SWT.DIALOG_TRIM | SWT.MIN | SWT.MAX);
+		maTS = "";
 		setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
 		setLayout(null);
 
@@ -98,6 +100,7 @@ public class frmAddAsset extends Shell {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (luu()) {
+					maTS = txt_MaTS.getText();
 					close();
 				}
 			}
@@ -289,27 +292,51 @@ public class frmAddAsset extends Shell {
 
 		display();
 	}
+	
+	public boolean kiemTraDayDu() {
 
+		if (txt_TenTaiSan.getText().isEmpty()) {
+			Message.show("Mời bạn nhập tên tài sản", "Thông báo", SWT.OK | SWT.ICON_INFORMATION, getShell());
+			return false;
+		}
+		if (txt_SoLuong.getText().isEmpty()) {
+			Message.show("Mời bạn nhập số lượng", "Thông báo", SWT.OK | SWT.ICON_INFORMATION, getShell());
+			return false;
+		}
+		if (txt_SoNamKH.getText().isEmpty()) {
+			Message.show("Mời bạn nhập số năm khấu hao", "Thông báo", SWT.OK | SWT.ICON_INFORMATION, getShell());
+			return false;
+		}
+		if (txt_NguyenGia.getText().isEmpty()) {
+			Message.show("Mời bạn nhập nguyên giá", "Thông báo", SWT.OK | SWT.ICON_INFORMATION, getShell());
+			return false;
+		}
+		return true;
+	}
+	
 	public boolean luu() {
-		TaiSan ts = new TaiSan();
-		ts.setMaTS(txt_MaTS.getText());
-		ts.setTenTS(txt_TenTaiSan.getText());
-		ts.setMaDVT((String) cbbDVT.getData(cbbDVT.getText()));
-		ts.setSoNamKH(Integer.parseInt(txt_SoNamKH.getText()));
-		ts.setSl(Integer.parseInt(txt_SoLuong.getText()));
-		ts.setNgaySD(DateF.toDate(dt_NgaySD.getYear(), dt_NgaySD.getMonth() + 1, dt_NgaySD.getDay()));
-		ts.setNguyenGia(Integer.parseInt(txt_NguyenGia.getText()));
-		ts.setSoThangSD(Integer.parseInt(txt_SoThangSD.getText()));
-		ts.setTrangThai(cb_TrangThai.getSelectionIndex());
-		try {
-			if (!TaiSanController.insert(ts))
-				throw new SQLException();
+		if (kiemTraDayDu()){
+			TaiSan ts = new TaiSan();
+			ts.setMaTS(txt_MaTS.getText());
+			ts.setTenTS(txt_TenTaiSan.getText());
+			ts.setMaDVT((String) cbbDVT.getData(cbbDVT.getText()));
+			ts.setSoNamKH(Integer.parseInt(txt_SoNamKH.getText()));
+			ts.setSl(Integer.parseInt(txt_SoLuong.getText()));
+			ts.setNgaySD(DateF.toDate(dt_NgaySD.getYear(), dt_NgaySD.getMonth() + 1, dt_NgaySD.getDay()));
+			ts.setNguyenGia(Integer.parseInt(txt_NguyenGia.getText()));
+			ts.setSoThangSD(Integer.parseInt(txt_SoThangSD.getText()));
+			ts.setTrangThai(cb_TrangThai.getSelectionIndex());
+			try {
+				if (!TaiSanController.insert(ts))
+					throw new SQLException();
 
-			Message.show("Lưu thông tin tài sản thành công", "Thành công" + ts.getNguyenGia(), SWT.OK | SWT.ICON_INFORMATION, getShell());
-			return true;
-		} catch (Exception e1) {
-			e1.printStackTrace();
-			Message.show("Không thể lưu thông tin tài sản", "Lỗi", SWT.OK | SWT.ICON_ERROR, getShell());
+				Message.show("Lưu thông tin tài sản thành công", "Thành công" + ts.getNguyenGia(),
+						SWT.OK | SWT.ICON_INFORMATION, getShell());
+				return true;
+			} catch (Exception e1) {
+				e1.printStackTrace();
+				Message.show("Không thể lưu thông tin tài sản", "Lỗi", SWT.OK | SWT.ICON_ERROR, getShell());
+			}
 		}
 		return false;
 	}

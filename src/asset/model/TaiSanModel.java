@@ -112,4 +112,13 @@ public class TaiSanModel {
 		
 		return st.executeUpdate() > 0;
 	}
+	
+	public static boolean updateForImport(String maTS, String tkdu) throws SQLException {
+		PreparedStatement st = Database.connect().prepareStatement(
+				"UPDATE taisan SET TaiKhoanDU=TaiKhoanDU-? WHERE MaTS=?");
+		st.setString(1, tkdu);
+		st.setString(2, maTS);
+		
+		return st.executeUpdate() > 0;
+	}
 }

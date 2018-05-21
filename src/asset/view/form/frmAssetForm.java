@@ -7,7 +7,6 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import asset.controller.ChungTuController;
 import asset.controller.KhauHaoController;
-import asset.controller.TaiSanController;
 import asset.controller.TheTaiSanController;
 import asset.entity.ChungTu;
 import asset.entity.KhauHao;
@@ -27,15 +26,16 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
 
+import java.sql.Connection;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 
 import org.eclipse.core.commands.ParameterValuesException;
-import org.eclipse.swt.widgets.Spinner;
 
-public class frmCreateAsset extends Shell {
+public class frmAssetForm extends Shell {
 	private Text txtSoThe;
 	private Text txtNamSD;
 	private Text txtBoPhanSD;
@@ -45,8 +45,8 @@ public class frmCreateAsset extends Shell {
 	private Text txtTenTaiSan;
 	private Text txtNguyenGia;
 	private Table table;
-	private Button btnLuuIn;
-	private Button btnSua;
+	private Button btnLuu;
+	private Button btnIn;
 	private Button btnHuy;
 	private Text txtNamDinhChi;
 
@@ -55,8 +55,8 @@ public class frmCreateAsset extends Shell {
 	 * 
 	 * @param display
 	 */
-	public static frmCreateAsset createNewAssetForm(Display display, String title, TaiSan taiSan) {
-		return new frmCreateAsset(display, true, title, null, taiSan);
+	public static frmAssetForm createNewAssetForm(Display display, String title, TaiSan taiSan) {
+		return new frmAssetForm(display, true, title, null, taiSan);
 	}
 
 	/**
@@ -64,7 +64,7 @@ public class frmCreateAsset extends Shell {
 	 * 
 	 * @param display
 	 */
-	public frmCreateAsset(Display display, boolean isCreate, String title, TheTaiSan the, TaiSan taiSan) {
+	public frmAssetForm(Display display, boolean isCreate, String title, TheTaiSan the, TaiSan taiSan) {
 		super(display, SWT.CLOSE | SWT.TITLE);
 		setText(title);
 		setSize(665, 576);
@@ -73,7 +73,7 @@ public class frmCreateAsset extends Shell {
 
 		Label lblNewLabel = new Label(this, SWT.NONE);
 		lblNewLabel.setBackground(SWTResourceManager.getColor(SWT.COLOR_WHITE));
-		lblNewLabel.setImage(SWTResourceManager.getImage(frmCreateAsset.class, "/asset/view/form/imgVe_64p.png"));
+		lblNewLabel.setImage(SWTResourceManager.getImage(frmAssetForm.class, "/asset/view/form/imgVe_64p.png"));
 		lblNewLabel.setBounds(56, 10, 69, 64);
 
 		Label lblVuiLngNhp = new Label(this, SWT.NONE);
@@ -160,30 +160,34 @@ public class frmCreateAsset extends Shell {
 		Composite composite = new Composite(this, SWT.NONE);
 		composite.setBounds(0, 491, 661, 56);
 
-		btnLuuIn = new Button(composite, SWT.NONE);
-		btnLuuIn.setImage(SWTResourceManager.getImage(frmCreateAsset.class, "/asset/view/page/save_16x16.png"));
-		btnLuuIn.addSelectionListener(new SelectionAdapter() {
+		btnLuu = new Button(composite, SWT.NONE);
+		btnLuu.setImage(SWTResourceManager.getImage(frmAssetForm.class, "/asset/view/page/save_16x16.png"));
+		btnLuu.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				if (save(isCreate)) {
-					close();
+					btnIn.setVisible(true);
+					btnLuu.setVisible(false);
+					txtBoPhanSD.setEnabled(false);
+					txtLyDoDinhChi.setEnabled(false);
+					txtNamDinhChi.setEnabled(false);
 				}
 			}
 		});
-		btnLuuIn.setBounds(448, 10, 94, 33);
-		btnLuuIn.setText("Lưu và in");
+		btnLuu.setBounds(448, 10, 94, 33);
+		btnLuu.setText("Lưu");
 
-		btnSua = new Button(composite, SWT.NONE);
-		btnSua.setImage(SWTResourceManager.getImage(frmCreateAsset.class, "/asset/view/page/refresh_16x16.png"));
-		btnSua.addSelectionListener(new SelectionAdapter() {
+		btnIn = new Button(composite, SWT.NONE);
+		btnIn.setImage(SWTResourceManager.getImage(frmAssetForm.class, "/asset/view/page/print_16x16.png"));
+		btnIn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-
+				print();
 			}
 		});
-		btnSua.setBounds(448, 10, 94, 33);
-		btnSua.setText("Sửa");
-		btnSua.setVisible(false);
+		btnIn.setBounds(448, 10, 94, 33);
+		btnIn.setText("In thẻ");
+		btnIn.setVisible(false);
 
 		btnHuy = new Button(composite, SWT.NONE);
 		btnHuy.addSelectionListener(new SelectionAdapter() {
@@ -192,7 +196,7 @@ public class frmCreateAsset extends Shell {
 				close();
 			}
 		});
-		btnHuy.setImage(SWTResourceManager.getImage(frmCreateAsset.class, "/asset/view/page/cancel_16x16.png"));
+		btnHuy.setImage(SWTResourceManager.getImage(frmAssetForm.class, "/asset/view/page/cancel_16x16.png"));
 		btnHuy.setBounds(550, 10, 94, 33);
 		btnHuy.setText("Hủy bỏ");
 
@@ -273,12 +277,15 @@ public class frmCreateAsset extends Shell {
 		txtBoPhanSD.setEnabled(false);
 		txtLyDoDinhChi.setEnabled(false);
 		txtNamDinhChi.setEnabled(false);
-		// btnSua.setVisible(true);
-		btnLuuIn.setVisible(false);
+		btnIn.setVisible(true);
+		btnLuu.setVisible(false);
 		btnHuy.setText("Đóng");
 
 		txtBoPhanSD.setText(the.getBoPhanSD());
-		txtLyDoDinhChi.setText(the.getLyDoDinhChi());
+		if(the.getLyDoDinhChi() != null) {
+			txtLyDoDinhChi.setText(the.getLyDoDinhChi());
+		}
+		
 		if (the.getNamDinhChi() != 0) {
 			txtNamDinhChi.setText(String.valueOf(the.getNamDinhChi()));
 		}
@@ -371,6 +378,7 @@ public class frmCreateAsset extends Shell {
 			}
 			Message.show("Lưu thông tin thẻ tài sản thành công", "Thành công", SWT.OK | SWT.ICON_INFORMATION,
 					getShell());
+			
 			return true;
 		} catch (ParameterValuesException e0) {
 			Message.show(e0.getMessage(), "Cảnh báo", SWT.OK | SWT.ICON_WARNING, getShell());
@@ -380,4 +388,25 @@ public class frmCreateAsset extends Shell {
 		}
 		return false;
 	}
+	
+	/**
+	 * In báo cáo
+	 * 
+	 * @throws ParameterValuesException
+	 */
+	public void print()
+	{	   
+		Connection connection = null;
+	  
+	        try {
+	            connection = Database.connect();
+	            HashMap<String,Object> parameterMap = new HashMap<>();
+	            parameterMap.put("MaTS", txtMaTS.getText());//sending the report title as a parameter.
+	    		
+	            Window.open(new frmBaoCao(getDisplay(),parameterMap,connection,"The_Tai_San"));    
+	        }
+	        catch (SQLException ex) {
+	          ex.printStackTrace();
+	        }
+}
 }
