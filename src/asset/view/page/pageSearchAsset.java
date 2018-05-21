@@ -101,10 +101,10 @@ public class pageSearchAsset extends Composite {
 		btnLapThe.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				/*
-				 * Window.open( new frmCustomer(getDisplay()));
-				 */
-				try {
+				
+				Window.open( new frmAddAsset(getDisplay()));
+				 
+				/*try {
 					checkAssetSelected();
 					String maTS = gridTaiSan.getSelection()[0].getText(1);
 					if (TheTaiSanController.select(maTS) == null) {
@@ -124,7 +124,7 @@ public class pageSearchAsset extends Composite {
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}
+				}*/
 			}
 		});
 		GridData gd_btnLapThe = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
