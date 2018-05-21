@@ -6,12 +6,8 @@ package asset.model;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
-import asset.entity.HoaDon;
-import asset.entity.KhachHang;
 import asset.entity.PhieuNhap;
-import asset.entity.TaiSan;
 import asset.util.Database;
 
 /**

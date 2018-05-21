@@ -2,41 +2,31 @@ package asset.view.form;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 
-import org.eclipse.core.commands.ParameterValuesException;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.custom.CBanner;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.wb.swt.SWTResourceManager;
-
-import asset.controller.DVTController;
-import asset.controller.TaiSanController;
-import asset.controller.TheTaiSanController;
-import asset.entity.DVT;
-import asset.entity.TaiSan;
-import asset.util.DateF;
-import asset.util.Message;
-
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.events.FocusEvent;
-import org.eclipse.swt.events.FocusListener;
-import org.eclipse.swt.events.KeyEvent;
-import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.VerifyEvent;
 import org.eclipse.swt.events.VerifyListener;
-import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.DateTime;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
+
+import asset.controller.DVTController;
+import asset.controller.TaiSanController;
+import asset.entity.DVT;
+import asset.entity.TaiSan;
+import asset.util.DateF;
+import asset.util.Message;
 
 public class frmAddAsset extends Shell {
 	private Label lblTnKhchHng;

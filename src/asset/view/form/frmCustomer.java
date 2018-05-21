@@ -1,29 +1,22 @@
 package asset.view.form;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
-import org.eclipse.swt.widgets.Text;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.wb.swt.SWTResourceManager;
-
-import asset.controller.DVTController;
-import asset.controller.KhachHangController;
-import asset.controller.TaiSanController;
-import asset.entity.DVT;
-import asset.entity.KhachHang;
-import asset.entity.TaiSan;
-import asset.util.Message;
-
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Shell;
+import org.eclipse.swt.widgets.Text;
+import org.eclipse.wb.swt.SWTResourceManager;
+
+import asset.controller.KhachHangController;
+import asset.entity.KhachHang;
+import asset.util.Message;
 
 public class frmCustomer extends Shell {
 	private Text txt_SoTK;

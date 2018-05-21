@@ -11,7 +11,6 @@ import java.sql.Types;
 import java.util.ArrayList;
 
 import asset.entity.KhachHang;
-import asset.entity.TaiSan;
 import asset.util.Database;
 
 /**

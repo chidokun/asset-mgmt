@@ -6,15 +6,12 @@ package asset.controller;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import asset.entity.Ban;
 import asset.entity.HoaDon;
 import asset.entity.PhieuNhap;
 import asset.entity.TaiSan;
-import asset.model.BanModel;
 import asset.model.HoaDonModel;
 import asset.model.PhieuNhapModel;
 import asset.model.TaiSanModel;
-import asset.util.Database;
 
 /**
  * @author Tuan
