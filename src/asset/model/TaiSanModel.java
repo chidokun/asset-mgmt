@@ -191,7 +191,7 @@ public class TaiSanModel {
 	
 	public static boolean updateForImport(String maTS, String tkdu) throws SQLException {
 		PreparedStatement st = Database.connect().prepareStatement(
-				"UPDATE taisan SET TaiKhoanDU=TaiKhoanDU-? WHERE MaTS=?");
+				"UPDATE taisan SET TaiKhoanDU=? WHERE MaTS=?");
 		st.setString(1, tkdu);
 		st.setString(2, maTS);
 		
