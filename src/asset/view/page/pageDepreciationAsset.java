@@ -4,6 +4,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Group;
 
+
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -11,6 +12,10 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.sql.Connection;
+import java.util.HashMap;
+
+import org.eclipse.core.commands.ParameterValuesException;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Label;
@@ -23,17 +28,20 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Text;
 
+
 import asset.controller.ChungTuController;
-import asset.controller.HoaDonController;
-import asset.controller.KhachHangController;
 import asset.controller.KhauHaoController;
 import asset.controller.TaiSanController;
 import asset.entity.ChungTu;
 import asset.entity.TaiSan;
 import asset.entity.TaiSanKhauHao;
-import asset.model.TaiSanModel;
 import asset.util.DateF;
 import asset.util.Message;
+
+import asset.util.Database;
+import asset.util.Window;
+import asset.view.form.frmBaoCao;
+
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.DateTime;
@@ -42,12 +50,14 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.MouseAdapter;
 import org.eclipse.swt.events.MouseEvent;
 
+
 public class pageDepreciationAsset extends Composite {
 	private Table tableChungTu;
 	private Table tableThongTinKhauHao;
 	private Table tableTSHetKhauHao;
 	private Text textDienGiai;
 	private Text textSoChungTu;
+
 	private Combo comboNam;
 	private Combo comboThang;
 	private DateTime dateTimeNgayChungTu;
@@ -95,7 +105,6 @@ public class pageDepreciationAsset extends Composite {
 		gd_lbNam.minimumWidth = 100;
 		lbNam.setLayoutData(gd_lbNam);
 		lbNam.setText("N\u0103m");
-
 		comboNam = new Combo(grpThong, SWT.NONE);
 		comboNam.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1));
 
@@ -113,6 +122,13 @@ public class pageDepreciationAsset extends Composite {
 		btnTimKiem.setText("T\u00ECm ki\u1EBFm");
 
 		Button btnIn = new Button(grpThong, SWT.NONE);
+		btnIn.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				String maCT = tableChungTu.getSelection()[0].getText();
+				print(maCT);
+			}
+		});
 		GridData gd_btnIn = new GridData(SWT.FILL, SWT.CENTER, false, false, 1, 1);
 		gd_btnIn.widthHint = 100;
 		btnIn.setLayoutData(gd_btnIn);
@@ -483,4 +499,25 @@ public class pageDepreciationAsset extends Composite {
 			}
 		}
 	}
+	
+	/**
+	 * In báo cáo
+	 * 
+	 * @throws ParameterValuesException
+	 */
+	public void print(String maCT)
+	{	   
+		Connection connection = null;
+	  
+	        try {
+	            connection = Database.connect();
+	            HashMap<String,Object> parameterMap = new HashMap<>();
+	            parameterMap.put("MaCT", maCT);//sending the report title as a parameter.
+	            Window.open(new frmBaoCao(getDisplay(),parameterMap,connection,"Khau_Hao_Tai_San"));    
+	        }
+	        catch (SQLException ex) {
+	          ex.printStackTrace();
+	        }
+}
+
 }
