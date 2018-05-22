@@ -682,6 +682,7 @@ public class pageExportAsset extends Composite {
 		btnNewButton_1.setLayoutData(gd_btnNewButton_1);
 		btnNewButton_1.setText("Lưu phiếu");
 
+
 		Button btnHoanLai = new Button(composite_11, SWT.NONE);
 		btnHoanLai.addSelectionListener(new SelectionAdapter() {
 			@Override
@@ -699,8 +700,7 @@ public class pageExportAsset extends Composite {
 				}
 			}
 		});
-		btnHoanLai
-				.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/refresh_16x16.png"));
+		btnHoanLai.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/refresh_16x16.png"));
 		GridData gd_btnHoanLai = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 		gd_btnHoanLai.widthHint = 80;
 		gd_btnHoanLai.heightHint = 30;

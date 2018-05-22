@@ -163,18 +163,18 @@ public class pageImportAsset extends Composite {
 
 				String maKH = frmCustomer.maKH;
 				if (!maKH.equals("")) {
-						try {
-							KhachHang kh = KhachHangController.select(maKH);
-							cboMaKH.add(kh.getMaKH());
-							cboMaKH.setData(kh.getMaKH(), kh);
-							int size = cboMaKH.getItemCount();
-							cboMaKH.select(size - 1);
-							txtTenKhachHang.setText(kh.getTenKH());
-							txtTaiKhoanKhach.setText(kh.getSoTK());
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+					try {
+						KhachHang kh = KhachHangController.select(maKH);
+						cboMaKH.add(kh.getMaKH());
+						cboMaKH.setData(kh.getMaKH(), kh);
+						int size = cboMaKH.getItemCount();
+						cboMaKH.select(size - 1);
+						txtTenKhachHang.setText(kh.getTenKH());
+						txtTaiKhoanKhach.setText(kh.getSoTK());
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
@@ -641,9 +641,9 @@ public class pageImportAsset extends Composite {
 		txtTienThue.setLayoutData(gd_txtTienThue);
 		initialize();
 	}
-	
+
 	/**
-	 * Kiểm tra thông tin  đầy đủ chưa
+	 * Kiểm tra thông tin đầy đủ chưa
 	 */
 	public boolean kiemTraDayDu() {
 
@@ -658,26 +658,28 @@ public class pageImportAsset extends Composite {
 		}
 		return true;
 	}
-	
-	private void save() {
-		try {
-			PhieuNhap pn = new PhieuNhap();
-			HoaDon hd = new HoaDon();
-			ArrayList<TaiSan> arr = new ArrayList<>();
 
-			if(kiemTraDayDu()){
+	private void save() {
+		if (kiemTraDayDu()) {
+			try {
+				PhieuNhap pn = new PhieuNhap();
+				HoaDon hd = new HoaDon();
+				ArrayList<TaiSan> arr = new ArrayList<>();
+
 				pn.setMaPN(txtSoPhieuNhap.getText());
 				pn.setNgayLap(DateF.toDate(dateNgayLap.getYear(), dateNgayLap.getMonth(), dateNgayLap.getDay()));
 				pn.setLyDo(txtLyDo.getText());
 				pn.setTaiKhoanChinh(txtTaiKhoan.getText());
 				pn.setThueGTGT(Integer.parseInt(txtTySuatGTGT.getText()));
 				pn.setMaKH((String) cboMaKH.getText());
-				pn.setMaNV((String)cboMaNV.getText());
+				pn.setMaNV((String) cboMaNV.getText());
 				pn.setMaKho((String) cboMaKho.getText());
-				
+
 				hd.setSoHD(txtSoHoaDon.getText());
-				hd.setNgayPhatHanh(DateF.toDate(dateNgayPhatHanh.getYear(), dateNgayPhatHanh.getMonth(), dateNgayPhatHanh.getDay()));
-				hd.setNgayThanhToan(DateF.toDate(dateNgayThanhToan.getYear(), dateNgayThanhToan.getMonth(), dateNgayThanhToan.getDay()));
+				hd.setNgayPhatHanh(DateF.toDate(dateNgayPhatHanh.getYear(), dateNgayPhatHanh.getMonth(),
+						dateNgayPhatHanh.getDay()));
+				hd.setNgayThanhToan(DateF.toDate(dateNgayThanhToan.getYear(), dateNgayThanhToan.getMonth(),
+						dateNgayThanhToan.getDay()));
 				hd.setHinhThucThanhToan(cboHinhThucThanhToan.getText());
 				hd.setThueGTGT(Integer.parseInt(txtTySuatGTGT.getText()));
 				hd.setTongTien(Integer.parseInt(txtTongTien.getText()));
@@ -687,29 +689,27 @@ public class pageImportAsset extends Composite {
 				hd.setMaNV(cboMaNV.getText());
 				hd.setLyDo(txtLyDo.getText());
 				hd.setTaiKhoanChinh(txtTaiKhoan.getText());
-				
+
 				TableItem[] items = tableDSTS.getItems();
-				for(TableItem i : items ) {
+				for (TableItem i : items) {
 					TaiSan ts = TaiSanController.select(i.getText(2));
 					ts.setTaiKhoanDU(i.getText(0));
 				}
-				
-			}
 
+				if (PhieuNhapController.insert(pn, hd, arr)) {
+					Message.show("Lưu phiếu nhập thành công", "Thành công", SWT.ICON_INFORMATION | SWT.OK, getShell());
 
-			if (PhieuNhapController.insert(pn, hd, arr)) {
-				Message.show("Lưu phiếu nhập thành công", "Thành công", SWT.ICON_INFORMATION | SWT.OK, getShell());
-
-				// in
-			} else {
+					// in
+				} else {
+					Message.show("Lưu phiếu nhập không thành công", "Thất bại", SWT.ICON_ERROR | SWT.OK, getShell());
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
 				Message.show("Lưu phiếu nhập không thành công", "Thất bại", SWT.ICON_ERROR | SWT.OK, getShell());
 			}
-		} catch (Exception e) {
-			e.printStackTrace();
-			Message.show("Lưu phiếu nhập không thành công", "Thất bại", SWT.ICON_ERROR | SWT.OK, getShell());
 		}
 	}
-	
+
 	private void initialize() {
 		// generate id
 		txtSoPhieuNhap.setText(PhieuNhapController.generateID());
