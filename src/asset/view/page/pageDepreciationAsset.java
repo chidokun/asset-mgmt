@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Text;
 
 import asset.controller.ChungTuController;
+import asset.controller.HoaDonController;
 import asset.controller.KhachHangController;
 import asset.controller.KhauHaoController;
 import asset.controller.TaiSanController;
@@ -32,6 +33,7 @@ import asset.entity.TaiSan;
 import asset.entity.TaiSanKhauHao;
 import asset.model.TaiSanModel;
 import asset.util.DateF;
+import asset.util.Message;
 
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.DateTime;
@@ -203,6 +205,10 @@ public class pageDepreciationAsset extends Composite {
 							
 						}
 					}
+				}
+				
+				else {
+					Message.show("Tháng năm này đã được tính khấu hao", "Thất bại", SWT.ICON_ERROR | SWT.OK, getShell());
 				}
 
 				// load
