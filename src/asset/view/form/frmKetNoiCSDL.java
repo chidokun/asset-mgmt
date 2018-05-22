@@ -108,7 +108,7 @@ public class frmKetNoiCSDL extends Shell {
 			public void widgetSelected(SelectionEvent e) {
 				try {
 					kiemTraGiaoDien();
-					String connectionString = String.format("jdbc:mysql://%1$s/%2$s?useSSL=false", txtServer.getText(),
+					String connectionString = String.format("jdbc:mysql://%1$s/%2$s?useSSL=false&useUnicode=yes&characterEncoding=UTF-8", txtServer.getText(),
 							cboDatabase.getText());
 
 					Settings.set("hostName", txtServer.getText());

@@ -7,7 +7,6 @@ public class PhieuNhap {
 	private Date ngayLap;
 	private String lyDo;
 	private String taiKhoanChinh;
-	private String taiKhoanDoiUng;
 	private int thueGTGT;
 	private String maNV;
 	private String maKH;
@@ -43,14 +42,6 @@ public class PhieuNhap {
 
 	public void setTaiKhoanChinh(String taiKhoanChinh) {
 		this.taiKhoanChinh = taiKhoanChinh;
-	}
-
-	public String getTaiKhoanDoiUng() {
-		return taiKhoanDoiUng;
-	}
-
-	public void setTaiKhoanDoiUng(String taiKhoanDoiUng) {
-		this.taiKhoanDoiUng = taiKhoanDoiUng;
 	}
 
 	public int getThueGTGT() {

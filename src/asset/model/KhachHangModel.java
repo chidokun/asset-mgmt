@@ -11,7 +11,6 @@ import java.sql.Types;
 import java.util.ArrayList;
 
 import asset.entity.KhachHang;
-import asset.entity.TaiSan;
 import asset.util.Database;
 
 /**
@@ -19,6 +18,23 @@ import asset.util.Database;
  *
  */
 public class KhachHangModel {
+	
+	
+	/**
+	 * Select an customer
+	 * 
+	 * @param maKH
+	 * @return
+	 * @throws SQLException
+	 */
+	public static KhachHang select(String maKH) throws SQLException {
+		ResultSet rs = Database.callStored("sp_LayThongTin_KhachHang", maKH);
+
+		rs.next();
+		KhachHang kh = new KhachHang(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4));
+		Database.connect().close();
+		return kh;
+	}
 	
 	public static ArrayList<KhachHang> selectAll() throws SQLException {
 		PreparedStatement st = Database.connect().prepareStatement("SELECT MaKH, TenKH, DiaChi, SoTK FROM khachhang;");
@@ -28,6 +44,7 @@ public class KhachHangModel {
 		while(rs.next()) {
 			arr.add(new KhachHang(rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)));
 		}	
+
 		return arr;
 	}
 	

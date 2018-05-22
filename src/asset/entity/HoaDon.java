@@ -7,7 +7,6 @@ public class HoaDon {
 	private Date ngayPhatHanh;
 	private Date ngayThanhToan;
 	private String hinhThucThanhToan;
-	private int phi;
 	private int thueGTGT;
 	private int tongTien;
 	private String quyen;
@@ -16,7 +15,6 @@ public class HoaDon {
 	private String maNV;
 	private String LyDo;
 	private String taiKhoanChinh;
-	private String taiKhoanDU;
 
 	public String getSoHD() {
 		return soHD;
@@ -48,14 +46,6 @@ public class HoaDon {
 
 	public void setHinhThucThanhToan(String hinhThucThanhToan) {
 		this.hinhThucThanhToan = hinhThucThanhToan;
-	}
-
-	public int getPhi() {
-		return phi;
-	}
-
-	public void setPhi(int phi) {
-		this.phi = phi;
 	}
 
 	public int getThueGTGT() {
@@ -122,12 +112,5 @@ public class HoaDon {
 		this.taiKhoanChinh = taiKhoanChinh;
 	}
 
-	public String getTaiKhoanDU() {
-		return taiKhoanDU;
-	}
-
-	public void setTaiKhoanDU(String taiKhoanDU) {
-		this.taiKhoanDU = taiKhoanDU;
-	}
 
 }

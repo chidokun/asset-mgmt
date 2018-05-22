@@ -13,6 +13,7 @@ public class TaiSan {
 	private int nguyenGia;
 	private String maPN;
 	private int sl;
+	private String taiKhoanDU;
 
 	public TaiSan() { }
 
@@ -25,7 +26,7 @@ public class TaiSan {
 	}
 
 	public TaiSan(String maTS, String tenTS, int soNamKH, Date ngaySD, int soThangSD, String maDVT, int trangThai,
-			int nguyenGia, String maPN, int sl) {
+			int nguyenGia, String maPN, int sl, String taiKhoanDU) {
 		this.maTS = maTS;
 		this.tenTS = tenTS;
 		this.soNamKH = soNamKH;
@@ -36,6 +37,7 @@ public class TaiSan {
 		this.nguyenGia = nguyenGia;
 		this.maPN = maPN;
 		this.sl = sl;
+		this.taiKhoanDU = taiKhoanDU;
 	}
 
 	public TaiSan(String maTS, String tenTS) {
@@ -122,5 +124,14 @@ public class TaiSan {
 	public void setSl(int sl) {
 		this.sl = sl;
 	}
+
+	public String getTaiKhoanDU() {
+		return taiKhoanDU;
+	}
+
+	public void setTaiKhoanDU(String taiKhoanDU) {
+		this.taiKhoanDU = taiKhoanDU;
+	}
+	
 	
 }

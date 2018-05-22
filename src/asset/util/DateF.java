@@ -84,6 +84,17 @@ public class DateF {
 		SimpleDateFormat f = new SimpleDateFormat("dd/MM/yyyy");
 		return f.format(date);
 	}
+	
+	/**
+	 * Chuyển Date thành chuỗi yyyy/MM/dd
+	 * 
+	 * @param date
+	 * @return
+	 */
+	public static String toStandardString(Date date) {
+		SimpleDateFormat f = new SimpleDateFormat("yyyy-MM-dd");
+		return f.format(date);
+	}
 
 	/**
 	 * Chuyển Date thành chuỗi dd/MM/yyyy HH:mm:ss

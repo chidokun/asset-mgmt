@@ -103,7 +103,7 @@ public class frmMain extends Shell {
 			@Override
 			public void mouseUp(MouseEvent e) {
 				mouseEnterColor(lblNhapTaiSan);
-				Window.openPageInTab(tabFolder, new pageImportAsset(tabFolder, SWT.NONE), "Phiếu nhập Tài sản");
+				Window.openPageInTab(tabFolder, new pageImportAsset(tabFolder, SWT.NONE), "Nhập Tài sản");
 			}
 		});
 		GridData gd_lblNhapTaiSan = new GridData(SWT.LEFT, SWT.CENTER, false, true, 1, 1);
@@ -133,7 +133,7 @@ public class frmMain extends Shell {
 			@Override
 			public void mouseUp(MouseEvent e) {
 				mouseEnterColor(lblBanTaiSan);
-				Window.openPageInTab(tabFolder, new pageExportAsset(tabFolder, SWT.NONE), "Phiếu xuất Tài sản");
+				Window.openPageInTab(tabFolder, new pageExportAsset(tabFolder, SWT.NONE), "Bán Tài sản");
 			}
 		});
 		lblBanTaiSan.setImage(SWTResourceManager.getImage(frmMain.class, "/asset/view/sell_32.png"));

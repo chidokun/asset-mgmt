@@ -13,4 +13,8 @@ public class TheTaiSanController {
 	public static String createCode() throws SQLException {
 		return TheTaiSanModel.createCode();
 	}
+	
+	public static TheTaiSan select(String maTS) throws SQLException {
+		return TheTaiSanModel.select(maTS);
+	}
 }

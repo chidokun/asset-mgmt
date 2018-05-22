@@ -4,10 +4,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import asset.entity.TaiSan;
+
 import asset.entity.TaiSanKhauHao;
 import asset.entity.TheTaiSan;
+
 import asset.model.TaiSanModel;
-import asset.model.TheTaiSanModel;
 
 public class TaiSanController {
 	public static TaiSan select(String maTS) throws SQLException {

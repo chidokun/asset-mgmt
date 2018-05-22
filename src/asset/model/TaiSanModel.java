@@ -14,6 +14,7 @@ import java.util.GregorianCalendar;
 import asset.entity.TaiSan;
 import asset.entity.TaiSanKhauHao;
 import asset.entity.TheTaiSan;
+
 import asset.util.Database;
 
 public class TaiSanModel {
@@ -30,7 +31,7 @@ public class TaiSanModel {
 
 		rs.next();
 		TaiSan ts = new TaiSan(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getDate(4), rs.getInt(5),
-				rs.getString(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getInt(10));
+				rs.getString(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getInt(10), rs.getString(11));
 		Database.connect().close();
 		return ts;
 	}
@@ -90,8 +91,8 @@ public class TaiSanModel {
 	 * @return
 	 */
 	public static boolean insert(TaiSan ts) throws SQLException {
-		if (Database.callStoredUpdate("sp_ThemTaiSan", ts.getMaTS(), ts.getTenTS(), ts.getSoNamKH(), ts.getNgaySD(),
-				ts.getSoThangSD(), ts.getMaDVT(), ts.getTrangThai()) > 0) {
+		if (Database.callStoredUpdate("sp_ThemTaiSan", ts.getMaTS(), ts.getTenTS(), ts.getSoNamKH(), 
+				ts.getNgaySD(), ts.getSoThangSD(), ts.getMaDVT(), ts.getTrangThai(), ts.getNguyenGia(), ts.getSl()) > 0) {
 			Database.connect().close();
 			return true;
 		} else
@@ -167,15 +168,33 @@ public class TaiSanModel {
 	 */
 	public static ArrayList<TaiSan> selectTaiSanConKhauHao() throws SQLException {
 		PreparedStatement st = Database.connect().prepareStatement(
-				"SELECT MaTS, TenTS, SoNamKH, NgaySD, SoThangSD, MaDVT, TrangThai, NguyenGia, MaPN, SL FROM taisan WHERE TrangThai = 0;");
+				"SELECT MaTS, TenTS, SoNamKH, NgaySD, SoThangSD, MaDVT, TrangThai, NguyenGia, MaPN, SL, TaiKhoanDU FROM taisan WHERE TrangThai = 0;");
 		ResultSet rs = st.executeQuery();
 
 		ArrayList<TaiSan> arr = new ArrayList<>();
 		while (rs.next()) {
 			arr.add(new TaiSan(rs.getString(1), rs.getString(2), rs.getInt(3), rs.getDate(4), rs.getInt(5),
-					rs.getString(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getInt(10)));
+					rs.getString(6), rs.getInt(7), rs.getInt(8), rs.getString(9), rs.getInt(10), rs.getString(11)));
 		}
 		return arr;
 	}
 
+	
+	public static boolean updateForExport(String maTS, int sl) throws SQLException {
+		PreparedStatement st = Database.connect().prepareStatement(
+				"UPDATE taisan SET SL=SL-? WHERE MaTS=?");
+		st.setInt(1, sl);
+		st.setString(2, maTS);
+		
+		return st.executeUpdate() > 0;
+	}
+	
+	public static boolean updateForImport(String maTS, String tkdu) throws SQLException {
+		PreparedStatement st = Database.connect().prepareStatement(
+				"UPDATE taisan SET TaiKhoanDU=TaiKhoanDU-? WHERE MaTS=?");
+		st.setString(1, tkdu);
+		st.setString(2, maTS);
+		
+		return st.executeUpdate() > 0;
+	}
 }

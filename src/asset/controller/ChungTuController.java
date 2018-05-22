@@ -32,4 +32,8 @@ public class ChungTuController {
 	public static String generateId() throws SQLException {
 		return ChungTuModel.generateId();
 	}
+	
+	public static ArrayList<ChungTu> search(String maTS) throws SQLException {
+		return ChungTuModel.search(maTS);
+	}
 }

@@ -1,5 +1,6 @@
 package asset.controller;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import asset.entity.KhauHao;
@@ -23,5 +24,9 @@ public class KhauHaoController {
 			e.printStackTrace();
 			return -1;
 		}
+	}
+	
+	public static KhauHao select(String maTS, String maCT) throws SQLException {
+		return KhauHaoModel.select(maTS, maCT);
 	}
 }

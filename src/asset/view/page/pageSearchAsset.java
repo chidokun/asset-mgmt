@@ -1,9 +1,3 @@
-/**
- * Quản lý Rạp chiếu phim RPP
- * Author_giaodien: Hồ Thị Kim Hoàng - hohoang.ag.96@gmail.com
- * Author_xuly: Huỳnh Duy Anh Toàn - anhtoan441996@gmail.com
- */
-
 package asset.view.page;
 
 import java.util.ArrayList;
@@ -25,9 +19,10 @@ import org.eclipse.wb.swt.SWTResourceManager;
 
 import asset.controller.TaiSanController;
 import asset.entity.TaiSan;
+import asset.util.DateF;
+import asset.util.Message;
 import asset.util.Window;
-import asset.view.form.frmCreateAsset;
-import asset.util.*;
+import asset.view.form.*;
 
 public class pageSearchAsset extends Composite {
 	private Text txtTenTaiSan;
@@ -96,17 +91,30 @@ public class pageSearchAsset extends Composite {
 		btnLapThe.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				try {
+				
+				Window.open( new frmAddAsset(getDisplay()));
+				 
+				/*try {
 					checkAssetSelected();
 					String maTS = gridTaiSan.getSelection()[0].getText(1);
-					Window.open(
-							new frmCreateAsset(getDisplay(), true, "Lập thẻ tài sản", TaiSanController.select(maTS)));
+					if (TheTaiSanController.select(maTS) == null) {
+						Window.open(frmAssetForm.createNewAssetForm(getDisplay(), "Lập thẻ tài sản",
+								TaiSanController.select(maTS)));
+					} else {
+						boolean result = MessageDialog.openConfirm(getShell(), "Thông báo",
+								"Tài sản này đã có thẻ tài sản. Bạn có muốn xem thẻ tài sản này?");
+						if (result) {
+							Window.open(new frmAssetForm(getDisplay(), false, "Xem thẻ tài sản",
+									TheTaiSanController.select(maTS), TaiSanController.select(maTS)));
+						}
+					}
+
 				} catch (ParameterValuesException e1) {
 					Message.show(e1.getMessage(), "Cảnh báo", SWT.ICON_WARNING | SWT.OK, getShell());
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}
+				}*/
 			}
 		});
 		GridData gd_btnLapThe = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -115,7 +123,17 @@ public class pageSearchAsset extends Composite {
 		btnLapThe.setLayoutData(gd_btnLapThe);
 		btnLapThe.setText("Lập thẻ tài sản");
 		btnLapThe.setImage(SWTResourceManager.getImage(pageSearchAsset.class, "/asset/view/page/print_16x16.png"));
-		new Label(composite_1, SWT.NONE);
+		
+		Button btnHienTatCa = new Button(composite_1, SWT.NONE);
+		btnHienTatCa.setImage(SWTResourceManager.getImage(pageSearchAsset.class, "/asset/view/page/show_16x16.png"));
+		btnHienTatCa.addSelectionListener(new SelectionAdapter() {
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				displayAllAsset();
+			}
+		});
+		btnHienTatCa.setLayoutData(new GridData(SWT.RIGHT, SWT.CENTER, false, false, 1, 1));
+		btnHienTatCa.setText("Hiện tất cả");
 
 		gridTaiSan = new Table(composite_1, SWT.BORDER | SWT.FULL_SELECTION);
 		gridTaiSan.addSelectionListener(new SelectionAdapter() {
@@ -155,7 +173,7 @@ public class pageSearchAsset extends Composite {
 		TableColumn tblclmnNewColumn_5 = new TableColumn(gridTaiSan, SWT.CENTER);
 		tblclmnNewColumn_5.setWidth(170);
 		tblclmnNewColumn_5.setText("Ngày sử dụng");
-		
+
 		displayAllAsset();
 
 	}
@@ -178,7 +196,8 @@ public class pageSearchAsset extends Composite {
 			for (TaiSan ts : arr) {
 				TableItem item = new TableItem(gridTaiSan, SWT.NONE);
 				item.setText(new String[] { String.valueOf(stt), ts.getMaTS(), ts.getTenTS(),
-						String.valueOf(ts.getNguyenGia()), String.valueOf(ts.getSoNamKH()), DateF.toString((ts.getNgaySD())) });
+						String.valueOf(ts.getNguyenGia()), String.valueOf(ts.getSoNamKH()),
+						DateF.toString((ts.getNgaySD())) });
 				stt++;
 			}
 
@@ -209,7 +228,7 @@ public class pageSearchAsset extends Composite {
 			throw new ParameterValuesException("Bạn cần chọn tài sản muốn lập thẻ", null);
 		}
 	}
-	
+
 	/**
 	 * Display all asset
 	 */
@@ -222,10 +241,12 @@ public class pageSearchAsset extends Composite {
 			for (TaiSan ts : arr) {
 				TableItem item = new TableItem(gridTaiSan, SWT.NONE);
 				item.setText(new String[] { String.valueOf(stt), ts.getMaTS(), ts.getTenTS(),
-						String.valueOf(ts.getNguyenGia()), String.valueOf(ts.getSoNamKH()), DateF.toString((ts.getNgaySD())) });
+						String.valueOf(ts.getNguyenGia()), String.valueOf(ts.getSoNamKH()),
+						DateF.toString((ts.getNgaySD())) });
 				stt++;
 			}
 			gridTaiSan.select(0);
+			txtTenTaiSan.setText("");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

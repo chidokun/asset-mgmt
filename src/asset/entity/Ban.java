@@ -5,6 +5,23 @@ public class Ban {
 	private String maTS;
 	private int sl;
 	private int giaBan;
+	private String TKDUTaiSan;
+	
+	public Ban(String soHD, String maTS, int sl, int giaBan, String tKDUTaiSan) {
+		setSoHD(soHD);
+		setMaTS(maTS);
+		setSl(sl);
+		setGiaBan(giaBan);
+		setTKDUTaiSan(tKDUTaiSan);
+	}
+
+	public String getTKDUTaiSan() {
+		return TKDUTaiSan;
+	}
+
+	public void setTKDUTaiSan(String tKDUTaiSan) {
+		TKDUTaiSan = tKDUTaiSan;
+	}
 
 	public String getSoHD() {
 		return soHD;
