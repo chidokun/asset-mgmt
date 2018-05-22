@@ -9,6 +9,14 @@ public class ChungTu {
 	private int nam;
 	private String dienGiai;
 
+	public ChungTu(String maCT, Date ngayCT, int thang, int nam, String dienGiai) {
+		setMaCT(maCT);
+		setNgayCT(ngayCT);
+		setThang(thang);
+		setNam(nam);
+		setDienGiai(dienGiai);
+	}
+	
 	public String getMaCT() {
 		return maCT;
 	}

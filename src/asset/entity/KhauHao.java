@@ -1,12 +1,22 @@
 package asset.entity;
 
+import java.util.Date;
+
 public class KhauHao {
 	private String maTS;
 	private String maCT;
 	private long khauHaoTrongThang;
 	private long khauHaoLuyKe;
 	private long giaTriConLai;
-
+	
+	public KhauHao(String maTS, String maCT, long khauHaoTrongThang, long khauHaoLuyKe, long giaTriConLai) {
+		this.maTS = maTS;
+		this.maCT = maCT;
+		this.khauHaoTrongThang = khauHaoTrongThang;
+		this.khauHaoLuyKe = khauHaoLuyKe;
+		this.giaTriConLai = giaTriConLai;
+	}
+	
 	public String getMaTS() {
 		return maTS;
 	}
