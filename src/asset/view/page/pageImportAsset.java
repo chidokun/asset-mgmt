@@ -1,6 +1,7 @@
 package asset.view.page;
 
 import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Button;
 
 import java.sql.SQLException;
@@ -61,6 +62,8 @@ public class pageImportAsset extends Composite {
 	private DateTime dateNgayPhatHanh;
 	private HashMap<Integer, String> mapTKKT;
 	private DateTime dateNgayThanhToan;
+	private Text textTKDU;
+	private ArrayList<Control> listTableEditor = new ArrayList<>();
 
 	/**
 	 * Create the composite.
@@ -383,7 +386,8 @@ public class pageImportAsset extends Composite {
 		gl_composite_5.horizontalSpacing = 10;
 		composite_5.setLayout(gl_composite_5);
 		composite_5.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
-
+		
+		
 		Button btnThemTaiSan = new Button(composite_5, SWT.NONE);
 		btnThemTaiSan.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/add_16x16.png"));
 		btnThemTaiSan.setText("Thêm tài sản");
@@ -393,7 +397,8 @@ public class pageImportAsset extends Composite {
 
 				Window.open(new frmAddAsset(getDisplay()));
 
-				Text textTKDU = new Text(tableDSTS, SWT.NONE);
+				 
+				textTKDU = new Text(tableDSTS, SWT.NONE);
 
 				String maTS = frmAddAsset.maTS;
 				if (!maTS.equals("")) {
@@ -407,6 +412,7 @@ public class pageImportAsset extends Composite {
 								try {
 									String number = textTKDU.getText().substring(1);
 									item.setText(1, mapTKKT.get(Integer.parseInt(number)));
+									item.setText(0, textTKDU.getText());
 								} catch (Exception e) {
 									e.printStackTrace();
 									item.setText(1, "");
@@ -415,7 +421,9 @@ public class pageImportAsset extends Composite {
 						});
 						editor.grabHorizontal = true;
 						editor.setEditor(textTKDU, item, 0);
+						listTableEditor.add(textTKDU);
 
+						
 						item.setText(2, ts.getMaTS());
 						item.setText(3, ts.getTenTS());
 						item.setText(4, ts.getNguyenGia() + "");
@@ -588,8 +596,22 @@ public class pageImportAsset extends Composite {
 
 		Button btnNewButton_3 = new Button(composite_11, SWT.NONE);
 		btnNewButton_3.addSelectionListener(new SelectionAdapter() {
+
 			@Override
 			public void widgetSelected(SelectionEvent e) {
+				txtSoHoaDon.setText(HoaDonController.generateId());
+				txtTaiKhoan.setText("");
+				txtLyDo.setText("");
+				txtTriGia.setText("");
+				txtSoTienBangChu.setText("");
+				txtTongTien.setText("");
+				txtTienThue.setText("");
+				tableDSTS.removeAll();
+
+				for(Control i : listTableEditor) {
+					i.dispose();
+				}
+
 			}
 		});
 		btnNewButton_3
@@ -693,7 +715,8 @@ public class pageImportAsset extends Composite {
 				TableItem[] items = tableDSTS.getItems();
 				for (TableItem i : items) {
 					TaiSan ts = TaiSanController.select(i.getText(2));
-					ts.setTaiKhoanDU(i.getText(0));
+					ts.setTaiKhoanDU(i.getText(0).toUpperCase());
+					arr.add(ts);
 				}
 
 				if (PhieuNhapController.insert(pn, hd, arr)) {
