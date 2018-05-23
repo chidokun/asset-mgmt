@@ -62,6 +62,7 @@ public class pageDepreciationAsset extends Composite {
 	private Combo comboThang;
 	private DateTime dateTimeNgayChungTu;
 	private Button btnTinh;
+	private Button btnIn;
 
 	/**
 	 * Create the composite.
@@ -113,6 +114,7 @@ public class pageDepreciationAsset extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				transferDataToTableChungTu();
+				btnIn.setEnabled(false);
 
 			}
 		});
@@ -121,7 +123,8 @@ public class pageDepreciationAsset extends Composite {
 		btnTimKiem.setLayoutData(gd_btnTimKiem);
 		btnTimKiem.setText("T\u00ECm ki\u1EBFm");
 
-		Button btnIn = new Button(grpThong, SWT.NONE);
+		btnIn = new Button(grpThong, SWT.NONE);
+		btnIn.setEnabled(false);
 		btnIn.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
@@ -158,6 +161,7 @@ public class pageDepreciationAsset extends Composite {
 				}
 				
 				btnTinh.setEnabled(true);
+				btnIn.setEnabled(false);
 				
 
 			}
@@ -218,7 +222,7 @@ public class pageDepreciationAsset extends Composite {
 									comboThang.getText(), comboNam.getText(), textDienGiai.getText()});
 							
 							btnTinh.setEnabled(false);
-							
+							btnIn.setEnabled(false);							
 						}
 					}
 				}
@@ -308,6 +312,8 @@ public class pageDepreciationAsset extends Composite {
 
 						}
 					}
+					
+					btnIn.setEnabled(true);
 
 				} catch (ParseException e1) {
 					// TODO Auto-generated catch block
