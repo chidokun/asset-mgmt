@@ -584,7 +584,7 @@ public class pageImportAsset extends Composite {
 		gd_btnNewButton_1.widthHint = 100;
 		gd_btnNewButton_1.heightHint = 30;
 		btnNewButton_1.setLayoutData(gd_btnNewButton_1);
-		btnNewButton_1.setText("Lưu và in");
+		btnNewButton_1.setText("Lưu phiếu");
 
 		Button btnNewButton_3 = new Button(composite_11, SWT.NONE);
 		btnNewButton_3.addSelectionListener(new SelectionAdapter() {

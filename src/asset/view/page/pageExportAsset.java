@@ -125,9 +125,7 @@ public class pageExportAsset extends Composite {
 						}
 						tableTaiSan.select(0);
 					}
-				} catch (Exception ex) {
-					ex.printStackTrace();
-				}
+				} catch (Exception ex) { }
 			}
 		});
 		btnTimKiem.setImage(SWTResourceManager.getImage(pageImportAsset.class, "/asset/view/page/zoom_16x16.png"));
@@ -177,7 +175,6 @@ public class pageExportAsset extends Composite {
 								item.setText(1, mapTKKT.get(Integer.parseInt(number)));
 								item.setText(0, textTKDU.getText());
 							} catch (Exception e) {
-								e.printStackTrace();
 								item.setText(1, "");
 							}
 						}
@@ -198,7 +195,6 @@ public class pageExportAsset extends Composite {
 								int sl = Integer.parseInt(textSL.getText());
 								item.setText(9, String.valueOf(dinhGia * sl));
 							} catch (Exception e) {
-								e.printStackTrace();
 								item.setText(9, "");
 							}
 						}
@@ -219,7 +215,6 @@ public class pageExportAsset extends Composite {
 								int sl = Integer.parseInt(textSL.getText());
 								item.setText(9, String.valueOf(dinhGia * sl));
 							} catch (Exception e) {
-								e.printStackTrace();
 								item.setText(9, "");
 							}
 						}
@@ -233,7 +228,6 @@ public class pageExportAsset extends Composite {
 
 					tableDSTS.select(0);
 				} catch (Exception ex) {
-					ex.printStackTrace();
 					Message.show("Có lỗi xảy ra!", "Lỗi", SWT.ICON_ERROR | SWT.OK, getShell());
 				}
 			}
@@ -353,10 +347,7 @@ public class pageExportAsset extends Composite {
 							cboMaKH.select(size - 1);
 							txtTenKhachHang.setText(kh.getTenKH());
 							txtTaiKhoanKhach.setText(kh.getSoTK());
-						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-						}
+						} catch (SQLException e1) {	}
 				}			
 			}
 		});
@@ -386,7 +377,6 @@ public class pageExportAsset extends Composite {
 					String number = txtTaiKhoan.getText().substring(1);
 					txtTenTaiKhoan.setText(mapTKKT.get(Integer.parseInt(number)));
 				} catch (Exception e) {
-					e.printStackTrace();
 					txtTenTaiKhoan.setText("");
 				}
 			}
@@ -651,7 +641,6 @@ public class pageExportAsset extends Composite {
 					txtTienThue.setText(String.valueOf(thue));
 					txtSoTienBangChu.setText(MathF.readNum(triGia));
 				} catch (Exception ex) {
-					ex.printStackTrace();
 					txtTriGia.setText("");
 					txtTongTien.setText("");
 					txtTienThue.setText("");
@@ -853,7 +842,6 @@ public class pageExportAsset extends Composite {
 				Message.show("Lưu hóa đơn không thành công", "Thất bại", SWT.ICON_ERROR | SWT.OK, getShell());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
 			Message.show("Lưu hóa đơn không thành công", "Thất bại", SWT.ICON_ERROR | SWT.OK, getShell());
 		}
 	}
