@@ -3,6 +3,7 @@ package asset.view.page;
 import java.util.ArrayList;
 
 import org.eclipse.core.commands.ParameterValuesException;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
@@ -18,6 +19,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.wb.swt.SWTResourceManager;
 
 import asset.controller.TaiSanController;
+import asset.controller.TheTaiSanController;
 import asset.entity.TaiSan;
 import asset.util.DateF;
 import asset.util.Message;
@@ -91,10 +93,8 @@ public class pageSearchAsset extends Composite {
 		btnLapThe.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
-				
-				Window.open( new frmAddAsset(getDisplay()));
-				 
-				/*try {
+
+				try {
 					checkAssetSelected();
 					String maTS = gridTaiSan.getSelection()[0].getText(1);
 					if (TheTaiSanController.select(maTS) == null) {
@@ -114,7 +114,7 @@ public class pageSearchAsset extends Composite {
 				} catch (Exception e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
-				}*/
+				}
 			}
 		});
 		GridData gd_btnLapThe = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -123,7 +123,7 @@ public class pageSearchAsset extends Composite {
 		btnLapThe.setLayoutData(gd_btnLapThe);
 		btnLapThe.setText("Lập thẻ tài sản");
 		btnLapThe.setImage(SWTResourceManager.getImage(pageSearchAsset.class, "/asset/view/page/print_16x16.png"));
-		
+
 		Button btnHienTatCa = new Button(composite_1, SWT.NONE);
 		btnHienTatCa.setImage(SWTResourceManager.getImage(pageSearchAsset.class, "/asset/view/page/show_16x16.png"));
 		btnHienTatCa.addSelectionListener(new SelectionAdapter() {
