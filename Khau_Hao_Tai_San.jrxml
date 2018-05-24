@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
-<!-- 2018-05-22T23:09:36 -->
+<!-- 2018-05-24T11:00:36 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Khau_Hao_Tai_San" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="439dd041-d874-4bb8-b039-696262d34774">
 	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="MyAdapter"/>
@@ -23,7 +23,7 @@
 	ketoan_taisan.taisan.`NgaySD`,
 	ketoan_taisan.taisan.`SoNamKH`,
 	ketoan_taisan.taisan.`TenTS`,
-	 PERIOD_DIFF(EXTRACT(YEAR_MONTH FROM NOW()), EXTRACT(YEAR_MONTH FROM ketoan_taisan.taisan.`NgaySD`)) AS SoThangSD,
+	 PERIOD_DIFF(EXTRACT(YEAR_MONTH FROM ketoan_taisan.chungtu.`NgayCT`), EXTRACT(YEAR_MONTH FROM ketoan_taisan.taisan.`NgaySD`)) AS SoThangSD,
 	 	ketoan_taisan.chungtu.`Thang`,
 	  ketoan_taisan.chungtu.`Nam`,
 	  ketoan_taisan.chungtu.`NgayCT`
@@ -182,7 +182,7 @@ WHERE
 				<textElement textAlignment="Center">
 					<font size="13" isBold="false"/>
 				</textElement>
-				<text><![CDATA[Số tháng    SD]]></text>
+				<text><![CDATA[Số tháng đã sử dụng]]></text>
 			</staticText>
 			<staticText>
 				<reportElement mode="Opaque" x="618" y="0" width="91" height="37" forecolor="#006699" backcolor="#E6E6E6" uuid="3a73984f-1648-4a2f-aa62-07186922c364"/>
